@@ -54,14 +54,14 @@ const CustomPrintingCTA: React.FC = () => {
             </div>
             <div className="aspect-square bg-white/10 p-4 rounded-lg backdrop-blur-sm flex items-center justify-center">
               <img 
-                src="https://images.unsplash.com/photo-1607166452427-7e4477079cb9" 
+                src="https://images.unsplash.com/photo-1530274444673-df2e694ebd28" 
                 alt="Custom gift packaging" 
                 className="rounded-md max-h-full"
               />
             </div>
             <div className="aspect-square bg-white/10 p-4 rounded-lg backdrop-blur-sm flex items-center justify-center">
               <img 
-                src="https://images.unsplash.com/photo-1595964065429-c52c20bedb66" 
+                src="https://images.unsplash.com/photo-1512830414785-929e28f31009" 
                 alt="Custom printed boxes" 
                 className="rounded-md max-h-full"
               />

@@ -39,7 +39,7 @@ const FeaturedCategories: React.FC = () => {
     {
       title: "Pizza Boxes",
       slug: "pizza-boxes",
-      image: "https://images.unsplash.com/photo-1573676564797-d2ba6324d13f",
+      image: "https://images.unsplash.com/photo-1605164599901-f26e01783e64",
       description: "High-quality pizza boxes available in various sizes from 6\" to 16\"."
     },
     {
@@ -51,19 +51,19 @@ const FeaturedCategories: React.FC = () => {
     {
       title: "Food Packaging",
       slug: "food-packaging",
-      image: "https://images.unsplash.com/photo-1595964065429-c52c20bedb66",
+      image: "https://images.unsplash.com/photo-1580913428023-02c695666d61",
       description: "Specialized packaging for burgers, shawarma, chicken, pies, and more."
     },
     {
       title: "Gift Packaging",
       slug: "gift-packaging",
-      image: "https://images.unsplash.com/photo-1605164599901-f26e01783e64",
+      image: "https://images.unsplash.com/photo-1512830414785-929e28f31009",
       description: "High-end quality gift bags and fancy packaging solutions."
     },
     {
       title: "Mailer Boxes",
       slug: "specialty-boxes",
-      image: "https://images.unsplash.com/photo-1601585825803-48a5981033e8",
+      image: "https://images.unsplash.com/photo-1530274444673-df2e694ebd28",
       description: "Custom mailer boxes, gable boxes, and e-commerce packaging solutions."
     },
     {
@@ -75,13 +75,13 @@ const FeaturedCategories: React.FC = () => {
     {
       title: "Paper Bags & Envelopes",
       slug: "paper-bags-envelopes",
-      image: "https://images.unsplash.com/photo-1605164599901-f26e01783e64",
+      image: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
       description: "Kraft papers, 2ply-fluiting, paper bags, and envelopes for all needs."
     },
     {
       title: "Adhesives & Accessories",
       slug: "adhesives",
-      image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28",
+      image: "https://images.unsplash.com/photo-1627820250898-40360237de4e",
       description: "Complete range of glues, tapes, and packaging accessories."
     },
   ];

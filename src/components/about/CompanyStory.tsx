@@ -31,17 +31,17 @@ const CompanyStory: React.FC = () => {
               className="rounded-lg shadow-md"
             />
             <img 
-              src="https://images.unsplash.com/photo-1605164599901-f26e01783e64" 
+              src="https://images.unsplash.com/photo-1512830414785-929e28f31009" 
               alt="Custom printing process" 
               className="rounded-lg shadow-md mt-8"
             />
             <img 
-              src="https://images.unsplash.com/photo-1607166452427-7e4477079cb9" 
+              src="https://images.unsplash.com/photo-1530274444673-df2e694ebd28" 
               alt="Team collaboration" 
               className="rounded-lg shadow-md"
             />
             <img 
-              src="https://images.unsplash.com/photo-1573676564797-d2ba6324d13f" 
+              src="https://images.unsplash.com/photo-1605164599901-f26e01783e64" 
               alt="Product packaging" 
               className="rounded-lg shadow-md mt-8"
             />
