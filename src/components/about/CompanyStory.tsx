@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const CompanyStory: React.FC = () => {
@@ -26,22 +25,22 @@ const CompanyStory: React.FC = () => {
           
           <div className="md:w-1/2 grid grid-cols-2 gap-4">
             <img 
-              src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?q=80&w=400" 
+              src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28" 
               alt="CartonCraft warehouse" 
               className="rounded-lg shadow-md"
             />
             <img 
-              src="https://images.unsplash.com/photo-1601195503754-80c3c740c5a3?q=80&w=400" 
+              src="https://images.unsplash.com/photo-1605164599901-f26e01783e64" 
               alt="Custom printing process" 
               className="rounded-lg shadow-md mt-8"
             />
             <img 
-              src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=400" 
+              src="https://images.unsplash.com/photo-1607166452427-7e4477079cb9" 
               alt="Team collaboration" 
               className="rounded-lg shadow-md"
             />
             <img 
-              src="https://images.unsplash.com/photo-1607349913338-fca6f7fc42d0?q=80&w=400" 
+              src="https://images.unsplash.com/photo-1595964065429-c52c20bedb66" 
               alt="Product packaging" 
               className="rounded-lg shadow-md mt-8"
             />

@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react';
 const HeroSection: React.FC = () => {
   return (
     <div className="relative bg-gradient-to-r from-corporate-dark to-corporate text-white overflow-hidden">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618160702438-9b02ab6515c9')] bg-cover bg-center opacity-20"></div>
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600269452121-4f2416e55c28')] bg-cover bg-center opacity-20"></div>
       
       <div className="container relative z-10 py-16 md:py-24">
         <div className="max-w-3xl">

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShoppingCart, Heart } from 'lucide-react';
@@ -95,13 +94,12 @@ const ProductCard: React.FC<ProductProps> = ({
 };
 
 const FeaturedProducts: React.FC = () => {
-  // Mock data for featured products
   const products = [
     {
       id: 1,
       name: "12\" Premium Pizza Box",
       slug: "12-inch-premium-pizza-box",
-      image: "https://images.unsplash.com/photo-1573676564797-d2ba6324d13f?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1607166452427-7e4477079cb9",
       price: 12.99,
       originalPrice: 15.99,
       category: "pizza-boxes",
@@ -112,7 +110,7 @@ const FeaturedProducts: React.FC = () => {
       id: 2,
       name: "Kraft Mailer Box - Medium",
       slug: "kraft-mailer-box-medium",
-      image: "https://images.unsplash.com/photo-1589758438368-0ad531db3366?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28",
       price: 8.99,
       category: "specialty-boxes",
       isNew: true,
@@ -122,7 +120,7 @@ const FeaturedProducts: React.FC = () => {
       id: 3,
       name: "Premium Gift Bag Set (5 pcs)",
       slug: "premium-gift-bag-set",
-      image: "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1605164599901-f26e01783e64",
       price: 19.99,
       originalPrice: 24.99,
       category: "gift-packaging",
@@ -133,7 +131,7 @@ const FeaturedProducts: React.FC = () => {
       id: 4,
       name: "Burger Box - Kraft (50 pcs)",
       slug: "burger-box-kraft",
-      image: "https://images.unsplash.com/photo-1607349913338-fca6f7fc42d0?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1595964065429-c52c20bedb66",
       price: 29.99,
       category: "food-packaging",
       isNew: false,

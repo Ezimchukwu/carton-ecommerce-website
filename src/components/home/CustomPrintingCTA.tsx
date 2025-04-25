@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -40,29 +39,29 @@ const CustomPrintingCTA: React.FC = () => {
           <div className="md:w-1/2 grid grid-cols-2 gap-4">
             <div className="aspect-square bg-white/10 p-4 rounded-lg backdrop-blur-sm flex items-center justify-center">
               <img 
-                src="https://images.unsplash.com/photo-1601195503754-80c3c740c5a3?q=80&w=300" 
-                alt="Custom pizza box" 
+                src="https://images.unsplash.com/photo-1605164599901-f26e01783e64" 
+                alt="Custom carton box with logo" 
                 className="rounded-md max-h-full"
               />
             </div>
             <div className="aspect-square bg-white/10 p-4 rounded-lg backdrop-blur-sm flex items-center justify-center">
               <img 
-                src="https://images.unsplash.com/photo-1589758438368-0ad531db3366?q=80&w=300" 
+                src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28" 
                 alt="Custom mailer box" 
                 className="rounded-md max-h-full"
               />
             </div>
             <div className="aspect-square bg-white/10 p-4 rounded-lg backdrop-blur-sm flex items-center justify-center">
               <img 
-                src="https://images.unsplash.com/photo-1607344645866-009c320c5ab8?q=80&w=300" 
-                alt="Custom gift bag" 
+                src="https://images.unsplash.com/photo-1607166452427-7e4477079cb9" 
+                alt="Custom gift packaging" 
                 className="rounded-md max-h-full"
               />
             </div>
             <div className="aspect-square bg-white/10 p-4 rounded-lg backdrop-blur-sm flex items-center justify-center">
               <img 
-                src="https://images.unsplash.com/photo-1607349913338-fca6f7fc42d0?q=80&w=300" 
-                alt="Custom food packaging" 
+                src="https://images.unsplash.com/photo-1595964065429-c52c20bedb66" 
+                alt="Custom printed boxes" 
                 className="rounded-md max-h-full"
               />
             </div>

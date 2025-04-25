@@ -39,49 +39,49 @@ const FeaturedCategories: React.FC = () => {
     {
       title: "Pizza Boxes",
       slug: "pizza-boxes",
-      image: "https://images.unsplash.com/photo-1573676564797-d2ba6324d13f?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1607166452427-7e4477079cb9",
       description: "High-quality pizza boxes available in various sizes from 6\" to 16\"."
     },
     {
       title: "Moving & Storage",
       slug: "moving-storage-boxes",
-      image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28",
       description: "Durable boxes perfect for moving, relocation, and storage purposes."
     },
     {
       title: "Food Packaging",
       slug: "food-packaging",
-      image: "https://images.unsplash.com/photo-1607349913338-fca6f7fc42d0?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1595964065429-c52c20bedb66",
       description: "Specialized packaging for burgers, shawarma, chicken, pies, and more."
     },
     {
       title: "Gift Packaging",
       slug: "gift-packaging",
-      image: "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1605164599901-f26e01783e64",
       description: "High-end quality gift bags and fancy packaging solutions."
     },
     {
       title: "Mailer Boxes",
       slug: "specialty-boxes",
-      image: "https://images.unsplash.com/photo-1589758438368-0ad531db3366?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1607349913338-fca6f7fc42d0",
       description: "Custom mailer boxes, gable boxes, and e-commerce packaging solutions."
     },
     {
       title: "Custom Printing",
       slug: "printing-branding",
-      image: "https://images.unsplash.com/photo-1601195503754-80c3c740c5a3?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1607166452427-7e4477079cb9",
       description: "Customize any box with your brand logo and design for a professional look."
     },
     {
       title: "Paper Bags & Envelopes",
       slug: "paper-bags-envelopes",
-      image: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1605164599901-f26e01783e64",
       description: "Kraft papers, 2ply-fluiting, paper bags, and envelopes for all needs."
     },
     {
       title: "Adhesives & Accessories",
       slug: "adhesives",
-      image: "https://images.unsplash.com/photo-1627384113743-6bd5a479fffd?q=80&w=500",
+      image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28",
       description: "Complete range of glues, tapes, and packaging accessories."
     },
   ];
