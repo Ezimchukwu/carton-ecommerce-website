@@ -99,7 +99,7 @@ const FeaturedProducts: React.FC = () => {
       id: 1,
       name: "12\" Premium Pizza Box",
       slug: "12-inch-premium-pizza-box",
-      image: "https://images.unsplash.com/photo-1607166452427-7e4477079cb9",
+      image: "https://images.unsplash.com/photo-1573676564797-d2ba6324d13f",
       price: 12.99,
       originalPrice: 15.99,
       category: "pizza-boxes",

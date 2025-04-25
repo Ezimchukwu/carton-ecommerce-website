@@ -4,7 +4,7 @@ import React from 'react';
 const AboutHero: React.FC = () => {
   return (
     <div className="relative bg-corporate-dark text-white py-16 md:py-24">
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600269452121-4f2416e55c28')] bg-cover bg-center opacity-20"></div>
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1607166452427-7e4477079cb9')] bg-cover bg-center opacity-20"></div>
       <div className="container relative z-10">
         <div className="max-w-3xl">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">About CartonCraft</h1>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const CompanyStory: React.FC = () => {
@@ -40,7 +41,7 @@ const CompanyStory: React.FC = () => {
               className="rounded-lg shadow-md"
             />
             <img 
-              src="https://images.unsplash.com/photo-1595964065429-c52c20bedb66" 
+              src="https://images.unsplash.com/photo-1573676564797-d2ba6324d13f" 
               alt="Product packaging" 
               className="rounded-lg shadow-md mt-8"
             />

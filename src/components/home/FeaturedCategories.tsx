@@ -39,7 +39,7 @@ const FeaturedCategories: React.FC = () => {
     {
       title: "Pizza Boxes",
       slug: "pizza-boxes",
-      image: "https://images.unsplash.com/photo-1607166452427-7e4477079cb9",
+      image: "https://images.unsplash.com/photo-1573676564797-d2ba6324d13f",
       description: "High-quality pizza boxes available in various sizes from 6\" to 16\"."
     },
     {
@@ -63,7 +63,7 @@ const FeaturedCategories: React.FC = () => {
     {
       title: "Mailer Boxes",
       slug: "specialty-boxes",
-      image: "https://images.unsplash.com/photo-1607349913338-fca6f7fc42d0",
+      image: "https://images.unsplash.com/photo-1601585825803-48a5981033e8",
       description: "Custom mailer boxes, gable boxes, and e-commerce packaging solutions."
     },
     {
