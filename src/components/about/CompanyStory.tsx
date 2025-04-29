@@ -1,11 +1,10 @@
-
 import React from 'react';
 
 const CompanyStory: React.FC = () => {
   return (
     <section className="py-12 md:py-16">
       <div className="container">
-        <div className="flex flex-col md:flex-row gap-12 items-center">
+        <div className="flex flex-col md:flex-row gap-12 items-start">
           <div className="md:w-1/2">
             <h2 className="section-title">Our Story</h2>
             <p className="mb-4 text-gray-700">
@@ -24,27 +23,37 @@ const CompanyStory: React.FC = () => {
             </p>
           </div>
           
-          <div className="md:w-1/2 grid grid-cols-2 gap-4">
-            <img 
-              src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28" 
-              alt="CartonCraft warehouse" 
-              className="rounded-lg shadow-md"
-            />
-            <img 
-              src="https://images.unsplash.com/photo-1512830414785-929e28f31009" 
-              alt="Custom printing process" 
-              className="rounded-lg shadow-md mt-8"
-            />
-            <img 
-              src="https://images.unsplash.com/photo-1530274444673-df2e694ebd28" 
-              alt="Team collaboration" 
-              className="rounded-lg shadow-md"
-            />
-            <img 
-              src="https://images.unsplash.com/photo-1605164599901-f26e01783e64" 
-              alt="Product packaging" 
-              className="rounded-lg shadow-md mt-8"
-            />
+          <div className="md:w-1/2">
+            <div className="grid grid-cols-2 gap-6">
+              <div className="aspect-square w-full">
+                <img 
+                  src="/IMAGES/product5.jpeg" 
+                  alt="Premium packaging solutions" 
+                  className="rounded-lg shadow-md w-full h-full object-cover"
+                />
+              </div>
+              <div className="aspect-square w-full translate-y-12">
+                <img 
+                  src="/IMAGES/product9.jpeg" 
+                  alt="Custom printed packaging" 
+                  className="rounded-lg shadow-md w-full h-full object-cover"
+                />
+              </div>
+              <div className="aspect-square w-full -translate-y-12">
+                <img 
+                  src="/IMAGES/product15.jpeg" 
+                  alt="Innovative box designs" 
+                  className="rounded-lg shadow-md w-full h-full object-cover"
+                />
+              </div>
+              <div className="aspect-square w-full">
+                <img 
+                  src="/IMAGES/product20.jpeg" 
+                  alt="Sustainable packaging" 
+                  className="rounded-lg shadow-md w-full h-full object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

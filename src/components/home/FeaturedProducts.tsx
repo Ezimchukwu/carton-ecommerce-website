@@ -1,9 +1,10 @@
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, ShoppingCart, Heart } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowRight, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/components/ui/use-toast';
+import { useCart } from '@/context/CartContext';
 
 interface ProductProps {
   id: number;
@@ -28,6 +29,46 @@ const ProductCard: React.FC<ProductProps> = ({
   isNew,
   isBestseller
 }) => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { addItem } = useCart();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigation from Link
+    setIsAddingToCart(true);
+    
+    try {
+      // Add item to cart using context
+      addItem({
+        id,
+        name,
+        price,
+        image,
+        quantity: 1
+      });
+
+      toast({
+        title: "Added to cart!",
+        description: `${name} has been added to your cart.`,
+        duration: 2000
+      });
+
+      // Wait for the toast to be visible before navigating
+      setTimeout(() => {
+        setIsAddingToCart(false);
+        navigate('/checkout');
+      }, 1500);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to add item to cart",
+        variant: "destructive",
+      });
+      setIsAddingToCart(false);
+    }
+  };
+
   return (
     <div className="product-card group">
       <div className="relative overflow-hidden">
@@ -51,17 +92,6 @@ const ProductCard: React.FC<ProductProps> = ({
             </Badge>
           )}
         </div>
-        
-        {/* Quick actions */}
-        <div className="absolute top-2 right-2 flex flex-col gap-2">
-          <Button 
-            size="icon" 
-            variant="ghost" 
-            className="bg-white hover:bg-kraft-light text-gray-700 rounded-full h-8 w-8"
-          >
-            <Heart size={16} />
-          </Button>
-        </div>
       </div>
       
       <div className="p-4">
@@ -75,9 +105,9 @@ const ProductCard: React.FC<ProductProps> = ({
         </Link>
         
         <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-lg font-semibold">${price.toFixed(2)}</span>
+          <span className="text-lg font-semibold">₦{price.toFixed(2)}</span>
           {originalPrice && (
-            <span className="text-sm text-gray-500 line-through">${originalPrice.toFixed(2)}</span>
+            <span className="text-sm text-gray-500 line-through">₦{originalPrice.toFixed(2)}</span>
           )}
         </div>
         
@@ -85,8 +115,11 @@ const ProductCard: React.FC<ProductProps> = ({
           <Button 
             className="flex-1 bg-corporate hover:bg-corporate-dark text-white"
             size="sm"
+            onClick={handleAddToCart}
+            disabled={isAddingToCart}
           >
-            <ShoppingCart size={16} className="mr-1" /> Add to Cart
+            <ShoppingCart size={16} className="mr-1" />
+            {isAddingToCart ? 'Adding...' : 'Add to Cart'}
           </Button>
         </div>
       </div>
@@ -100,7 +133,7 @@ const FeaturedProducts: React.FC = () => {
       id: 1,
       name: "12\" Premium Pizza Box",
       slug: "12-inch-premium-pizza-box",
-      image: "https://images.unsplash.com/photo-1605164599901-f26e01783e64",
+      image: "/IMAGES/product1.jpeg",
       price: 12.99,
       originalPrice: 15.99,
       category: "pizza-boxes",
@@ -111,7 +144,7 @@ const FeaturedProducts: React.FC = () => {
       id: 2,
       name: "Kraft Mailer Box - Medium",
       slug: "kraft-mailer-box-medium",
-      image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28",
+      image: "/IMAGES/product2.jpeg",
       price: 8.99,
       category: "specialty-boxes",
       isNew: true,
@@ -121,7 +154,7 @@ const FeaturedProducts: React.FC = () => {
       id: 3,
       name: "Premium Gift Bag Set (5 pcs)",
       slug: "premium-gift-bag-set",
-      image: "https://images.unsplash.com/photo-1512830414785-929e28f31009",
+      image: "/IMAGES/product3.jpeg",
       price: 19.99,
       originalPrice: 24.99,
       category: "gift-packaging",
@@ -132,7 +165,7 @@ const FeaturedProducts: React.FC = () => {
       id: 4,
       name: "Burger Box - Kraft (50 pcs)",
       slug: "burger-box-kraft",
-      image: "https://images.unsplash.com/photo-1580913428023-02c695666d61",
+      image: "/IMAGES/product4.jpeg",
       price: 29.99,
       category: "food-packaging",
       isNew: false,

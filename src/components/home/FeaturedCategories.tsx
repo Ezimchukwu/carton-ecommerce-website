@@ -1,36 +1,39 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
-interface CategoryProps {
+interface CategoryCardProps {
   title: string;
-  slug: string;
-  image: string;
   description: string;
+  image: string;
+  slug: string;
 }
 
-const CategoryCard: React.FC<CategoryProps> = ({ title, slug, image, description }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({ title, description, image, slug }) => {
   return (
-    <div className="product-card group">
-      <div className="relative overflow-hidden">
+    <Link to="/products" className="group block">
+      <div className="relative overflow-hidden rounded-lg bg-white shadow-sm">
+        <div className="aspect-[4/3] overflow-hidden">
         <img 
           src={image} 
           alt={title} 
-          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+            className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
         />
       </div>
       <div className="p-4">
-        <h3 className="text-lg font-semibold text-corporate-dark mb-2">{title}</h3>
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{description}</p>
-        <Link 
-          to={`/category/${slug}`} 
-          className="inline-flex items-center text-corporate hover:text-corporate-dark transition-colors"
-        >
-          Browse Products <ArrowRight size={16} className="ml-1" />
-        </Link>
+          <h3 className="text-lg font-medium text-corporate-dark group-hover:text-corporate">
+            {title}
+          </h3>
+          <p className="mt-1 text-sm text-gray-600">
+            {description}
+          </p>
+          <div className="mt-2 flex items-center text-corporate">
+            <span className="text-sm font-medium">Browse Products</span>
+            <ArrowRight size={16} className="ml-1 transition-transform group-hover:translate-x-1" />
+          </div>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -38,78 +41,68 @@ const FeaturedCategories: React.FC = () => {
   const categories = [
     {
       title: "Pizza Boxes",
-      slug: "pizza-boxes",
-      image: "https://images.unsplash.com/photo-1605164599901-f26e01783e64",
-      description: "High-quality pizza boxes available in various sizes from 6\" to 16\"."
+      description: "High-quality pizza boxes available in various sizes from 6\" to 16\".",
+      image: "/IMAGES/product8.jpeg",
+      slug: "pizza-boxes"
     },
     {
       title: "Moving & Storage",
-      slug: "moving-storage-boxes",
-      image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28",
-      description: "Durable boxes perfect for moving, relocation, and storage purposes."
+      description: "Durable boxes perfect for moving, relocation, and storage purposes.",
+      image: "/IMAGES/product15.jpeg",
+      slug: "moving-storage-boxes"
     },
     {
       title: "Food Packaging",
-      slug: "food-packaging",
-      image: "https://images.unsplash.com/photo-1580913428023-02c695666d61",
-      description: "Specialized packaging for burgers, shawarma, chicken, pies, and more."
+      description: "Specialized packaging for burgers, shawarma, chicken, pies, and more.",
+      image: "/IMAGES/product12.jpeg",
+      slug: "food-packaging"
     },
     {
       title: "Gift Packaging",
-      slug: "gift-packaging",
-      image: "https://images.unsplash.com/photo-1512830414785-929e28f31009",
-      description: "High-end quality gift bags and fancy packaging solutions."
+      description: "High-end quality gift bags and fancy packaging solutions.",
+      image: "/IMAGES/product16.jpeg",
+      slug: "gift-packaging"
     },
     {
       title: "Mailer Boxes",
-      slug: "specialty-boxes",
-      image: "https://images.unsplash.com/photo-1530274444673-df2e694ebd28",
-      description: "Custom mailer boxes, gable boxes, and e-commerce packaging solutions."
+      description: "Custom mailer boxes, gable boxes, and e-commerce packaging solutions.",
+      image: "/IMAGES/product26.jpeg",
+      slug: "mailer-boxes"
     },
     {
       title: "Custom Printing",
-      slug: "printing-branding",
-      image: "https://images.unsplash.com/photo-1607166452427-7e4477079cb9",
-      description: "Customize any box with your brand logo and design for a professional look."
+      description: "Customize any box with your brand logo and design for a professional look.",
+      image: "/IMAGES/product14.jpeg",
+      slug: "custom-printing"
     },
     {
       title: "Paper Bags & Envelopes",
-      slug: "paper-bags-envelopes",
-      image: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0",
-      description: "Kraft papers, 2ply-fluiting, paper bags, and envelopes for all needs."
+      description: "Kraft papers, 2ply-fluiting, paper bags, and envelopes for all needs.",
+      image: "/IMAGES/product10.jpeg",
+      slug: "paper-bags-envelopes"
     },
     {
       title: "Adhesives & Accessories",
-      slug: "adhesives",
-      image: "https://images.unsplash.com/photo-1627820250898-40360237de4e",
-      description: "Complete range of glues, tapes, and packaging accessories."
-    },
+      description: "Complete range of glues, tapes, and packaging accessories.",
+      image: "/IMAGES/product11.jpeg",
+      slug: "adhesives"
+    }
   ];
 
   return (
     <section className="py-12 bg-gray-50">
       <div className="container">
-        <h2 className="section-title text-center mb-10">Browse Our Categories</h2>
-        
+        <h2 className="section-title text-center mb-12">Browse Our Categories</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((category, index) => (
+          {categories.map((category) => (
             <CategoryCard 
-              key={index}
+              key={category.slug}
               title={category.title}
-              slug={category.slug}
-              image={category.image}
               description={category.description}
+              image={category.image}
+              slug={category.slug}
             />
           ))}
-        </div>
-        
-        <div className="mt-10 text-center">
-          <Link 
-            to="/products" 
-            className="inline-flex items-center bg-corporate hover:bg-corporate-dark text-white px-6 py-3 rounded-md transition-colors"
-          >
-            View All Categories <ArrowRight className="ml-2" size={18} />
-          </Link>
         </div>
       </div>
     </section>

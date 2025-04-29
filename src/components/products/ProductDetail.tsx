@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { 
   Minus, 
   Plus, 
@@ -28,7 +27,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/components/ui/use-toast';
+import { useCart } from '@/context/CartContext';
 
 interface ProductDetailProps {
   product?: {
@@ -60,6 +60,8 @@ interface ProductDetailProps {
 const ProductDetail: React.FC<ProductDetailProps> = ({ product: propProduct }) => {
   const { slug } = useParams<{ slug: string }>();
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const { addItem } = useCart();
   
   // In a real application, this would fetch the product data from an API
   // For this demo, we'll use either the prop or a mock product
@@ -88,9 +90,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product: propProduct }) =
       "Assembly": "Quick-fold design, no adhesive needed"
     },
     images: [
-      "https://images.unsplash.com/photo-1573676564797-d2ba6324d13f?q=80&w=500",
-      "https://images.unsplash.com/photo-1573676564797-d2ba6324d13f?q=80&w=500",
-      "https://images.unsplash.com/photo-1573676564797-d2ba6324d13f?q=80&w=500"
+      "/IMAGES/product1.jpeg",
+      "/IMAGES/product2.jpeg",
+      "/IMAGES/product3.jpeg"
     ],
     category: "pizza-boxes",
     categoryName: "Pizza Boxes",
@@ -123,17 +125,37 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product: propProduct }) =
     }
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     setIsAddingToCart(true);
-    
-    // Simulate adding to cart
-    setTimeout(() => {
+    try {
+      // Add item to cart using context
+      addItem({
+        id: Number(product.id),
+        name: product.name,
+        price: product.price,
+        image: product.images[mainImage] || '/placeholder.svg',
+        quantity: quantity
+      });
+
       toast({
-        title: "Added to cart!",
-        description: `${product.name} x ${quantity} added to your cart.`,
+        title: "Added to Cart!",
+        description: `${quantity} x ${product.name} added to your cart.`,
+        duration: 2000
+      });
+
+      // Wait for the toast to be visible before navigating
+      setTimeout(() => {
+        setIsAddingToCart(false);
+        navigate('/checkout');
+      }, 1500);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to add item to cart. Please try again.",
+        variant: "destructive"
       });
       setIsAddingToCart(false);
-    }, 1000);
+    }
   };
 
   const handleAddToWishlist = () => {
@@ -307,19 +329,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product: propProduct }) =
                 <ShoppingCart size={18} className="mr-2" />
                 {isAddingToCart ? 'Adding...' : 'Add to Cart'}
               </Button>
-              
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="outline" onClick={handleAddToWishlist}>
-                      <Heart size={18} />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Add to Wishlist</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
               
               <TooltipProvider>
                 <Tooltip>

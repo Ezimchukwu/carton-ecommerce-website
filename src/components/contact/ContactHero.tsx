@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, MessageSquare } from 'lucide-react';
 
 const ContactHero: React.FC = () => {
   return (
@@ -17,8 +16,25 @@ const ContactHero: React.FC = () => {
               <Phone className="mr-3 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold mb-1">Phone</h3>
-                <p>(555) 123-4567</p>
-                <p className="text-sm text-white/80 mt-1">Mon-Fri, 9am-5pm EST</p>
+                <p>08125160761</p>
+                <p>08038855851</p>
+                <p className="text-sm text-white/80 mt-1">Mon-Fri, 9am-5pm</p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <MessageSquare className="mr-3 flex-shrink-0" />
+              <div>
+                <h3 className="font-semibold mb-1">WhatsApp</h3>
+                <p>08125160761</p>
+                <a 
+                  href="https://wa.me/2348125160761" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-kraft-light transition-colors block mt-1 text-sm"
+                >
+                  Chat with us now
+                </a>
               </div>
             </div>
             

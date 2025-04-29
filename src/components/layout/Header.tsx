@@ -1,23 +1,25 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { 
   Search, 
   ShoppingCart, 
-  User, 
-  Heart, 
   Menu, 
   X,
-  Phone
+  Phone,
+  Shield,
+  MessageSquare
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import MegaMenu from './MegaMenu';
+import { useCart } from '@/context/CartContext';
 
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
   const location = useLocation();
+  const { items } = useCart();
+  const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
   
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -37,13 +39,34 @@ const Header: React.FC = () => {
       {/* Top Bar */}
       <div className="bg-corporate text-white py-2">
         <div className="container flex justify-between items-center">
-          <div className="flex items-center">
-            <Phone size={16} className="mr-2" />
-            <span className="text-sm">Call Us: (555) 123-4567</span>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center">
+              <Phone size={16} className="mr-2" />
+              <span className="text-sm">Call Us: 08125160761 / 08038855851</span>
+            </div>
+            <a 
+              href="https://wa.me/2348125160761" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center hover:text-kraft-light transition-colors"
+            >
+              <MessageSquare size={16} className="mr-1" />
+              <span className="text-sm hidden sm:inline">WhatsApp</span>
+            </a>
           </div>
           <div className="text-sm">
-            <Link to="/track-order" className="mr-4 hover:underline">Track Order</Link>
-            <Link to="/support" className="hover:underline">Support</Link>
+            <Link 
+              to="/checkout" 
+              className="group relative inline-flex items-center px-5 py-1.5 bg-gradient-to-r from-white/10 to-white/20 hover:from-white/20 hover:to-white/30 text-white rounded-full transition-all duration-300 shadow-lg shadow-black/10 hover:scale-105"
+            >
+              <span className="relative z-10 flex items-center font-medium tracking-wide">
+                <Shield 
+                  size={16} 
+                  className="mr-2 transform group-hover:scale-110 transition-transform duration-300" 
+                />
+                Track Order
+              </span>
+            </Link>
           </div>
         </div>
       </div>
@@ -69,19 +92,15 @@ const Header: React.FC = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link to="/account" className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors">
-              <User size={20} />
-              <span>Account</span>
-            </Link>
-            <Link to="/wishlist" className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors">
-              <Heart size={20} />
-              <span>Wishlist</span>
-            </Link>
-            <Link to="/cart" className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors">
+          <div className="hidden md:flex items-center space-x-6">
+            <Link to="/checkout" className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors">
               <div className="relative">
                 <ShoppingCart size={20} />
-                <Badge className="absolute -top-2 -right-2 bg-corporate text-white text-xs h-5 w-5 flex items-center justify-center rounded-full">0</Badge>
+                {cartItemCount > 0 && (
+                  <Badge className="absolute -top-2 -right-2 bg-corporate text-white text-xs h-5 w-5 flex items-center justify-center rounded-full">
+                    {cartItemCount}
+                  </Badge>
+                )}
               </div>
               <span>Cart</span>
             </Link>
@@ -218,22 +237,40 @@ const Header: React.FC = () => {
               <hr className="my-4" />
               
               {/* Mobile Action Buttons */}
-              <div className="flex justify-around">
-                <Link to="/account" className="flex flex-col items-center text-sm text-gray-700" onClick={toggleMobileMenu}>
-                  <User size={20} />
-                  <span>Account</span>
-                </Link>
-                <Link to="/wishlist" className="flex flex-col items-center text-sm text-gray-700" onClick={toggleMobileMenu}>
-                  <Heart size={20} />
-                  <span>Wishlist</span>
-                </Link>
-                <Link to="/cart" className="flex flex-col items-center text-sm text-gray-700" onClick={toggleMobileMenu}>
+              <div className="grid grid-cols-1 gap-4">
+                <Link
+                  to="/checkout"
+                  className="flex items-center space-x-2 text-sm font-medium text-gray-600"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   <div className="relative">
                     <ShoppingCart size={20} />
-                    <Badge className="absolute -top-2 -right-2 bg-corporate text-white text-xs h-5 w-5 flex items-center justify-center rounded-full">0</Badge>
+                    {cartItemCount > 0 && (
+                      <Badge className="absolute -top-2 -right-2 bg-corporate text-white text-xs h-5 w-5 flex items-center justify-center rounded-full">
+                        {cartItemCount}
+                      </Badge>
+                    )}
                   </div>
                   <span>Cart</span>
                 </Link>
+                <div className="space-y-3 pt-4 border-t">
+                  <div className="flex items-center space-x-2 text-sm font-medium text-gray-600">
+                    <Phone size={18} className="text-corporate" />
+                    <div className="flex flex-col">
+                      <a href="tel:+2348125160761" className="hover:text-corporate">08125160761</a>
+                      <a href="tel:+2348038855851" className="hover:text-corporate">08038855851</a>
+                    </div>
+                  </div>
+                  <a 
+                    href="https://wa.me/2348125160761" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-corporate"
+                  >
+                    <MessageSquare size={18} className="text-corporate" />
+                    <span>Chat on WhatsApp</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

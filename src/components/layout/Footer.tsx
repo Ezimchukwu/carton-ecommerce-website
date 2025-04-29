@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -159,8 +158,29 @@ const Footer: React.FC = () => {
                 </li>
                 <li className="flex items-center">
                   <Phone size={18} className="mr-3 flex-shrink-0 text-kraft-light" />
-                  <a href="tel:+15551234567" className="text-gray-300 hover:text-kraft-light transition-colors">
-                    (555) 123-4567
+                  <div className="flex flex-col">
+                    <a href="tel:+2348125160761" className="text-gray-300 hover:text-kraft-light transition-colors">
+                      08125160761
+                    </a>
+                    <a href="tel:+2348038855851" className="text-gray-300 hover:text-kraft-light transition-colors">
+                      08038855851
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-center">
+                  <a 
+                    href="https://wa.me/2348125160761" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-gray-300 hover:text-kraft-light transition-colors flex items-center"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-3 flex-shrink-0 text-kraft-light" width="18" height="18">
+                      <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
+                      <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1Z" />
+                      <path d="M14 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1Z" />
+                      <path d="M9.5 15.5c1.333.667 3.667.667 5 0" />
+                    </svg>
+                    Chat on WhatsApp
                   </a>
                 </li>
                 <li className="flex items-center">
