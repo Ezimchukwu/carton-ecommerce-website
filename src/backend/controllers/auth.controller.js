@@ -34,7 +34,7 @@ const registerUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        isAdmin: user.isAdmin,
         token: generateToken(user._id)
       });
     } else {
@@ -60,7 +60,7 @@ const loginUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        isAdmin: user.isAdmin,
         token: generateToken(user._id)
       });
     } else {
@@ -83,7 +83,7 @@ const getUserProfile = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role
+        isAdmin: user.isAdmin
       });
     } else {
       res.status(404).json({ message: 'User not found' });
@@ -114,7 +114,7 @@ const updateUserProfile = async (req, res) => {
         _id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
-        role: updatedUser.role,
+        isAdmin: updatedUser.isAdmin,
         token: generateToken(updatedUser._id)
       });
     } else {
