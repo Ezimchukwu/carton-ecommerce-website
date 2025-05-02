@@ -11,7 +11,7 @@ const {
   getFeaturedProducts,
   getBestsellerProducts,
   getNewProducts
-} = require('../controllers/product.controller');
+} = require('../controllers/product');
 const { protect, admin } = require('../middleware/authMiddleware');
 
 // Public routes

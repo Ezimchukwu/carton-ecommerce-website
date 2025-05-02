@@ -1,5 +1,5 @@
 
-const Product = require('../models/product.model');
+const Product = require('../../models/product.model');
 
 // @desc    Create a new product
 // @route   POST /api/products
@@ -56,66 +56,6 @@ const createProduct = async (req, res) => {
     res.status(201).json(createdProduct);
   } catch (error) {
     res.status(400).json({ message: error.message });
-  }
-};
-
-// @desc    Get all products
-// @route   GET /api/products
-// @access  Public
-const getProducts = async (req, res) => {
-  try {
-    const { category, limit = 10, page = 1, sort, search } = req.query;
-    
-    const query = { active: true };
-    
-    // Filter by category if provided
-    if (category) {
-      query.category = category;
-    }
-    
-    // Search functionality
-    if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } }
-      ];
-    }
-    
-    // Sorting options
-    let sortOption = {};
-    if (sort === 'price-asc') {
-      sortOption = { price: 1 };
-    } else if (sort === 'price-desc') {
-      sortOption = { price: -1 };
-    } else if (sort === 'newest') {
-      sortOption = { createdAt: -1 };
-    } else if (sort === 'rating') {
-      sortOption = { 'rating.average': -1 };
-    } else {
-      // Default sort
-      sortOption = { createdAt: -1 };
-    }
-    
-    // Pagination
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-    
-    const products = await Product.find(query)
-      .sort(sortOption)
-      .limit(parseInt(limit))
-      .skip(skip)
-      .populate('category', 'name slug');
-    
-    // Get total count for pagination
-    const count = await Product.countDocuments(query);
-    
-    res.json({
-      products,
-      page: parseInt(page),
-      pages: Math.ceil(count / parseInt(limit)),
-      total: count
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
 };
 
@@ -239,73 +179,10 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-// @desc    Get featured products
-// @route   GET /api/products/featured
-// @access  Public
-const getFeaturedProducts = async (req, res) => {
-  try {
-    const { limit = 8 } = req.query;
-    
-    const featuredProducts = await Product.find({ active: true })
-      .sort({ 'rating.average': -1, createdAt: -1 })
-      .limit(parseInt(limit))
-      .populate('category', 'name slug');
-      
-    res.json(featuredProducts);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// @desc    Get bestseller products
-// @route   GET /api/products/bestsellers
-// @access  Public
-const getBestsellerProducts = async (req, res) => {
-  try {
-    const { limit = 8 } = req.query;
-    
-    const bestsellerProducts = await Product.find({ 
-      active: true,
-      isBestseller: true
-    })
-      .limit(parseInt(limit))
-      .populate('category', 'name slug');
-      
-    res.json(bestsellerProducts);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// @desc    Get new products
-// @route   GET /api/products/new
-// @access  Public
-const getNewProducts = async (req, res) => {
-  try {
-    const { limit = 8 } = req.query;
-    
-    const newProducts = await Product.find({ 
-      active: true,
-      isNew: true 
-    })
-      .sort({ createdAt: -1 })
-      .limit(parseInt(limit))
-      .populate('category', 'name slug');
-      
-    res.json(newProducts);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 module.exports = {
   createProduct,
-  getProducts,
   getProductById,
   getProductBySlug,
   updateProduct,
-  deleteProduct,
-  getFeaturedProducts,
-  getBestsellerProducts,
-  getNewProducts
+  deleteProduct
 };
