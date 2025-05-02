@@ -87,6 +87,35 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  barcode: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  sku: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  hasVariants: {
+    type: Boolean,
+    default: false
+  },
+  variants: [{
+    name: String,
+    size: String,
+    packagingType: String,
+    price: Number,
+    sku: String,
+    stock: {
+      type: Number,
+      default: 0
+    },
+    other: {
+      type: Map,
+      of: String
+    }
+  }],
   createdAt: {
     type: Date,
     default: Date.now

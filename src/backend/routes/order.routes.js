@@ -7,7 +7,8 @@ const {
   getMyOrders,
   getOrders,
   updateOrderStatus,
-  updateOrderToPaid
+  updateOrderToPaid,
+  getOrderStats
 } = require('../controllers/order.controller');
 const { protect, admin } = require('../middleware/authMiddleware');
 
@@ -20,6 +21,7 @@ router.get('/:id', protect, getOrderById);
 
 // Protected/Admin routes
 router.get('/', protect, admin, getOrders);
+router.get('/stats', protect, admin, getOrderStats);
 router.put('/:id/status', protect, admin, updateOrderStatus);
 router.put('/:id/pay', protect, admin, updateOrderToPaid);
 

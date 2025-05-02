@@ -1,5 +1,6 @@
 
 const Order = require('../models/order.model');
+const { updateInventoryOnOrder } = require('./inventory.controller');
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -34,6 +35,17 @@ const createOrder = async (req, res) => {
       totalPrice
     });
     
+    // Update inventory when order is created
+    try {
+      await updateInventoryOnOrder(
+        items, 
+        order._id, 
+        req.user ? req.user._id : null
+      );
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+    
     const createdOrder = await order.save();
     res.status(201).json(createdOrder);
   } catch (error) {
@@ -59,7 +71,7 @@ const getOrderById = async (req, res) => {
     }
     
     // Check if user is authorized to view this order
-    if (req.user.role !== 'admin' && (!order.user || order.user.toString() !== req.user._id.toString())) {
+    if (!req.user.isAdmin && (!order.user || order.user.toString() !== req.user._id.toString())) {
       return res.status(403).json({ message: 'Not authorized to access this order' });
     }
     
@@ -184,11 +196,104 @@ const updateOrderToPaid = async (req, res) => {
   }
 };
 
+// @desc    Get sales statistics
+// @route   GET /api/orders/stats
+// @access  Private/Admin
+const getOrderStats = async (req, res) => {
+  try {
+    const { period } = req.query;
+    
+    // Default to today if no period specified
+    let startDate = new Date();
+    let endDate = new Date();
+    let groupBy = { $dateToString: { format: '%H', date: '$createdAt' } }; // Group by hour for today
+    
+    // Set date ranges based on period
+    if (period === 'week') {
+      startDate.setDate(startDate.getDate() - 7);
+      groupBy = { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } };
+    } else if (period === 'month') {
+      startDate.setMonth(startDate.getMonth() - 1);
+      groupBy = { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } };
+    } else if (period === 'year') {
+      startDate.setFullYear(startDate.getFullYear() - 1);
+      groupBy = { $dateToString: { format: '%Y-%m', date: '$createdAt' } };
+    } else {
+      // For today, set start to beginning of day
+      startDate.setHours(0, 0, 0, 0);
+    }
+    
+    // Total orders and revenue
+    const totalOrders = await Order.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate, $lte: endDate },
+          isPaid: true
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: '$totalPrice' },
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+    
+    // Orders by period
+    const ordersByPeriod = await Order.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate, $lte: endDate },
+          isPaid: true
+        }
+      },
+      {
+        $group: {
+          _id: groupBy,
+          totalAmount: { $sum: '$totalPrice' },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { _id: 1 }
+      }
+    ]);
+    
+    // Orders by status
+    const ordersByStatus = await Order.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate, $lte: endDate }
+        }
+      },
+      {
+        $group: {
+          _id: '$status',
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+    
+    res.json({
+      totalOrders: totalOrders.length > 0 ? {
+        amount: totalOrders[0].totalAmount,
+        count: totalOrders[0].count
+      } : { amount: 0, count: 0 },
+      ordersByPeriod,
+      ordersByStatus
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createOrder,
   getOrderById,
   getMyOrders,
   getOrders,
   updateOrderStatus,
-  updateOrderToPaid
+  updateOrderToPaid,
+  getOrderStats
 };

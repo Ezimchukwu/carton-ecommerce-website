@@ -23,6 +23,18 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  isStaff: {
+    type: Boolean,
+    default: false
+  },
+  phone: {
+    type: String,
+    trim: true
+  },
+  position: {
+    type: String,
+    trim: true
+  },
   createdAt: {
     type: Date,
     default: Date.now
