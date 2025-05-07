@@ -2,6 +2,7 @@
 import React from 'react';
 import ProductSearch from '@/components/pos/ProductSearch';
 import ProductGrid from '@/components/pos/ProductGrid';
+import RecentSales from '@/components/pos/RecentSales';
 import { Product } from '@/types/pos.types';
 
 interface ProductsSectionProps {
@@ -22,17 +23,28 @@ const ProductsSection: React.FC<ProductsSectionProps> = ({
   onCategoryChange
 }) => {
   return (
-    <div className="w-2/3 flex flex-col overflow-hidden">
+    <div className="flex flex-col overflow-hidden h-full">
       <ProductSearch 
         onSearch={onSearch} 
         onCategoryChange={onCategoryChange}
         categories={categories || []}
       />
-      <ProductGrid 
-        products={products || []} 
-        isLoading={isLoading} 
-        onAddToCart={onAddToCart}
-      />
+      
+      <div className="flex flex-1 overflow-hidden">
+        {/* Main product grid */}
+        <div className="flex-1 overflow-hidden">
+          <ProductGrid 
+            products={products || []} 
+            isLoading={isLoading} 
+            onAddToCart={onAddToCart}
+          />
+        </div>
+        
+        {/* Side panel with recent sales */}
+        <div className="w-64 border-l border-gray-200 p-4 overflow-y-auto">
+          <RecentSales onAddToCart={onAddToCart} />
+        </div>
+      </div>
     </div>
   );
 };
