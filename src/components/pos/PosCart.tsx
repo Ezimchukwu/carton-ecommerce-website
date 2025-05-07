@@ -11,7 +11,7 @@ interface PosCartProps {
   total: number;
   onRemoveItem: (index: number) => void;
   onUpdateQuantity: (index: number, newQuantity: number) => void;
-  onCheckout: () => void;
+  onCheckout: () => void; // Kept for backward compatibility
 }
 
 const PosCart: React.FC<PosCartProps> = ({
@@ -20,8 +20,7 @@ const PosCart: React.FC<PosCartProps> = ({
   tax,
   total,
   onRemoveItem,
-  onUpdateQuantity,
-  onCheckout
+  onUpdateQuantity
 }) => {
   return (
     <div className="h-full flex flex-col">
@@ -115,14 +114,7 @@ const PosCart: React.FC<PosCartProps> = ({
           </div>
         </div>
         
-        <Button 
-          className="w-full"
-          size="lg"
-          onClick={onCheckout}
-          disabled={items.length === 0}
-        >
-          Checkout
-        </Button>
+        {/* Checkout button moved to PaymentProcessor */}
       </div>
     </div>
   );
