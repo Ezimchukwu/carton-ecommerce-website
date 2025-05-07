@@ -12,6 +12,7 @@ import OrderConfirmationPage from '@/pages/OrderConfirmationPage';
 import BlogPage from '@/pages/BlogPage';
 import BlogPostPage from '@/pages/BlogPostPage';
 import POSDashboard from '@/pages/POSDashboard';
+import PosSalesPage from '@/pages/PosSalesPage';
 import NotFound from '@/pages/NotFound';
 
 const Routes = () => {
@@ -29,6 +30,7 @@ const Routes = () => {
       <Route path="/blog" element={<BlogPage />} />
       <Route path="/blog/:id" element={<BlogPostPage />} />
       <Route path="/pos" element={<POSDashboard />} />
+      <Route path="/pos/sales" element={<PosSalesPage />} />
       <Route path="*" element={<NotFound />} />
     </RouterRoutes>
   );

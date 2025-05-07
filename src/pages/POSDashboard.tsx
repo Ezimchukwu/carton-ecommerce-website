@@ -10,6 +10,7 @@ import PosCart from '@/components/pos/PosCart';
 import PaymentModal from '@/components/pos/PaymentModal';
 import { useReactToPrint } from 'react-to-print';
 import PosReceipt from '@/components/pos/PosReceipt';
+import { CartItem, Product, PaymentDetails, POSOrder } from '@/types/pos.types';
 
 const POSDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');

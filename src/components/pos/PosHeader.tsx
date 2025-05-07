@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Printer, ShoppingCart, ArrowLeft } from 'lucide-react';
+import { Printer, ShoppingCart, ArrowLeft, BarChart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface PosHeaderProps {
@@ -30,10 +30,12 @@ const PosHeader: React.FC<PosHeaderProps> = ({ onClearCart }) => {
             Clear Cart
           </Button>
           
-          <Button variant="secondary">
-            <Printer className="mr-2 h-4 w-4" />
-            Today's Sales
-          </Button>
+          <Link to="/pos/sales">
+            <Button variant="secondary">
+              <BarChart className="mr-2 h-4 w-4" />
+              Today's Sales
+            </Button>
+          </Link>
         </div>
       </div>
     </header>
