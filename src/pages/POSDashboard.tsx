@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -169,15 +168,18 @@ const POSDashboard = () => {
     }
   };
   
+  // Fixed: Using documentTitle, onAfterPrint, and onPrintError properties
+  // Correctly using the ref with the documentElement getter function
   const handlePrintReceipt = useReactToPrint({
-    content: () => receiptRef.current,
     documentTitle: `POS-Receipt-${currentOrder?.orderNumber || 'draft'}`,
     onAfterPrint: () => {
       toast.success('Receipt printed successfully');
     },
     onPrintError: () => {
       toast.error('Failed to print receipt');
-    }
+    },
+    // Replace 'content' property with the properly typed 'documentElement' getter function
+    documentElement: () => receiptRef.current,
   });
 
   const handleClearCart = () => {
