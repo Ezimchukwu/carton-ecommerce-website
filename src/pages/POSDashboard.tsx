@@ -168,8 +168,7 @@ const POSDashboard = () => {
     }
   };
   
-  // Fixed: Using documentTitle, onAfterPrint, and onPrintError properties
-  // Correctly using the ref with the documentElement getter function
+  // Fixed: Using the correct property name for the useReactToPrint hook
   const handlePrintReceipt = useReactToPrint({
     documentTitle: `POS-Receipt-${currentOrder?.orderNumber || 'draft'}`,
     onAfterPrint: () => {
@@ -178,8 +177,8 @@ const POSDashboard = () => {
     onPrintError: () => {
       toast.error('Failed to print receipt');
     },
-    // Replace 'content' property with the properly typed 'documentElement' getter function
-    documentElement: () => receiptRef.current,
+    // Use the correct property name as per the type definitions
+    content: () => receiptRef.current,
   });
 
   const handleClearCart = () => {
