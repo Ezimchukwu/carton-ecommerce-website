@@ -168,7 +168,7 @@ const POSDashboard = () => {
     }
   };
   
-  // Fixed: Using the correct property name for the useReactToPrint hook
+  // Using the react-to-print hook with the proper property
   const handlePrintReceipt = useReactToPrint({
     documentTitle: `POS-Receipt-${currentOrder?.orderNumber || 'draft'}`,
     onAfterPrint: () => {
@@ -177,8 +177,8 @@ const POSDashboard = () => {
     onPrintError: () => {
       toast.error('Failed to print receipt');
     },
-    // Use the correct property name as per the type definitions
-    content: () => receiptRef.current,
+    // Updated to match the correct property name in the current react-to-print version
+    printable: receiptRef.current,
   });
 
   const handleClearCart = () => {
