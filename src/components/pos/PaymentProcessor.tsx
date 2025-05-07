@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { toast } from 'sonner';
 import { useReactToPrint } from 'react-to-print';
@@ -33,7 +32,7 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
     onPrintError: () => {
       toast.error('Failed to print receipt');
     },
-    content: () => receiptRef.current,
+    printable: () => receiptRef.current,
   });
 
   const handleCheckout = () => {
@@ -131,7 +130,7 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
       <button 
         className="w-full bg-primary text-primary-foreground h-11 rounded-md px-8 inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium"
         disabled={cart.length === 0}
-        onClick={handleCheckout}
+        onClick={() => setShowPayment(true)}
       >
         Checkout
       </button>
