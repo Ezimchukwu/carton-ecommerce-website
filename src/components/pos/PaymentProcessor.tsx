@@ -33,7 +33,8 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
     onPrintError: () => {
       toast.error('Failed to print receipt');
     },
-    content: () => receiptRef.current,
+    // Fix: Use 'printRef' instead of 'content'
+    printRef: () => receiptRef.current,
   });
 
   const handleCheckout = () => {
@@ -47,45 +48,23 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
 
   const handlePayment = async (paymentDetails: PaymentDetails) => {
     try {
-      // Calculate order totals
-      const subtotal = cart.reduce((sum, item) => sum + item.subtotal, 0);
-      const tax = subtotal * 0.05; // 5% tax example
-      const totalAmount = subtotal + tax;
-      
-      const orderData = {
-        items: cart.map(item => ({
-          product: item.product._id,
-          quantity: item.quantity,
-          price: item.price,
-          variant: item.variant,
-          subtotal: item.subtotal
-        })),
+      // Mock order creation (since we're removing backend code)
+      const mockOrder = {
+        orderNumber: `POS${Date.now().toString().slice(-8)}`,
+        items: cart,
         customer: paymentDetails.customer,
-        subtotal,
-        tax,
+        subtotal: subtotal,
+        tax: tax,
         discount: paymentDetails.discount || 0,
         discountCode: paymentDetails.discountCode,
-        totalAmount,
+        totalAmount: total,
         paymentMethod: paymentDetails.paymentMethod,
-        notes: paymentDetails.notes
+        notes: paymentDetails.notes,
+        staff: { name: 'Staff User' },
+        createdAt: new Date().toISOString()
       };
       
-      const response = await fetch('/api/pos/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(orderData)
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create order');
-      }
-      
-      const order = await response.json();
-      setCurrentOrder(order);
+      setCurrentOrder(mockOrder as POSOrder);
       
       toast.success('Order completed successfully');
       

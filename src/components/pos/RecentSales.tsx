@@ -1,28 +1,30 @@
 
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus } from 'lucide-react';
 import { Product } from '@/types/pos.types';
+import { useState, useEffect } from 'react';
 
 interface RecentSalesProps {
   onAddToCart: (product: Product) => void;
 }
 
 const RecentSales: React.FC<RecentSalesProps> = ({ onAddToCart }) => {
-  // Fetch recent sales data
-  const { data: recentProducts, isLoading } = useQuery({
-    queryKey: ['recent-products'],
-    queryFn: async () => {
-      const response = await fetch('/api/pos/recent-products');
-      if (!response.ok) {
-        throw new Error('Failed to fetch recent products');
-      }
-      return response.json();
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
+  const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Mock data for recent sales
+    const mockRecentProducts: Product[] = [
+      { _id: '1', name: 'Product 1', price: 10.99, description: 'Description 1', images: [], stock: 20, sku: 'SKU001' },
+      { _id: '2', name: 'Product 2', price: 15.99, description: 'Description 2', images: [], stock: 15, sku: 'SKU002' },
+      { _id: '3', name: 'Product 3', price: 5.99, description: 'Description 3', images: [], stock: 5, sku: 'SKU003' }
+    ];
+
+    setRecentProducts(mockRecentProducts);
+    setIsLoading(false);
+  }, []);
 
   if (isLoading) {
     return (

@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
 
 interface InventoryItem {
   _id: string;
@@ -10,30 +9,24 @@ interface InventoryItem {
 }
 
 export const useInventoryStatus = () => {
-  const {
-    data: inventoryItems,
-    isLoading,
-    error
-  } = useQuery({
-    queryKey: ['inventory-status'],
-    queryFn: async () => {
-      const response = await fetch('/api/inventory/status');
-      if (!response.ok) {
-        throw new Error('Failed to fetch inventory status');
-      }
-      
-      const data = await response.json();
-      return data.items.map((item: any) => ({
-        _id: item._id,
-        productName: typeof item.product === 'string' ? item.product : item.product.name,
-        currentStock: item.quantity,
-        lowStockThreshold: item.lowStockThreshold || 10
-      }));
-    }
-  });
+  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    // Mock data for inventory status since we're removing the backend
+    const mockInventoryItems: InventoryItem[] = [
+      { _id: '1', productName: 'Product 1', currentStock: 15, lowStockThreshold: 10 },
+      { _id: '2', productName: 'Product 2', currentStock: 5, lowStockThreshold: 10 },
+      { _id: '3', productName: 'Product 3', currentStock: 20, lowStockThreshold: 10 },
+      { _id: '4', productName: 'Product 4', currentStock: 8, lowStockThreshold: 10 }
+    ];
+
+    setInventoryItems(mockInventoryItems);
+  }, []);
 
   return {
-    inventoryItems: inventoryItems || [],
+    inventoryItems,
     isLoading,
     error
   };
