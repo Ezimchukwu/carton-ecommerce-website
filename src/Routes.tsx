@@ -1,3 +1,4 @@
+
 import { Routes as RouterRoutes, Route } from 'react-router-dom';
 import HomePage from '@/pages/HomePage';
 import AboutPage from '@/pages/AboutPage';
@@ -10,6 +11,7 @@ import CheckoutPage from '@/pages/CheckoutPage';
 import OrderConfirmationPage from '@/pages/OrderConfirmationPage';
 import BlogPage from '@/pages/BlogPage';
 import BlogPostPage from '@/pages/BlogPostPage';
+import POSDashboard from '@/pages/POSDashboard';
 import NotFound from '@/pages/NotFound';
 
 const Routes = () => {
@@ -26,9 +28,10 @@ const Routes = () => {
       <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
       <Route path="/blog" element={<BlogPage />} />
       <Route path="/blog/:id" element={<BlogPostPage />} />
+      <Route path="/pos" element={<POSDashboard />} />
       <Route path="*" element={<NotFound />} />
     </RouterRoutes>
   );
 };
 
-export default Routes; 
+export default Routes;
