@@ -9,6 +9,7 @@ const AdminNav: React.FC = () => {
     { name: 'POS Dashboard', path: '/admin/pos' },
     { name: 'Sales Reports', path: '/pos/sales' },
     { name: 'Inventory', path: '/admin/inventory' },
+    { name: 'Home', path: '/' }, // Added Home link for easier navigation
   ];
 
   // Only show if we're on an admin page
@@ -20,7 +21,7 @@ const AdminNav: React.FC = () => {
   return (
     <div className="bg-gray-800 text-white py-2 px-4">
       <div className="container mx-auto flex items-center">
-        <div className="mr-4">Admin:</div>
+        <div className="mr-4 font-semibold">Admin Panel:</div>
         <div className="flex space-x-4">
           {adminLinks.map((link) => (
             <Link
