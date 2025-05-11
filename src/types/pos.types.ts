@@ -37,6 +37,7 @@ export interface CartItem {
 // Payment Types
 export interface PaymentDetails {
   paymentMethod: 'cash' | 'card' | 'bank_transfer' | 'other';
+  paymentStatus: 'pending' | 'completed' | 'pay_on_delivery';
   amount: number;
   change?: number;
   customer: CustomerInfo;
@@ -72,7 +73,7 @@ export interface POSOrder {
   discountCode?: string;
   totalAmount: number;
   paymentMethod: string;
-  paymentStatus: 'pending' | 'completed' | 'failed';
+  paymentStatus: 'pending' | 'completed' | 'pay_on_delivery' | 'failed';
   notes?: string;
   createdAt: string;
 }

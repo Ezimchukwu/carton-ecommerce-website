@@ -1,7 +1,6 @@
 
 import React, { forwardRef } from 'react';
 import { CartItem, POSOrder } from '@/types/pos.types';
-import { formatDate } from '@/lib/utils';
 
 interface PosReceiptProps {
   order: POSOrder | null;
@@ -14,7 +13,7 @@ interface PosReceiptProps {
 const PosReceipt = forwardRef<HTMLDivElement, PosReceiptProps>(
   ({ order, cart, subtotal, tax, total }, ref) => {
     const today = order ? new Date(order.createdAt) : new Date();
-    const formattedDate = formatDate ? formatDate(today) : today.toLocaleDateString();
+    const formattedDate = today.toLocaleDateString();
     const formattedTime = today.toLocaleTimeString();
     
     // Use order data if available, otherwise use cart data (for preview)
@@ -28,6 +27,22 @@ const PosReceipt = forwardRef<HTMLDivElement, PosReceiptProps>(
         }));
         
     const orderNumber = order?.orderNumber || 'DRAFT';
+
+    // Get payment status display text
+    const getPaymentStatusText = () => {
+      if (!order) return 'UNPAID';
+      
+      switch (order.paymentStatus) {
+        case 'completed':
+          return 'PAID';
+        case 'pending':
+          return 'UNPAID';
+        case 'pay_on_delivery':
+          return 'PAY ON DELIVERY';
+        default:
+          return order.paymentStatus.toUpperCase();
+      }
+    };
     
     return (
       <div ref={ref} className="p-6 bg-white max-w-md mx-auto font-mono text-sm">
@@ -58,6 +73,10 @@ const PosReceipt = forwardRef<HTMLDivElement, PosReceiptProps>(
               </span>
             </div>
           )}
+          <div className="flex justify-between font-bold mt-2 pt-2 border-t border-dashed border-gray-300">
+            <span>Status:</span>
+            <span>{getPaymentStatusText()}</span>
+          </div>
         </div>
         
         <div className="mb-4">
@@ -108,17 +127,32 @@ const PosReceipt = forwardRef<HTMLDivElement, PosReceiptProps>(
                 <span>Payment Method:</span>
                 <span>{order.paymentMethod}</span>
               </div>
-              <div className="flex justify-between">
-                <span>Payment Status:</span>
-                <span>{order.paymentStatus}</span>
-              </div>
             </div>
           )}
         </div>
         
+        {order?.customer?.name && (
+          <div className="mt-4 pt-2 border-t border-dashed border-gray-300">
+            <p><strong>Customer:</strong> {order.customer.name}</p>
+            {order.customer.phone && <p><strong>Phone:</strong> {order.customer.phone}</p>}
+            {order.notes && (
+              <div className="mt-2">
+                <strong>Notes:</strong>
+                <p className="whitespace-pre-wrap">{order.notes}</p>
+              </div>
+            )}
+          </div>
+        )}
+        
         <div className="mt-6 text-center text-xs">
           <p>Thank you for shopping with us!</p>
           <p>All sustainable packaging for a greener future</p>
+          {order?.paymentStatus === 'pending' && (
+            <p className="mt-2 font-bold">*** PAYMENT PENDING ***</p>
+          )}
+          {order?.paymentStatus === 'pay_on_delivery' && (
+            <p className="mt-2 font-bold">*** PAYMENT DUE ON DELIVERY ***</p>
+          )}
         </div>
       </div>
     );

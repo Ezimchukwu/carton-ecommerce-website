@@ -1,8 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Trash, Plus, Minus } from 'lucide-react';
+import { Trash, Plus, Minus, Package, Barcode } from 'lucide-react';
 import { CartItem } from '@/types/pos.types';
+import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 
 interface PosCartProps {
   items: CartItem[];
@@ -22,10 +24,62 @@ const PosCart: React.FC<PosCartProps> = ({
   onRemoveItem,
   onUpdateQuantity
 }) => {
+  // For barcode scanning
+  const [barcodeValue, setBarcodeValue] = useState('');
+  const [isScanning, setIsScanning] = useState(false);
+  
+  // Handle barcode submit
+  const handleBarcodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (barcodeValue) {
+      toast.info(`Scanned barcode: ${barcodeValue}`);
+      // In a real app, you would search for the product by barcode here
+      // and add it to the cart
+      setBarcodeValue('');
+    }
+  };
+
   return (
     <div className="h-full flex flex-col">
       <div className="bg-gray-100 p-4 border-b border-gray-200">
         <h2 className="text-lg font-semibold">Current Sale</h2>
+        
+        {/* Barcode scanning input */}
+        {isScanning && (
+          <form onSubmit={handleBarcodeSubmit} className="mt-2 flex gap-2">
+            <Input
+              type="text" 
+              placeholder="Scan barcode..."
+              value={barcodeValue}
+              onChange={(e) => setBarcodeValue(e.target.value)}
+              autoFocus
+              className="flex-1"
+            />
+            <Button type="submit" size="sm">Add</Button>
+          </form>
+        )}
+        
+        <div className="mt-2 flex justify-between">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs" 
+            onClick={() => setIsScanning(!isScanning)}
+          >
+            <Barcode className="h-3 w-3 mr-1" />
+            {isScanning ? 'Hide Scanner' : 'Scan Barcode'}
+          </Button>
+          
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs" 
+            onClick={() => window.print()}
+          >
+            <Package className="h-3 w-3 mr-1" />
+            Quick Ship
+          </Button>
+        </div>
       </div>
       
       {items.length === 0 ? (

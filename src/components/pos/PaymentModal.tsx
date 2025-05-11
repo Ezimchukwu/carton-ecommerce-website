@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { PaymentDetails } from '@/types/pos.types';
+import { CreditCard, Banknote, Truck } from 'lucide-react';
 
 interface PaymentModalProps {
   total: number;
@@ -36,6 +37,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   onCancel
 }) => {
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card' | 'bank_transfer' | 'other'>('cash');
+  const [paymentStatus, setPaymentStatus] = useState<'pending' | 'completed' | 'pay_on_delivery'>('completed');
   const [amountReceived, setAmountReceived] = useState<number>(total);
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -49,6 +51,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
     
     onConfirm({
       paymentMethod,
+      paymentStatus,
       amount: amountReceived,
       change: change > 0 ? change : 0,
       customer: {
@@ -98,19 +101,53 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="payment-method">Payment Method</Label>
+            <Label>Payment Method</Label>
+            <div className="grid grid-cols-3 gap-2">
+              <Button
+                type="button"
+                variant={paymentMethod === 'cash' ? "default" : "outline"}
+                className="flex flex-col items-center justify-center p-3 h-auto"
+                onClick={() => setPaymentMethod('cash')}
+              >
+                <Banknote className="h-6 w-6 mb-1" />
+                <span className="text-xs">Cash</span>
+              </Button>
+              
+              <Button
+                type="button"
+                variant={paymentMethod === 'card' ? "default" : "outline"}
+                className="flex flex-col items-center justify-center p-3 h-auto"
+                onClick={() => setPaymentMethod('card')}
+              >
+                <CreditCard className="h-6 w-6 mb-1" />
+                <span className="text-xs">Card</span>
+              </Button>
+              
+              <Button
+                type="button"
+                variant={paymentMethod === 'bank_transfer' ? "default" : "outline"}
+                className="flex flex-col items-center justify-center p-3 h-auto"
+                onClick={() => setPaymentMethod('bank_transfer')}
+              >
+                <Truck className="h-6 w-6 mb-1" />
+                <span className="text-xs">Delivery</span>
+              </Button>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Payment Status</Label>
             <Select
-              value={paymentMethod}
-              onValueChange={(value) => setPaymentMethod(value as any)}
+              value={paymentStatus}
+              onValueChange={(value) => setPaymentStatus(value as 'pending' | 'completed' | 'pay_on_delivery')}
             >
-              <SelectTrigger id="payment-method">
-                <SelectValue placeholder="Select payment method" />
+              <SelectTrigger>
+                <SelectValue placeholder="Select payment status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="cash">Cash</SelectItem>
-                <SelectItem value="card">Card</SelectItem>
-                <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="completed">Paid</SelectItem>
+                <SelectItem value="pending">Unpaid</SelectItem>
+                <SelectItem value="pay_on_delivery">Pay on Delivery</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -121,7 +158,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
               <Input
                 id="amount-received"
                 type="number"
-                min={total - discount}
+                min={0}
                 step="0.01"
                 value={amountReceived}
                 onChange={(e) => setAmountReceived(parseFloat(e.target.value) || 0)}

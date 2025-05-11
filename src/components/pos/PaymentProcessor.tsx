@@ -47,7 +47,7 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
 
   const handlePayment = async (paymentDetails: PaymentDetails) => {
     try {
-      // Mock order creation (since we're removing backend code)
+      // Mock order creation
       const mockOrder = {
         _id: `order_${Date.now()}`,
         orderNumber: `POS${Date.now().toString().slice(-8)}`,
