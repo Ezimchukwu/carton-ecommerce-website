@@ -14,6 +14,7 @@ import BlogPostPage from '@/pages/BlogPostPage';
 import POSDashboard from '@/pages/POSDashboard';
 import PosSalesPage from '@/pages/PosSalesPage';
 import NotFound from '@/pages/NotFound';
+import InventoryPage from '@/pages/InventoryPage';
 
 const Routes = () => {
   return (
@@ -29,8 +30,14 @@ const Routes = () => {
       <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
       <Route path="/blog" element={<BlogPage />} />
       <Route path="/blog/:id" element={<BlogPostPage />} />
+      
+      {/* POS and Inventory Management Routes */}
       <Route path="/pos" element={<POSDashboard />} />
       <Route path="/pos/sales" element={<PosSalesPage />} />
+      <Route path="/admin/pos" element={<POSDashboard />} />
+      <Route path="/pos-dashboard" element={<POSDashboard />} />
+      <Route path="/admin/inventory" element={<InventoryPage />} />
+      
       <Route path="*" element={<NotFound />} />
     </RouterRoutes>
   );
