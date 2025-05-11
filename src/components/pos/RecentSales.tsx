@@ -18,9 +18,9 @@ const RecentSales: React.FC<RecentSalesProps> = ({ onAddToCart }) => {
       images: [],
       stock: 15,
       sku: 'PZB-S-B001',
-      category: 'Pizza Boxes',  // Add required properties
-      hasVariants: false,       // Add required properties
-      active: true              // Add required properties
+      category: 'Pizza Boxes',
+      hasVariants: false,
+      active: true
     },
     {
       _id: 'recent2',
@@ -30,9 +30,9 @@ const RecentSales: React.FC<RecentSalesProps> = ({ onAddToCart }) => {
       images: [],
       stock: 8,
       sku: 'MOV-M-P005',
-      category: 'Moving Boxes',  // Add required properties
-      hasVariants: false,        // Add required properties
-      active: true               // Add required properties
+      category: 'Moving Boxes',
+      hasVariants: false,
+      active: true
     },
     {
       _id: 'recent3',
@@ -42,9 +42,9 @@ const RecentSales: React.FC<RecentSalesProps> = ({ onAddToCart }) => {
       images: [],
       stock: 10,
       sku: 'PCK-BW-007',
-      category: 'Packing Materials',  // Add required properties
-      hasVariants: false,             // Add required properties
-      active: true                    // Add required properties
+      category: 'Packing Materials',
+      hasVariants: false,
+      active: true
     },
   ];
 
