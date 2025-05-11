@@ -39,16 +39,16 @@ export const useProductSearch = () => {
       const query = searchQuery.toLowerCase();
       filteredProducts = filteredProducts.filter(product => 
         product.name.toLowerCase().includes(query) ||
-        product.sku.toLowerCase().includes(query)
+        (product.sku?.toLowerCase() || '').includes(query)
       );
     }
     
     if (categoryFilter) {
-      // Filter by category
+      // Fixed category filter comparison
       filteredProducts = filteredProducts.filter(product => 
         typeof product.category === 'string' 
           ? product.category === categoryFilter
-          : product.category === categoryFilter
+          : product.category._id === categoryFilter
       );
     }
     

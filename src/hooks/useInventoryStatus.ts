@@ -2,8 +2,9 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
-interface InventoryItem {
+export interface InventoryItem {
   _id: string;
+  productId: string;  // Add productId to connect with products
   productName: string;
   currentStock: number;
   lowStockThreshold: number;
@@ -36,6 +37,7 @@ export const useInventoryStatus = () => {
     const mockInventoryItems: InventoryItem[] = [
       { 
         _id: '1', 
+        productId: '1',
         productName: 'Small Pizza Box', 
         currentStock: 15, 
         lowStockThreshold: 10,
@@ -45,6 +47,7 @@ export const useInventoryStatus = () => {
       },
       { 
         _id: '2', 
+        productId: '2',
         productName: 'Medium Pizza Box', 
         currentStock: 5, 
         lowStockThreshold: 10,
@@ -54,6 +57,7 @@ export const useInventoryStatus = () => {
       },
       { 
         _id: '3', 
+        productId: '3',
         productName: 'Large Moving Box', 
         currentStock: 20, 
         lowStockThreshold: 10,
@@ -63,6 +67,7 @@ export const useInventoryStatus = () => {
       },
       { 
         _id: '4', 
+        productId: '4',
         productName: 'Small Shipping Box', 
         currentStock: 8, 
         lowStockThreshold: 10,
@@ -72,6 +77,7 @@ export const useInventoryStatus = () => {
       },
       { 
         _id: '5', 
+        productId: '5',
         productName: 'Gift Box Set', 
         currentStock: 3, 
         lowStockThreshold: 5,
@@ -81,6 +87,7 @@ export const useInventoryStatus = () => {
       },
       { 
         _id: '6', 
+        productId: '6',
         productName: 'Kraft Paper Roll', 
         currentStock: 12, 
         lowStockThreshold: 8,
@@ -90,6 +97,7 @@ export const useInventoryStatus = () => {
       },
       { 
         _id: '7', 
+        productId: '7',
         productName: 'Bubble Wrap Roll', 
         currentStock: 2, 
         lowStockThreshold: 8,
@@ -99,6 +107,7 @@ export const useInventoryStatus = () => {
       },
       { 
         _id: '8', 
+        productId: '8',
         productName: 'Carton Sealing Tape', 
         currentStock: 30, 
         lowStockThreshold: 10,
@@ -164,7 +173,7 @@ export const useInventoryStatus = () => {
       // Create history entry
       const historyEntry = {
         id: `hist_${Date.now()}`,
-        productId: _id,
+        productId: item.productId,
         productName: item.productName,
         changeType: newStock > prevStock ? 'add' as const : 'remove' as const,
         quantityChange: newStock - prevStock,

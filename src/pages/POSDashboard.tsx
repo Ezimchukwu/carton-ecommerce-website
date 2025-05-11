@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Layout from '@/components/layout/Layout';
 import PosHeader from '@/components/pos/PosHeader';
@@ -68,8 +67,7 @@ const POSDashboard = () => {
     cart.forEach(item => {
       const product = item.product;
       const inventoryItem = inventoryItems.find(invItem => 
-        invItem._id === product._id || 
-        (typeof invItem.product === 'object' && invItem.product._id === product._id)
+        invItem.productId === product._id
       );
       
       if (inventoryItem) {

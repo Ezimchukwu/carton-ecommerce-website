@@ -33,7 +33,8 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
     onPrintError: () => {
       toast.error('Failed to print receipt');
     },
-    content: () => receiptRef.current,
+    // Use contentRef property instead of content for react-to-print v3+
+    contentRef: () => receiptRef.current,
   });
 
   const handleCheckout = () => {
