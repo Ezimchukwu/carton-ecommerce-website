@@ -33,8 +33,7 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
     onPrintError: () => {
       toast.error('Failed to print receipt');
     },
-    // Fix: Use 'printRef' instead of 'content'
-    printRef: () => receiptRef.current,
+    content: () => receiptRef.current,
   });
 
   const handleCheckout = () => {
@@ -50,17 +49,19 @@ const PaymentProcessor: React.FC<PaymentProcessorProps> = ({
     try {
       // Mock order creation (since we're removing backend code)
       const mockOrder = {
+        _id: `order_${Date.now()}`,
         orderNumber: `POS${Date.now().toString().slice(-8)}`,
         items: cart,
         customer: paymentDetails.customer,
+        staff: { _id: 'staff_1', name: 'Staff User', email: 'staff@example.com' },
         subtotal: subtotal,
         tax: tax,
         discount: paymentDetails.discount || 0,
         discountCode: paymentDetails.discountCode,
-        totalAmount: total,
+        totalAmount: total - (paymentDetails.discount || 0),
         paymentMethod: paymentDetails.paymentMethod,
+        paymentStatus: 'completed',
         notes: paymentDetails.notes,
-        staff: { name: 'Staff User' },
         createdAt: new Date().toISOString()
       };
       

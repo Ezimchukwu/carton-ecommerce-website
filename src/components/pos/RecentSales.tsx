@@ -17,9 +17,42 @@ const RecentSales: React.FC<RecentSalesProps> = ({ onAddToCart }) => {
   useEffect(() => {
     // Mock data for recent sales
     const mockRecentProducts: Product[] = [
-      { _id: '1', name: 'Product 1', price: 10.99, description: 'Description 1', images: [], stock: 20, sku: 'SKU001' },
-      { _id: '2', name: 'Product 2', price: 15.99, description: 'Description 2', images: [], stock: 15, sku: 'SKU002' },
-      { _id: '3', name: 'Product 3', price: 5.99, description: 'Description 3', images: [], stock: 5, sku: 'SKU003' }
+      { 
+        _id: '1', 
+        name: 'Product 1', 
+        price: 10.99, 
+        description: 'Description 1', 
+        images: [], 
+        stock: 20, 
+        sku: 'SKU001',
+        category: 'category-1',
+        hasVariants: false,
+        active: true
+      },
+      { 
+        _id: '2', 
+        name: 'Product 2', 
+        price: 15.99, 
+        description: 'Description 2', 
+        images: [], 
+        stock: 15, 
+        sku: 'SKU002',
+        category: 'category-2',
+        hasVariants: false,
+        active: true
+      },
+      { 
+        _id: '3', 
+        name: 'Product 3', 
+        price: 5.99, 
+        description: 'Description 3', 
+        images: [], 
+        stock: 5, 
+        sku: 'SKU003',
+        category: 'category-1',
+        hasVariants: false,
+        active: true
+      }
     ];
 
     setRecentProducts(mockRecentProducts);
