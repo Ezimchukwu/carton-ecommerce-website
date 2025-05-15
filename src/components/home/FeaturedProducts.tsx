@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { useCart } from '@/context/CartContext';
 
 interface ProductProps {
@@ -30,7 +30,6 @@ const ProductCard: React.FC<ProductProps> = ({
   isBestseller
 }) => {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const { addItem } = useCart();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
@@ -48,10 +47,8 @@ const ProductCard: React.FC<ProductProps> = ({
         quantity: 1
       });
 
-      toast({
-        title: "Added to cart!",
-        description: `${name} has been added to your cart.`,
-        duration: 2000
+      toast.success("Added to cart!", {
+        description: `${name} has been added to your cart.`
       });
 
       // Wait for the toast to be visible before navigating
@@ -60,10 +57,8 @@ const ProductCard: React.FC<ProductProps> = ({
         navigate('/checkout');
       }, 1500);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to add item to cart",
-        variant: "destructive",
+      toast.error("Error", {
+        description: "Failed to add item to cart"
       });
       setIsAddingToCart(false);
     }

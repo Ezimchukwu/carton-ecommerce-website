@@ -27,7 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { useCart } from '@/context/CartContext';
 
 interface ProductDetailProps {
@@ -59,7 +59,6 @@ interface ProductDetailProps {
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ product: propProduct }) => {
   const { slug } = useParams<{ slug: string }>();
-  const { toast } = useToast();
   const navigate = useNavigate();
   const { addItem } = useCart();
   
@@ -137,10 +136,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product: propProduct }) =
         quantity: quantity
       });
 
-      toast({
-        title: "Added to Cart!",
-        description: `${quantity} x ${product.name} added to your cart.`,
-        duration: 2000
+      toast.success("Added to Cart!", {
+        description: `${quantity} x ${product.name} added to your cart.`
       });
 
       // Wait for the toast to be visible before navigating
@@ -149,19 +146,16 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product: propProduct }) =
         navigate('/checkout');
       }, 1500);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to add item to cart. Please try again.",
-        variant: "destructive"
+      toast.error("Error", {
+        description: "Failed to add item to cart. Please try again."
       });
       setIsAddingToCart(false);
     }
   };
 
   const handleAddToWishlist = () => {
-    toast({
-      title: "Added to wishlist!",
-      description: `${product.name} has been added to your wishlist.`,
+    toast.success("Added to wishlist!", {
+      description: `${product.name} has been added to your wishlist.`
     });
   };
 
