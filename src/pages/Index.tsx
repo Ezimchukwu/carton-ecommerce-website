@@ -15,10 +15,10 @@ const Index: React.FC = () => {
       <HomePage />
       
       {/* Admin Links Section */}
-      <div className="bg-gray-100 py-8">
+      <div className="bg-gray-100 py-8 mt-10">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-6">Admin Tools</h2>
-          <div className="flex gap-4">
+          <h2 className="text-2xl font-bold mb-6 text-center">Admin Tools</h2>
+          <div className="flex flex-wrap gap-4 justify-center">
             {adminLinks.map((link) => (
               <Link
                 key={link.path}

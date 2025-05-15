@@ -1,5 +1,6 @@
 
 import { Routes as RouterRoutes, Route } from 'react-router-dom';
+import Layout from '@/components/layout/Layout';
 import HomePage from '@/pages/HomePage';
 import AboutPage from '@/pages/AboutPage';
 import ContactPage from '@/pages/ContactPage';
@@ -15,11 +16,12 @@ import POSDashboard from '@/pages/POSDashboard';
 import PosSalesPage from '@/pages/PosSalesPage';
 import NotFound from '@/pages/NotFound';
 import InventoryPage from '@/pages/InventoryPage';
+import Index from '@/pages/Index';
 
 const Routes = () => {
   return (
     <RouterRoutes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<Layout><Index /></Layout>} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/wholesale" element={<WholesalePage />} />
@@ -32,11 +34,11 @@ const Routes = () => {
       <Route path="/blog/:id" element={<BlogPostPage />} />
       
       {/* POS and Inventory Management Routes */}
-      <Route path="/pos" element={<POSDashboard />} />
-      <Route path="/pos/sales" element={<PosSalesPage />} />
-      <Route path="/admin/pos" element={<POSDashboard />} />
-      <Route path="/pos-dashboard" element={<POSDashboard />} />
-      <Route path="/admin/inventory" element={<InventoryPage />} />
+      <Route path="/pos" element={<Layout><POSDashboard /></Layout>} />
+      <Route path="/pos/sales" element={<Layout><PosSalesPage /></Layout>} />
+      <Route path="/admin/pos" element={<Layout><POSDashboard /></Layout>} />
+      <Route path="/pos-dashboard" element={<Layout><POSDashboard /></Layout>} />
+      <Route path="/admin/inventory" element={<Layout><InventoryPage /></Layout>} />
       
       <Route path="*" element={<NotFound />} />
     </RouterRoutes>

@@ -10,14 +10,14 @@ import TestimonialSection from '@/components/home/TestimonialSection';
 
 const HomePage: React.FC = () => {
   return (
-    <Layout>
+    <div>
       <HeroSection />
       <FeaturedCategories />
       <FeaturedProducts />
       <CustomPrintingCTA />
       <WhyChooseUs />
       <TestimonialSection />
-    </Layout>
+    </div>
   );
 };
 
