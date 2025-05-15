@@ -1,172 +1,169 @@
 
-import React, { useState, useEffect } from 'react';
-import PosHeader from '@/components/pos/PosHeader';
-import PosCart from '@/components/pos/PosCart';
-import ProductsSection from '@/components/pos/ProductsSection';
-import PaymentProcessor from '@/components/pos/PaymentProcessor';
-import InventoryStatus from '@/components/pos/InventoryStatus';
-import { useCartManagement } from '@/hooks/useCartManagement';
-import { useProductSearch } from '@/hooks/useProductSearch';
+import React, { useState } from 'react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { useInventoryStatus } from '@/hooks/useInventoryStatus';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import DashboardTabContent from '@/components/pos/dashboard/DashboardTabContent';
+import ProductsSection from '@/components/pos/ProductsSection';
+import RecentSales from '@/components/pos/RecentSales';
+import PosCart from '@/components/pos/PosCart';
+import PosHeader from '@/components/pos/PosHeader';
 import ErrorDisplay from '@/components/pos/dashboard/ErrorDisplay';
 
-const POSDashboard = () => {
-  // Use our custom hooks
-  const { 
-    cart, 
-    subtotal, 
-    tax, 
-    total, 
-    handleAddToCart, 
-    handleRemoveFromCart, 
-    handleUpdateQuantity, 
-    handleClearCart,
-    setCart
-  } = useCartManagement();
-  
-  const {
-    products,
-    categories,
-    isLoading: productsLoading,
-    error: productsError,
-    handleSearch,
-    handleCategoryChange
-  } = useProductSearch();
+// Define types for the sales data
+interface SalesData {
+  id: string;
+  timestamp: string;
+  items: {
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+  }[];
+  total: number;
+  paymentMethod: string;
+  status: string;
+}
 
-  const {
-    inventoryItems,
-    inventoryHistory,
-    isLoading: inventoryLoading,
-    error: inventoryError,
-    updateInventoryItem
-  } = useInventoryStatus();
+const POSDashboard: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const { inventoryItems, inventoryHistory, isLoading, error } = useInventoryStatus();
 
-  // For sales summary
-  const [salesSummary, setSalesSummary] = useState({
-    today: { count: 0, total: 0 },
-    week: { count: 0, total: 0 },
-    month: { count: 0, total: 0 },
-  });
+  // Mock sales data for demonstration
+  const [salesData] = useState<SalesData[]>([
+    {
+      id: 'sale-1',
+      timestamp: new Date().toISOString(),
+      items: [
+        { id: 'item-1', name: 'Small Pizza Box', price: 1.99, quantity: 5 },
+        { id: 'item-2', name: 'Medium Pizza Box', price: 2.49, quantity: 3 }
+      ],
+      total: 17.42,
+      paymentMethod: 'cash',
+      status: 'completed'
+    },
+    {
+      id: 'sale-2',
+      timestamp: new Date(Date.now() - 3600000).toISOString(), // 1 hour ago
+      items: [
+        { id: 'item-3', name: 'Large Moving Box', price: 3.99, quantity: 2 },
+        { id: 'item-4', name: 'Bubble Wrap Roll', price: 4.99, quantity: 1 }
+      ],
+      total: 12.97,
+      paymentMethod: 'card',
+      status: 'completed'
+    },
+    {
+      id: 'sale-3',
+      timestamp: new Date(Date.now() - 7200000).toISOString(), // 2 hours ago
+      items: [
+        { id: 'item-5', name: 'Gift Box Set', price: 9.99, quantity: 1 }
+      ],
+      total: 9.99,
+      paymentMethod: 'card',
+      status: 'completed'
+    }
+  ]);
 
-  // Mock sales data
-  useEffect(() => {
-    setTimeout(() => {
-      setSalesSummary({
-        today: { count: 12, total: 459.97 },
-        week: { count: 47, total: 1862.50 },
-        month: { count: 189, total: 7125.35 },
-      });
-    }, 1000);
-  }, []);
-
-  // Handle order completion (clear cart)
-  const handleOrderComplete = () => {
-    // Update inventory when order is completed
-    cart.forEach(item => {
-      const product = item.product;
-      const inventoryItem = inventoryItems.find(invItem => 
-        invItem.productId === product._id
-      );
-      
-      if (inventoryItem) {
-        const newStock = Math.max(0, inventoryItem.currentStock - item.quantity);
-        updateInventoryItem(inventoryItem._id, newStock);
-      }
-    });
-    
-    // Clear cart
-    setCart([]);
-    
-    // Update sales summary (simple mock update)
-    setSalesSummary(prev => ({
-      ...prev,
-      today: {
-        count: prev.today.count + 1,
-        total: prev.today.total + total
-      }
-    }));
+  // Calculate sales summaries
+  const salesSummary = {
+    today: {
+      count: salesData.filter(sale => {
+        const saleDate = new Date(sale.timestamp);
+        const today = new Date();
+        return saleDate.toDateString() === today.toDateString();
+      }).length,
+      total: salesData
+        .filter(sale => {
+          const saleDate = new Date(sale.timestamp);
+          const today = new Date();
+          return saleDate.toDateString() === today.toDateString();
+        })
+        .reduce((sum, sale) => sum + sale.total, 0)
+    },
+    week: {
+      count: salesData.filter(sale => {
+        const saleDate = new Date(sale.timestamp);
+        const weekAgo = new Date();
+        weekAgo.setDate(weekAgo.getDate() - 7);
+        return saleDate >= weekAgo;
+      }).length,
+      total: salesData
+        .filter(sale => {
+          const saleDate = new Date(sale.timestamp);
+          const weekAgo = new Date();
+          weekAgo.setDate(weekAgo.getDate() - 7);
+          return saleDate >= weekAgo;
+        })
+        .reduce((sum, sale) => sum + sale.total, 0)
+    },
+    month: {
+      count: salesData.length,
+      total: salesData.reduce((sum, sale) => sum + sale.total, 0)
+    }
   };
 
-  // Handle any errors
-  if (productsError || inventoryError) {
-    return <ErrorDisplay error={productsError || inventoryError} />;
+  // If there's an error loading inventory data
+  if (error) {
+    return (
+      <div className="container mx-auto p-8">
+        <ErrorDisplay
+          title="Error Loading Dashboard"
+          message={error instanceof Error ? error.message : 'An unknown error occurred'}
+        />
+      </div>
+    );
   }
 
-  return (
-    <div className="flex flex-col h-screen max-h-screen overflow-hidden">
-      <PosHeader onClearCart={handleClearCart} />
-      
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left Side: Products Section + Inventory Status */}
-        <div className="w-2/3 flex flex-col overflow-hidden">
-          <Tabs defaultValue="products" className="w-full flex flex-col h-full">
-            <div className="px-4 pt-2">
-              <TabsList className="mb-2">
-                <TabsTrigger value="products">Products</TabsTrigger>
-                <TabsTrigger value="inventory">Inventory</TabsTrigger>
-                <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-              </TabsList>
-            </div>
-            
-            <TabsContent value="products" className="flex-1 overflow-hidden px-4 pb-4">
-              <ProductsSection
-                products={products || []}
-                isLoading={productsLoading}
-                categories={categories || []}
-                onAddToCart={handleAddToCart}
-                onSearch={handleSearch}
-                onCategoryChange={handleCategoryChange}
-              />
-            </TabsContent>
-            
-            <TabsContent value="inventory" className="h-full overflow-auto px-4 pb-4">
-              <InventoryStatus 
-                items={inventoryItems} 
-                isLoading={inventoryLoading}
-                onUpdateStock={updateInventoryItem}
-              />
-            </TabsContent>
+  // Define stock history in proper format expected by the component
+  const stockHistoryFormatted = inventoryHistory?.map(item => ({
+    id: item.id,
+    productName: item.productName,
+    timestamp: item.timestamp,
+    changeType: item.changeType === 'adjust' ? 'update' : item.changeType,
+    quantityChange: item.quantityChange,
+    previousStock: item.previousStock,
+    newStock: item.newStock
+  }));
 
-            <TabsContent value="dashboard" className="flex-1 overflow-auto">
-              <DashboardTabContent 
-                salesSummary={salesSummary}
-                inventoryItems={inventoryItems}
-                inventoryHistory={inventoryHistory}
-              />
-            </TabsContent>
-          </Tabs>
-        </div>
+  return (
+    <div className="container mx-auto p-4 h-full">
+      <PosHeader title="POS Dashboard" />
+      
+      <Tabs 
+        defaultValue="dashboard" 
+        value={activeTab} 
+        onValueChange={setActiveTab}
+        className="w-full mt-4"
+      >
+        <TabsList className="mb-4">
+          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+          <TabsTrigger value="pos">Point of Sale</TabsTrigger>
+          <TabsTrigger value="sales">Recent Sales</TabsTrigger>
+        </TabsList>
         
-        {/* Right Side: Cart Section */}
-        <div className="w-1/3 border-l border-gray-200 overflow-hidden">
-          <div className="h-full flex flex-col">
-            <div className="flex-1 overflow-hidden">
-              <PosCart 
-                items={cart}
-                subtotal={subtotal}
-                tax={tax}
-                total={total}
-                onRemoveItem={handleRemoveFromCart}
-                onUpdateQuantity={handleUpdateQuantity}
-                onCheckout={() => {}} // We'll handle checkout in PaymentProcessor
-              />
+        <TabsContent value="dashboard" className="space-y-4">
+          <DashboardTabContent
+            salesSummary={salesSummary}
+            inventoryItems={inventoryItems}
+            inventoryHistory={stockHistoryFormatted}
+          />
+        </TabsContent>
+        
+        <TabsContent value="pos" className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2">
+              <ProductsSection />
             </div>
-            
-            {/* Payment Processor */}
-            <div className="p-4 bg-white border-t border-gray-200">
-              <PaymentProcessor
-                cart={cart}
-                subtotal={subtotal}
-                tax={tax}
-                total={total}
-                onOrderComplete={handleOrderComplete}
-              />
+            <div>
+              <PosCart />
             </div>
           </div>
-        </div>
-      </div>
+        </TabsContent>
+        
+        <TabsContent value="sales" className="space-y-4">
+          <RecentSales sales={salesData} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
