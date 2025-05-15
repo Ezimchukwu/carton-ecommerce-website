@@ -5,10 +5,11 @@ import { Printer, ShoppingCart, ArrowLeft, BarChart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface PosHeaderProps {
-  onClearCart: () => void;
+  onClearCart?: () => void;
+  title?: string;
 }
 
-const PosHeader: React.FC<PosHeaderProps> = ({ onClearCart }) => {
+const PosHeader: React.FC<PosHeaderProps> = ({ onClearCart, title = "Point of Sale" }) => {
   return (
     <header className="bg-gray-800 text-white p-4">
       <div className="container flex justify-between items-center">
@@ -17,18 +18,20 @@ const PosHeader: React.FC<PosHeaderProps> = ({ onClearCart }) => {
             <ArrowLeft size={18} />
             <span>Back to Home</span>
           </Link>
-          <h1 className="text-xl font-bold">Point of Sale</h1>
+          <h1 className="text-xl font-bold">{title}</h1>
         </div>
         
         <div className="flex items-center space-x-4">
-          <Button 
-            variant="ghost" 
-            className="text-white hover:bg-gray-700"
-            onClick={onClearCart}
-          >
-            <ShoppingCart className="mr-2 h-4 w-4" />
-            Clear Cart
-          </Button>
+          {onClearCart && (
+            <Button 
+              variant="ghost" 
+              className="text-white hover:bg-gray-700"
+              onClick={onClearCart}
+            >
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              Clear Cart
+            </Button>
+          )}
           
           <Link to="/pos/sales">
             <Button variant="secondary">

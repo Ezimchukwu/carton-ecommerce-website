@@ -8,6 +8,7 @@ import RecentSales from '@/components/pos/RecentSales';
 import PosCart from '@/components/pos/PosCart';
 import PosHeader from '@/components/pos/PosHeader';
 import ErrorDisplay from '@/components/pos/dashboard/ErrorDisplay';
+import { Product, CartItem } from '@/types/pos.types';
 
 // Define types for the sales data
 interface SalesData {
@@ -27,6 +28,40 @@ interface SalesData {
 const POSDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const { inventoryItems, inventoryHistory, isLoading, error } = useInventoryStatus();
+  const [cart, setCart] = useState<CartItem[]>([]);
+
+  // Mock products data
+  const mockProducts: Product[] = [
+    {
+      _id: 'product1',
+      name: 'Small Pizza Box',
+      price: 1.99,
+      description: 'Small pizza box',
+      category: 'Pizza Boxes',
+      images: [],
+      stock: 50,
+      hasVariants: false,
+      active: true
+    },
+    {
+      _id: 'product2',
+      name: 'Medium Pizza Box',
+      price: 2.49,
+      description: 'Medium pizza box',
+      category: 'Pizza Boxes',
+      images: [],
+      stock: 30,
+      hasVariants: false,
+      active: true
+    }
+  ];
+
+  // Mock categories
+  const mockCategories = [
+    { _id: 'cat1', name: 'Pizza Boxes', slug: 'pizza-boxes' },
+    { _id: 'cat2', name: 'Moving Boxes', slug: 'moving-boxes' },
+    { _id: 'cat3', name: 'Shipping Boxes', slug: 'shipping-boxes' }
+  ];
 
   // Mock sales data for demonstration
   const [salesData] = useState<SalesData[]>([
@@ -63,6 +98,80 @@ const POSDashboard: React.FC = () => {
       status: 'completed'
     }
   ]);
+
+  // Cart handling functions
+  const handleAddToCart = (product: Product) => {
+    const existingItem = cart.findIndex(item => item.product._id === product._id);
+    if (existingItem !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingItem].quantity += 1;
+      updatedCart[existingItem].subtotal = updatedCart[existingItem].quantity * updatedCart[existingItem].price;
+      setCart(updatedCart);
+    } else {
+      setCart([...cart, {
+        product,
+        quantity: 1,
+        price: product.price,
+        subtotal: product.price
+      }]);
+    }
+  };
+
+  const handleRemoveItem = (index: number) => {
+    const updatedCart = [...cart];
+    updatedCart.splice(index, 1);
+    setCart(updatedCart);
+  };
+
+  const handleUpdateQuantity = (index: number, newQuantity: number) => {
+    if (newQuantity < 1) return;
+    
+    const updatedCart = [...cart];
+    updatedCart[index].quantity = newQuantity;
+    updatedCart[index].subtotal = updatedCart[index].price * newQuantity;
+    setCart(updatedCart);
+  };
+
+  // Calculate cart totals
+  const subtotal = cart.reduce((total, item) => total + item.subtotal, 0);
+  const tax = subtotal * 0.05; // 5% tax rate
+  const total = subtotal + tax;
+
+  // Search and category functions
+  const handleSearch = (query: string) => {
+    console.log('Searching for:', query);
+    // Actual implementation would filter products
+  };
+
+  const handleCategoryChange = (category: string) => {
+    console.log('Category selected:', category);
+    // Actual implementation would filter by category
+  };
+
+  // If there's an error loading inventory data
+  if (error) {
+    return (
+      <div className="container mx-auto p-8">
+        <ErrorDisplay
+          title="Error Loading Dashboard"
+          message={error instanceof Error ? error.message : 'An unknown error occurred'}
+        />
+      </div>
+    );
+  }
+
+  // Convert inventory history to the expected format
+  const stockHistoryFormatted = inventoryHistory?.map(item => ({
+    id: item.id,
+    productName: item.productName,
+    timestamp: item.timestamp,
+    // Ensure changeType is correctly typed as a union literal type
+    changeType: item.changeType === 'add' ? 'add' as const :
+               item.changeType === 'remove' ? 'remove' as const : 'update' as const,
+    quantityChange: item.quantityChange,
+    previousStock: item.previousStock,
+    newStock: item.newStock
+  }));
 
   // Calculate sales summaries
   const salesSummary = {
@@ -102,29 +211,6 @@ const POSDashboard: React.FC = () => {
     }
   };
 
-  // If there's an error loading inventory data
-  if (error) {
-    return (
-      <div className="container mx-auto p-8">
-        <ErrorDisplay
-          title="Error Loading Dashboard"
-          message={error instanceof Error ? error.message : 'An unknown error occurred'}
-        />
-      </div>
-    );
-  }
-
-  // Define stock history in proper format expected by the component
-  const stockHistoryFormatted = inventoryHistory?.map(item => ({
-    id: item.id,
-    productName: item.productName,
-    timestamp: item.timestamp,
-    changeType: item.changeType === 'adjust' ? 'update' : item.changeType,
-    quantityChange: item.quantityChange,
-    previousStock: item.previousStock,
-    newStock: item.newStock
-  }));
-
   return (
     <div className="container mx-auto p-4 h-full">
       <PosHeader title="POS Dashboard" />
@@ -145,23 +231,41 @@ const POSDashboard: React.FC = () => {
           <DashboardTabContent
             salesSummary={salesSummary}
             inventoryItems={inventoryItems}
-            inventoryHistory={stockHistoryFormatted}
+            inventoryHistory={stockHistoryFormatted || []}
           />
         </TabsContent>
         
         <TabsContent value="pos" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-2">
-              <ProductsSection />
+              <ProductsSection 
+                products={mockProducts}
+                isLoading={isLoading}
+                categories={mockCategories}
+                onAddToCart={handleAddToCart}
+                onSearch={handleSearch}
+                onCategoryChange={handleCategoryChange}
+              />
             </div>
             <div>
-              <PosCart />
+              <PosCart 
+                items={cart}
+                subtotal={subtotal}
+                tax={tax}
+                total={total}
+                onRemoveItem={handleRemoveItem}
+                onUpdateQuantity={handleUpdateQuantity}
+                onCheckout={() => console.log('Checkout')}
+              />
             </div>
           </div>
         </TabsContent>
         
         <TabsContent value="sales" className="space-y-4">
-          <RecentSales sales={salesData} />
+          <RecentSales 
+            onAddToCart={handleAddToCart}
+            sales={salesData}
+          />
         </TabsContent>
       </Tabs>
     </div>

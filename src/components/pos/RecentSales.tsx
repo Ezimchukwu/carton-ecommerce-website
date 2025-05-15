@@ -1,13 +1,25 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/types/pos.types';
 
 interface RecentSalesProps {
-  onAddToCart: (product: Product) => void;
+  onAddToCart?: (product: Product) => void;
+  sales?: Array<{
+    id: string;
+    timestamp: string;
+    items: {
+      id: string;
+      name: string;
+      price: number;
+      quantity: number;
+    }[];
+    total: number;
+    paymentMethod: string;
+    status: string;
+  }>;
 }
 
-const RecentSales: React.FC<RecentSalesProps> = ({ onAddToCart }) => {
+const RecentSales: React.FC<RecentSalesProps> = ({ onAddToCart, sales }) => {
   // Mock recently sold products
   const recentProducts: Product[] = [
     {
@@ -48,6 +60,36 @@ const RecentSales: React.FC<RecentSalesProps> = ({ onAddToCart }) => {
     },
   ];
 
+  // If sales data is provided, render it
+  if (sales && sales.length > 0) {
+    return (
+      <div>
+        <h3 className="font-medium mb-2">Recent Sales</h3>
+        <div className="space-y-2">
+          {sales.map((sale) => (
+            <div key={sale.id} className="p-3 bg-gray-50 rounded border border-gray-200">
+              <div className="flex justify-between">
+                <div>
+                  <p className="text-sm text-gray-500">
+                    {new Date(sale.timestamp).toLocaleString()}
+                  </p>
+                  <p className="font-medium">{sale.items.length} items</p>
+                  <p className="text-sm">${sale.total.toFixed(2)} - {sale.paymentMethod}</p>
+                </div>
+                <div>
+                  <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-800">
+                    {sale.status}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Otherwise render recently sold products
   return (
     <div>
       <h3 className="font-medium mb-2">Recently Sold Items</h3>
@@ -62,13 +104,15 @@ const RecentSales: React.FC<RecentSalesProps> = ({ onAddToCart }) => {
                 <h4 className="font-medium text-sm">{product.name}</h4>
                 <p className="text-sm text-gray-500">${product.price.toFixed(2)}</p>
               </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => onAddToCart(product)}
-              >
-                Add
-              </Button>
+              {onAddToCart && (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => onAddToCart(product)}
+                >
+                  Add
+                </Button>
+              )}
             </div>
           </div>
         ))}

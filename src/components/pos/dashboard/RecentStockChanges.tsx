@@ -13,7 +13,7 @@ interface StockHistoryEntry {
 }
 
 interface RecentStockChangesProps {
-  inventoryHistory: StockHistoryEntry[];
+  inventoryHistory: StockHistoryEntry[] | undefined;
 }
 
 const RecentStockChanges: React.FC<RecentStockChangesProps> = ({ inventoryHistory }) => {

@@ -1,34 +1,18 @@
 
 import * as React from "react";
-import { toast as sonnerToast, type Toast } from "sonner";
+import { toast as sonnerToast } from "sonner";
 
-export type ToasterToast = Toast;
-
-const toastTypes = {
-  default: sonnerToast,
-  success: sonnerToast.success,
-  info: sonnerToast.info,
-  warning: sonnerToast.warning,
-  error: sonnerToast.error,
-  loading: sonnerToast.loading,
-};
-
-type ToastProps = {
-  title?: string;
-  description?: string;
-} & Toast;
-
-const TOAST_LIMIT = 5;
-const TOAST_REMOVE_DELAY = 1000000;
-
-type ToasterToastActionElement = React.ReactElement<HTMLButtonElement>;
-
-interface ToasterToast extends ToastProps {
+export type ToasterToast = {
   id: string;
   title?: React.ReactNode;
   description?: React.ReactNode;
-  action?: ToasterToastActionElement;
-}
+  action?: React.ReactElement;
+  type?: "default" | "success" | "info" | "warning" | "error" | "loading";
+  open?: boolean;
+};
+
+const TOAST_LIMIT = 5;
+const TOAST_REMOVE_DELAY = 1000000;
 
 const actionTypes = {
   ADD_TOAST: "ADD_TOAST",
@@ -151,18 +135,18 @@ function dispatch(action: Action) {
   });
 }
 
-export function toast({
-  title,
-  description,
-  ...props
-}: ToastProps) {
+type ToastProps = Omit<ToasterToast, "id"> & {
+  description?: React.ReactNode;
+};
+
+export function toast(props: ToastProps) {
   const id = genId();
   
-  const toastType = props.type || 'default';
+  const { title, description, type, ...rest } = props;
   
   sonnerToast(title as string, {
     description,
-    ...props
+    ...rest
   });
 
   dispatch({
@@ -171,19 +155,24 @@ export function toast({
       id,
       title,
       description,
-      ...props,
+      type,
+      ...rest,
     },
   });
 
   return id;
 }
 
-// Assign types for variants with title+description support
-toast.success = (title: string, props?: ToastProps) => toast({ title, ...props, type: "success" });
-toast.info = (title: string, props?: ToastProps) => toast({ title, ...props, type: "info" });
-toast.warning = (title: string, props?: ToastProps) => toast({ title, ...props, type: "warning" });
-toast.error = (title: string, props?: ToastProps) => toast({ title, ...props, type: "error" });
-toast.loading = (title: string, props?: ToastProps) => toast({ title, ...props, type: "loading" });
+toast.success = (title: string, props?: Omit<ToastProps, "title">) => 
+  toast({ title, ...props, type: "success" });
+toast.info = (title: string, props?: Omit<ToastProps, "title">) => 
+  toast({ title, ...props, type: "info" });
+toast.warning = (title: string, props?: Omit<ToastProps, "title">) => 
+  toast({ title, ...props, type: "warning" });
+toast.error = (title: string, props?: Omit<ToastProps, "title">) => 
+  toast({ title, ...props, type: "error" });
+toast.loading = (title: string, props?: Omit<ToastProps, "title">) => 
+  toast({ title, ...props, type: "loading" });
 
 export function useToast() {
   const [state, setState] = React.useState<State>(memoryState);
@@ -204,6 +193,3 @@ export function useToast() {
     dismiss: (toastId?: string) => dispatch({ type: "DISMISS_TOAST", toastId }),
   };
 }
-
-export { toast };
-
