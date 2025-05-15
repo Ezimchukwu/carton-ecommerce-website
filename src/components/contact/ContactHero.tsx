@@ -42,7 +42,7 @@ const ContactHero: React.FC = () => {
               <Mail className="mr-3 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold mb-1">Email</h3>
-                <p>info@cartoncraft.com</p>
+                <p>CartonsProducer@gmail.com</p>
                 <p className="text-sm text-white/80 mt-1">We respond within 24 hours</p>
               </div>
             </div>
@@ -51,8 +51,8 @@ const ContactHero: React.FC = () => {
               <MapPin className="mr-3 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold mb-1">Address</h3>
-                <p>1234 Packaging Street</p>
-                <p>Boxville, CT 56789</p>
+                <p>57 Adedoyin Street, Ogba-Ikeja, Ogba, Lagos,
+                Nigeria.</p>
               </div>
             </div>
             

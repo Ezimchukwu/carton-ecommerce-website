@@ -33,7 +33,7 @@ const TeamSection: React.FC = () => {
       name: "David Chen",
       role: "Founder & CEO",
       image: "https://randomuser.me/api/portraits/men/32.jpg",
-      bio: "With over 20 years of experience in the packaging industry, David founded CartonCraft with a vision to revolutionize sustainable packaging solutions."
+      bio: "With over 20 years of experience in the packaging industry, David founded Paper Packaging Company with a vision to revolutionize sustainable packaging solutions."
     },
     {
       name: "Sophia Martinez",

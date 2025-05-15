@@ -123,15 +123,6 @@ const Header: React.FC = () => {
         <div className="container">
           <ul className="flex items-center justify-between">
             <li>
-              <Button 
-                variant="ghost" 
-                onClick={toggleMegaMenu}
-                className={`text-corporate-dark font-medium ${megaMenuOpen ? 'bg-kraft' : ''}`}
-              >
-                All Categories
-              </Button>
-            </li>
-            <li>
               <Link to="/" className={`px-4 py-2 font-medium ${isActive('/') ? 'text-corporate' : 'text-corporate-dark hover:text-corporate'}`}>
                 Home
               </Link>
