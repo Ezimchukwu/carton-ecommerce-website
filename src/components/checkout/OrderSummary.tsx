@@ -5,15 +5,8 @@ import { Separator } from '@/components/ui/separator';
 import { Card, CardContent } from '@/components/ui/card';
 
 const OrderSummary: React.FC = () => {
-  // We'll use a custom hook to get cart data
-  // For now, let's use mock data
-  const cartItems = [
-    { id: 1, name: 'Pizza Box (Medium)', price: 12.99, quantity: 2 },
-    { id: 2, name: 'Wrapping Paper - Holiday Pattern', price: 4.99, quantity: 3 },
-    { id: 3, name: 'Cargo Box (Large)', price: 8.99, quantity: 1 },
-  ];
-
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const { items, subtotal } = useCart();
+  
   const shipping = 5.99;
   const tax = subtotal * 0.07; // 7% tax
   const total = subtotal + shipping + tax;
@@ -24,7 +17,7 @@ const OrderSummary: React.FC = () => {
         <h3 className="font-semibold text-lg mb-4">Order Items</h3>
         
         <div className="space-y-3">
-          {cartItems.map((item) => (
+          {items.map((item) => (
             <div key={item.id} className="flex justify-between">
               <div className="flex-1">
                 <p className="font-medium">{item.name}</p>

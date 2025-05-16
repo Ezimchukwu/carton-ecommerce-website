@@ -17,7 +17,8 @@ interface CartContextType {
   subtotal: number;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+// Export the CartContext so it can be imported in useCart.ts
+export const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>(() => {
@@ -93,10 +94,4 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (context === undefined) {
-    throw new Error('useCart must be used within a CartProvider');
-  }
-  return context;
-}; 
+// Remove duplicate useCart implementation from this file as we have a separate hook file for it
