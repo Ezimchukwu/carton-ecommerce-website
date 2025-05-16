@@ -28,7 +28,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { toast } from '@/components/ui/use-toast';
-import { useCart } from '@/context/CartContext';
+import { useCart } from '@/hooks/useCart';
 
 interface ProductDetailProps {
   product?: {

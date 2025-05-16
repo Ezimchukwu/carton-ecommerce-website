@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import MegaMenu from './MegaMenu';
-import { useCart } from '@/context/CartContext';
+import { useCart } from '@/hooks/useCart';
 
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
