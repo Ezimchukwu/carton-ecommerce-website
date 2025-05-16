@@ -1,4 +1,6 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { toast } from 'sonner';
 
 export interface CartItem {
   id: number;
@@ -47,19 +49,28 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             ...updatedItems[existingItemIndex],
             quantity: updatedItems[existingItemIndex].quantity + newItem.quantity
           };
+          toast.success(`Added ${newItem.name} to cart`);
           return updatedItems;
         }
         
+        toast.success(`Added ${newItem.name} to cart`);
         return [...currentItems, { ...newItem }];
       });
     } catch (error) {
       console.error('Error adding item to cart:', error);
+      toast.error('Failed to add item to cart');
       throw error;
     }
   };
 
   const removeItem = (id: number) => {
-    setItems(currentItems => currentItems.filter(item => item.id !== id));
+    setItems(currentItems => {
+      const item = currentItems.find(item => item.id === id);
+      if (item) {
+        toast.info(`Removed ${item.name} from cart`);
+      }
+      return currentItems.filter(item => item.id !== id);
+    });
   };
 
   const updateQuantity = (id: number, newQuantity: number) => {
@@ -73,11 +84,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         item.id === id ? { ...item, quantity: newQuantity } : item
       )
     );
+    
+    toast.success('Cart updated');
   };
 
   const clearCart = () => {
     setItems([]);
     localStorage.removeItem('cart');
+    toast.info('Cart cleared');
   };
 
   return (

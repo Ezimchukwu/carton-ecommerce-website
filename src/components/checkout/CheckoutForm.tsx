@@ -36,7 +36,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
       city: '',
       state: '',
       zipCode: '',
-      country: 'United States',
+      country: 'Nigeria',
     },
   });
 
@@ -46,6 +46,15 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
     // Call the onSubmit prop function to proceed with payment
     onSubmit();
   };
+
+  // Nigerian states list
+  const nigerianStates = [
+    'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue', 'Borno', 
+    'Cross River', 'Delta', 'Ebonyi', 'Edo', 'Ekiti', 'Enugu', 'Federal Capital Territory',
+    'Gombe', 'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina', 'Kebbi', 'Kogi', 'Kwara', 
+    'Lagos', 'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo', 'Plateau', 'Rivers',
+    'Sokoto', 'Taraba', 'Yobe', 'Zamfara'
+  ];
 
   return (
     <Form {...form}>
@@ -100,7 +109,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
             <FormItem>
               <FormLabel>Phone</FormLabel>
               <FormControl>
-                <Input placeholder="(555) 123-4567" {...field} />
+                <Input placeholder="080XXXXXXXX" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,7 +138,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
               <FormItem>
                 <FormLabel>City</FormLabel>
                 <FormControl>
-                  <Input placeholder="New York" {...field} />
+                  <Input placeholder="Lagos" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -142,7 +151,21 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
               <FormItem>
                 <FormLabel>State</FormLabel>
                 <FormControl>
-                  <Input placeholder="NY" {...field} />
+                  <Select 
+                    defaultValue={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a state" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {nigerianStates.map(state => (
+                        <SelectItem key={state} value={state}>{state}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -155,7 +178,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
               <FormItem>
                 <FormLabel>ZIP Code</FormLabel>
                 <FormControl>
-                  <Input placeholder="10001" {...field} />
+                  <Input placeholder="100001" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -179,9 +202,12 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
+                  <SelectItem value="Nigeria">Nigeria</SelectItem>
+                  <SelectItem value="Ghana">Ghana</SelectItem>
+                  <SelectItem value="Kenya">Kenya</SelectItem>
+                  <SelectItem value="South Africa">South Africa</SelectItem>
                   <SelectItem value="United States">United States</SelectItem>
                   <SelectItem value="Canada">Canada</SelectItem>
-                  <SelectItem value="Mexico">Mexico</SelectItem>
                   <SelectItem value="United Kingdom">United Kingdom</SelectItem>
                   <SelectItem value="Australia">Australia</SelectItem>
                 </SelectContent>

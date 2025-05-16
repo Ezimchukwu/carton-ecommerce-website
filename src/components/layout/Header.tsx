@@ -9,17 +9,31 @@ import {
   X,
   Phone,
   Shield,
-  MessageSquare
+  MessageSquare,
+  User,
+  LogOut
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import MegaMenu from './MegaMenu';
 import { useCart } from '@/hooks/useCart';
+import AuthModal from '@/components/auth/AuthModal';
+import { useAuth } from '@/context/AuthContext';
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { toast } from 'sonner';
 
 const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
   const location = useLocation();
   const { items } = useCart();
+  const { user, logout, isAuthenticated } = useAuth();
   const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
   
   const toggleMobileMenu = () => {
@@ -33,6 +47,11 @@ const Header: React.FC = () => {
 
   const isActive = (path: string) => {
     return location.pathname === path;
+  };
+
+  const handleLogout = () => {
+    logout();
+    toast.success('Successfully logged out');
   };
 
   return (
@@ -92,8 +111,49 @@ const Header: React.FC = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
           </div>
 
-          {/* Quick Actions */}
+          {/* User Actions */}
           <div className="hidden md:flex items-center space-x-6">
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors">
+                    <User size={20} />
+                    <span>Account</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <div className="px-2 py-1.5">
+                    <p className="font-medium">
+                      {user?.firstName} {user?.lastName}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {user?.email}
+                    </p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/orders" className="w-full cursor-pointer">My Orders</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="w-full cursor-pointer">My Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-500">
+                    <LogOut size={16} className="mr-2" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button 
+                variant="ghost" 
+                className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors"
+                onClick={() => setAuthModalOpen(true)}
+              >
+                <User size={20} />
+                <span>Login</span>
+              </Button>
+            )}
             <Link to="/checkout" className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors">
               <div className="relative">
                 <ShoppingCart size={20} />
@@ -230,6 +290,50 @@ const Header: React.FC = () => {
               
               {/* Mobile Action Buttons */}
               <div className="grid grid-cols-1 gap-4">
+                {isAuthenticated ? (
+                  <div className="space-y-3">
+                    <div className="font-medium">{user?.firstName} {user?.lastName}</div>
+                    <div className="grid grid-cols-1 gap-2">
+                      <Link
+                        to="/orders"
+                        className="text-sm hover:text-corporate"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        My Orders
+                      </Link>
+                      <Link
+                        to="/profile"
+                        className="text-sm hover:text-corporate"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        My Profile
+                      </Link>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => {
+                        handleLogout();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="w-full mt-2"
+                    >
+                      <LogOut size={16} className="mr-2" />
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
+                  <Button 
+                    variant="outline" 
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setAuthModalOpen(true);
+                    }}
+                  >
+                    <User size={18} className="mr-2" />
+                    Login / Sign Up
+                  </Button>
+                )}
                 <Link
                   to="/checkout"
                   className="flex items-center space-x-2 text-sm font-medium text-gray-600"
@@ -268,6 +372,9 @@ const Header: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Auth Modal */}
+      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
     </header>
   );
 };
