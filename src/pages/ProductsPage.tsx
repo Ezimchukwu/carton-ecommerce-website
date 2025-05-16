@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -11,16 +11,23 @@ const ProductsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const categories = [
-    { id: 'all', name: 'All Categories', icon: '📦' },
-    { id: 'pizza-boxes', name: 'Pizza Boxes', icon: '🍕' },
-    { id: 'food-packs', name: 'Mailer Boxes', icon: '🥡' },
-    { id: 'cargo-boxes', name: 'Cargo Boxes', icon: '📦' },
-    { id: 'wrapping-papers', name: 'Wrapping Papers', icon: '📜' },
-    { id: 'gift-bags', name: 'Gift Bags', icon: '🎁' },
-    { id: 'adhesives', name: 'Adhesives', icon: '🔗' }
+    { id: 'all', name: 'All Categories', icon: '📦', path: '/products' },
+    { id: 'pizza-boxes', name: 'Pizza Boxes', icon: '🍕', path: '/categories/pizza-boxes' },
+    { id: 'mailer-boxes', name: 'Mailer Boxes', icon: '🥡', path: '/categories/mailer-boxes' },
+    { id: 'cargo-boxes', name: 'Cargo Boxes', icon: '📦', path: '/categories/cargo-boxes' },
+    { id: 'wrapping-papers', name: 'Wrapping Papers', icon: '📜', path: '/categories/wrapping-papers' },
+    { id: 'gift-bags', name: 'Gift Bags', icon: '🎁', path: '/categories/gift-bags' },
+    { id: 'adhesives', name: 'Adhesives', icon: '🔗', path: '/categories/adhesives' }
   ];
+
+  // Function to handle category selection and navigation
+  const handleCategorySelect = (categoryId: string, path: string) => {
+    setSelectedCategory(categoryId);
+    navigate(path);
+  };
 
   // Mock products data - replace with actual data from your backend
   const products = [
@@ -113,7 +120,7 @@ const ProductsPage = () => {
                   {categories.map((category) => (
                     <button
                       key={category.id}
-                      onClick={() => setSelectedCategory(category.id)}
+                      onClick={() => handleCategorySelect(category.id, category.path)}
                       className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
                         selectedCategory === category.id
                           ? 'bg-corporate text-white'
