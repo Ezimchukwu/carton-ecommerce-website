@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -49,7 +50,7 @@ const Footer: React.FC = () => {
             {/* Company Information */}
             <div>
               <h4 className="text-xl font-bold mb-4">
-                <span className="text-kraft">Carton</span>Craft
+                <span className="text-kraft">PAPER</span> PACKAGING COMPANY
               </h4>
               <p className="text-gray-300 mb-4">
                 We offer premium quality carton and packaging solutions for businesses of all sizes. From standard boxes to custom branded packaging, we've got you covered.
@@ -151,9 +152,9 @@ const Footer: React.FC = () => {
                 <li className="flex items-start">
                   <MapPin size={18} className="mr-3 mt-1 flex-shrink-0 text-kraft-light" />
                   <span className="text-gray-300">
-                    1234 Packaging Street<br />
-                    Boxville, CT 56789<br />
-                    United States
+                    57 Adedoyin Street<br />
+                    Ogba-Ikeja, Lagos<br />
+                    Nigeria
                   </span>
                 </li>
                 <li className="flex items-center">
@@ -185,8 +186,8 @@ const Footer: React.FC = () => {
                 </li>
                 <li className="flex items-center">
                   <Mail size={18} className="mr-3 flex-shrink-0 text-kraft-light" />
-                  <a href="mailto:info@cartoncraft.com" className="text-gray-300 hover:text-kraft-light transition-colors">
-                    info@cartoncraft.com
+                  <a href="mailto:CartonsProducer@gmail.com" className="text-gray-300 hover:text-kraft-light transition-colors">
+                    CartonsProducer@gmail.com
                   </a>
                 </li>
               </ul>
@@ -199,7 +200,7 @@ const Footer: React.FC = () => {
       <div className="bg-black py-4">
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-            <p>© {new Date().getFullYear()} CartonCraft. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} PAPER PACKAGING COMPANY. All rights reserved.</p>
             <div className="mt-2 md:mt-0">
               <Link to="/terms" className="hover:text-white transition-colors mr-4">Terms & Conditions</Link>
               <Link to="/privacy-policy" className="hover:text-white transition-colors mr-4">Privacy Policy</Link>

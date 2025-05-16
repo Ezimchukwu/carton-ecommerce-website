@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Printer, ShoppingCart, ArrowLeft, BarChart } from 'lucide-react';
+import { Printer, ShoppingCart, ArrowLeft, BarChart, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 interface PosHeaderProps {
   onClearCart?: () => void;
@@ -10,6 +11,12 @@ interface PosHeaderProps {
 }
 
 const PosHeader: React.FC<PosHeaderProps> = ({ onClearCart, title = "Point of Sale" }) => {
+  const handleLogout = () => {
+    localStorage.removeItem('isAdminAuthenticated');
+    toast.success("Successfully logged out of admin panel");
+    window.location.href = '/';
+  };
+
   return (
     <header className="bg-gray-800 text-white p-4">
       <div className="container flex justify-between items-center">
@@ -18,7 +25,10 @@ const PosHeader: React.FC<PosHeaderProps> = ({ onClearCart, title = "Point of Sa
             <ArrowLeft size={18} />
             <span>Back to Home</span>
           </Link>
-          <h1 className="text-xl font-bold">{title}</h1>
+          <div className="flex items-center">
+            <Lock size={18} className="mr-2" />
+            <h1 className="text-xl font-bold">{title}</h1>
+          </div>
         </div>
         
         <div className="flex items-center space-x-4">
@@ -39,6 +49,14 @@ const PosHeader: React.FC<PosHeaderProps> = ({ onClearCart, title = "Point of Sa
               Today's Sales
             </Button>
           </Link>
+
+          <Button 
+            variant="ghost" 
+            className="text-white hover:bg-gray-700"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
         </div>
       </div>
     </header>

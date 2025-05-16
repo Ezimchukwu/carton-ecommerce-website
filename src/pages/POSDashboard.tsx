@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { useInventoryStatus } from '@/hooks/useInventoryStatus';
 import DashboardTabContent from '@/components/pos/dashboard/DashboardTabContent';
@@ -9,6 +9,15 @@ import PosCart from '@/components/pos/PosCart';
 import PosHeader from '@/components/pos/PosHeader';
 import ErrorDisplay from '@/components/pos/dashboard/ErrorDisplay';
 import { Product, CartItem } from '@/types/pos.types';
+import { Navigate } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from 'sonner';
+import { useCartManagement } from '@/hooks/useCartManagement';
+
+// Check if the user is authenticated as admin
+const isAdminAuthenticated = () => {
+  return localStorage.getItem('isAdminAuthenticated') === 'true';
+};
 
 // Define types for the sales data
 interface SalesData {
@@ -28,7 +37,16 @@ interface SalesData {
 const POSDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const { inventoryItems, inventoryHistory, isLoading, error } = useInventoryStatus();
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const { 
+    cart, subtotal, tax, total, 
+    handleAddToCart, handleRemoveFromCart, handleUpdateQuantity, handleClearCart 
+  } = useCartManagement();
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+
+  // Check authentication on mount
+  useEffect(() => {
+    setAuthenticated(isAdminAuthenticated());
+  }, []);
 
   // Mock products data
   const mockProducts: Product[] = [
@@ -99,43 +117,29 @@ const POSDashboard: React.FC = () => {
     }
   ]);
 
-  // Cart handling functions
-  const handleAddToCart = (product: Product) => {
-    const existingItem = cart.findIndex(item => item.product._id === product._id);
-    if (existingItem !== -1) {
-      const updatedCart = [...cart];
-      updatedCart[existingItem].quantity += 1;
-      updatedCart[existingItem].subtotal = updatedCart[existingItem].quantity * updatedCart[existingItem].price;
-      setCart(updatedCart);
-    } else {
-      setCart([...cart, {
-        product,
-        quantity: 1,
-        price: product.price,
-        subtotal: product.price
-      }]);
-    }
-  };
+  // If authentication state is still loading
+  if (authenticated === null) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center">Loading Admin Panel</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-corporate"></div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
-  const handleRemoveItem = (index: number) => {
-    const updatedCart = [...cart];
-    updatedCart.splice(index, 1);
-    setCart(updatedCart);
-  };
-
-  const handleUpdateQuantity = (index: number, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    
-    const updatedCart = [...cart];
-    updatedCart[index].quantity = newQuantity;
-    updatedCart[index].subtotal = updatedCart[index].price * newQuantity;
-    setCart(updatedCart);
-  };
-
-  // Calculate cart totals
-  const subtotal = cart.reduce((total, item) => total + item.subtotal, 0);
-  const tax = subtotal * 0.05; // 5% tax rate
-  const total = subtotal + tax;
+  // If not authenticated, redirect to home
+  if (authenticated === false) {
+    toast.error("Admin access required. Please log in.");
+    return <Navigate to="/" replace />;
+  }
 
   // Search and category functions
   const handleSearch = (query: string) => {
@@ -213,7 +217,7 @@ const POSDashboard: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4 h-full">
-      <PosHeader title="POS Dashboard" />
+      <PosHeader title="PAPER PACKAGING COMPANY - Admin Dashboard" onClearCart={handleClearCart} />
       
       <Tabs 
         defaultValue="dashboard" 
@@ -253,7 +257,7 @@ const POSDashboard: React.FC = () => {
                 subtotal={subtotal}
                 tax={tax}
                 total={total}
-                onRemoveItem={handleRemoveItem}
+                onRemoveItem={handleRemoveFromCart}
                 onUpdateQuantity={handleUpdateQuantity}
                 onCheckout={() => console.log('Checkout')}
               />

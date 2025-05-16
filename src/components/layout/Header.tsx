@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -77,7 +78,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <h1 className="text-xl md:text-2xl font-bold text-corporate">
-              <span className="text-kraft-dark">Carton</span>Craft
+              <span className="text-kraft-dark">PAPER</span> PACKAGING COMPANY
             </h1>
           </Link>
 

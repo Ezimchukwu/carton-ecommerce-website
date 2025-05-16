@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Phone, Mail, MapPin, Clock, MessageSquare } from 'lucide-react';
 
@@ -51,8 +52,7 @@ const ContactHero: React.FC = () => {
               <MapPin className="mr-3 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold mb-1">Address</h3>
-                <p>57 Adedoyin Street, Ogba-Ikeja, Ogba, Lagos,
-                Nigeria.</p>
+                <p>57 Adedoyin Street, Ogba-Ikeja, Ogba, Lagos, Nigeria.</p>
               </div>
             </div>
             
