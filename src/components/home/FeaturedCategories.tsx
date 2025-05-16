@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -7,11 +8,12 @@ interface CategoryCardProps {
   description: string;
   image: string;
   slug: string;
+  path: string;
 }
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ title, description, image, slug }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({ title, description, image, slug, path }) => {
   return (
-    <Link to="/products" className="group block">
+    <Link to={path} className="group block">
       <div className="relative overflow-hidden rounded-lg bg-white shadow-sm">
         <div className="aspect-[4/3] overflow-hidden">
         <img 
@@ -43,49 +45,57 @@ const FeaturedCategories: React.FC = () => {
       title: "Pizza Boxes",
       description: "High-quality pizza boxes available in various sizes from 6\" to 16\".",
       image: "/IMAGES/product8.jpeg",
-      slug: "pizza-boxes"
+      slug: "pizza-boxes",
+      path: "/categories/pizza-boxes"
     },
     {
       title: "Moving & Storage",
       description: "Durable boxes perfect for moving, relocation, and storage purposes.",
       image: "/IMAGES/product15.jpeg",
-      slug: "moving-storage-boxes"
+      slug: "moving-storage-boxes",
+      path: "/categories/cargo-boxes"
     },
     {
       title: "Food Packaging",
       description: "Specialized packaging for burgers, shawarma, chicken, pies, and more.",
       image: "/IMAGES/product12.jpeg",
-      slug: "food-packaging"
+      slug: "food-packaging",
+      path: "/products?category=food-packaging"
     },
     {
       title: "Gift Packaging",
       description: "High-end quality gift bags and fancy packaging solutions.",
       image: "/IMAGES/product16.jpeg",
-      slug: "gift-packaging"
+      slug: "gift-packaging",
+      path: "/categories/gift-bags"
     },
     {
       title: "Mailer Boxes",
       description: "Custom mailer boxes, gable boxes, and e-commerce packaging solutions.",
       image: "/IMAGES/product26.jpeg",
-      slug: "mailer-boxes"
+      slug: "mailer-boxes",
+      path: "/categories/mailer-boxes"
     },
     {
       title: "Custom Printing",
       description: "Customize any box with your brand logo and design for a professional look.",
       image: "/IMAGES/product14.jpeg",
-      slug: "custom-printing"
+      slug: "custom-printing",
+      path: "/custom-printing"
     },
     {
       title: "Paper Bags & Envelopes",
       description: "Kraft papers, 2ply-fluiting, paper bags, and envelopes for all needs.",
       image: "/IMAGES/product10.jpeg",
-      slug: "paper-bags-envelopes"
+      slug: "paper-bags-envelopes",
+      path: "/categories/wrapping-papers"
     },
     {
       title: "Adhesives & Accessories",
       description: "Complete range of glues, tapes, and packaging accessories.",
       image: "/IMAGES/product11.jpeg",
-      slug: "adhesives"
+      slug: "adhesives",
+      path: "/categories/adhesives"
     }
   ];
 
@@ -101,6 +111,7 @@ const FeaturedCategories: React.FC = () => {
               description={category.description}
               image={category.image}
               slug={category.slug}
+              path={category.path}
             />
           ))}
         </div>

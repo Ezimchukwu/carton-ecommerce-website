@@ -18,6 +18,14 @@ import NotFound from '@/pages/NotFound';
 import InventoryPage from '@/pages/InventoryPage';
 import Index from '@/pages/Index';
 
+// Import category pages
+import PizzaBoxesPage from '@/pages/categories/PizzaBoxesPage';
+import MailerBoxesPage from '@/pages/categories/MailerBoxesPage';
+import CargoBoxesPage from '@/pages/categories/CargoBoxesPage';
+import WrappingPapersPage from '@/pages/categories/WrappingPapersPage';
+import GiftBagsPage from '@/pages/categories/GiftBagsPage';
+import AdhesivesPage from '@/pages/categories/AdhesivesPage';
+
 const Routes = () => {
   return (
     <RouterRoutes>
@@ -32,6 +40,14 @@ const Routes = () => {
       <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
       <Route path="/blog" element={<BlogPage />} />
       <Route path="/blog/:id" element={<BlogPostPage />} />
+      
+      {/* Product Category Pages */}
+      <Route path="/categories/pizza-boxes" element={<PizzaBoxesPage />} />
+      <Route path="/categories/mailer-boxes" element={<MailerBoxesPage />} />
+      <Route path="/categories/cargo-boxes" element={<CargoBoxesPage />} />
+      <Route path="/categories/wrapping-papers" element={<WrappingPapersPage />} />
+      <Route path="/categories/gift-bags" element={<GiftBagsPage />} />
+      <Route path="/categories/adhesives" element={<AdhesivesPage />} />
       
       {/* POS and Inventory Management Routes */}
       <Route path="/pos" element={<Layout><POSDashboard /></Layout>} />
