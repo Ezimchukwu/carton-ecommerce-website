@@ -1,9 +1,10 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from '@/hooks/use-toast'; 
 import { useCart } from '@/hooks/useCart';
 
 interface Product {
@@ -56,8 +57,7 @@ const FeaturedProducts: React.FC = () => {
       image: product.imageUrl,
       quantity: 1,
     });
-    toast({
-      title: 'Added to cart',
+    toast(`Added to cart`, {
       description: `${product.name} added to your cart.`,
     });
   };
