@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
-import { CreditCard, Paypal } from 'lucide-react';
+import { CreditCard } from 'lucide-react';
 import { toast } from 'sonner';
 
 const formSchema = z.object({
@@ -281,7 +281,13 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
                   <div className="flex items-center space-x-2 border p-4 rounded-md bg-white hover:bg-gray-50">
                     <RadioGroupItem value="paypal" id="paypal" />
                     <label htmlFor="paypal" className="flex items-center space-x-2 cursor-pointer flex-1">
-                      <Paypal className="h-5 w-5 text-blue-500" />
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-blue-500">
+                        <path d="M17.5 7H20M17.5 10.5H20" />
+                        <path d="M11.5 11h-4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1Z" />
+                        <path d="M15.5 11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-10a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2" />
+                        <path d="M12.5 19h-5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1Z" />
+                        <path d="M16.5 19a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-11a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2" />
+                      </svg>
                       <span>PayPal</span>
                     </label>
                   </div>
