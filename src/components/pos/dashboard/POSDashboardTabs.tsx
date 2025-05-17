@@ -27,8 +27,8 @@ interface POSDashboardTabsProps {
   tax: number;
   total: number;
   handleAddToCart: (product: any) => void;
-  handleRemoveFromCart: (id: string) => void;
-  handleUpdateQuantity: (id: string, quantity: number) => void;
+  handleRemoveFromCart: (id: string) => void; // Updated to expect a string parameter
+  handleUpdateQuantity: (id: string, quantity: number) => void; // Updated to expect a string parameter
   handleClearCart: () => void;
   handleSearch: (query: string) => void;
   handleCategoryChange: (category: string) => void;

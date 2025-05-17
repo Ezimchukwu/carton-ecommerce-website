@@ -32,23 +32,38 @@ export const useCartManagement = () => {
     toast.success(`${product.name} added to cart`);
   };
 
-  const handleRemoveFromCart = (index: number) => {
-    setCart(prevCart => prevCart.filter((_, idx) => idx !== index));
+  // Change parameter type from index: number to id: string
+  const handleRemoveFromCart = (id: string) => {
+    setCart(prevCart => {
+      const index = prevCart.findIndex(item => item.product._id === id);
+      if (index === -1) return prevCart;
+      
+      const itemToRemove = prevCart[index];
+      toast.info(`${itemToRemove.product.name} removed from cart`);
+      
+      return prevCart.filter((_, idx) => idx !== index);
+    });
   };
 
-  const handleUpdateQuantity = (index: number, newQuantity: number) => {
+  // Change parameter type from index: number to id: string
+  const handleUpdateQuantity = (id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
     
-    setCart(prevCart => prevCart.map((item, idx) => {
-      if (idx === index) {
-        return {
-          ...item,
-          quantity: newQuantity,
-          subtotal: item.price * newQuantity
-        };
-      }
-      return item;
-    }));
+    setCart(prevCart => {
+      const index = prevCart.findIndex(item => item.product._id === id);
+      if (index === -1) return prevCart;
+      
+      return prevCart.map((item, idx) => {
+        if (idx === index) {
+          return {
+            ...item,
+            quantity: newQuantity,
+            subtotal: item.price * newQuantity
+          };
+        }
+        return item;
+      });
+    });
   };
 
   const handleClearCart = () => {
