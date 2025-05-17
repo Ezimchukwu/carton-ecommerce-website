@@ -107,5 +107,3 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     </CartContext.Provider>
   );
 };
-
-// Remove duplicate useCart implementation from this file as we have a separate hook file for it

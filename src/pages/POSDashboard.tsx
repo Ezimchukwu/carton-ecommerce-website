@@ -13,6 +13,7 @@ import { Navigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { useCartManagement } from '@/hooks/useCartManagement';
+import PaymentProcessor from '@/components/pos/PaymentProcessor';
 
 // Check if the user is authenticated as admin
 const isAdminAuthenticated = () => {
@@ -71,6 +72,50 @@ const POSDashboard: React.FC = () => {
       stock: 30,
       hasVariants: false,
       active: true
+    },
+    {
+      _id: 'product3',
+      name: 'Large Pizza Box',
+      price: 2.99,
+      description: 'Large pizza box',
+      category: 'Pizza Boxes',
+      images: [],
+      stock: 25,
+      hasVariants: false,
+      active: true
+    },
+    {
+      _id: 'product4',
+      name: 'Extra Large Pizza Box',
+      price: 3.49,
+      description: 'Extra large pizza box',
+      category: 'Pizza Boxes',
+      images: [],
+      stock: 20,
+      hasVariants: false,
+      active: true
+    },
+    {
+      _id: 'product5',
+      name: 'Small Mailer Box',
+      price: 1.49,
+      description: 'Small mailer box',
+      category: 'Moving Boxes',
+      images: [],
+      stock: 40,
+      hasVariants: false,
+      active: true
+    },
+    {
+      _id: 'product6',
+      name: 'Medium Mailer Box',
+      price: 1.99,
+      description: 'Medium mailer box',
+      category: 'Moving Boxes',
+      images: [],
+      stock: 35,
+      hasVariants: false,
+      active: true
     }
   ];
 
@@ -78,7 +123,9 @@ const POSDashboard: React.FC = () => {
   const mockCategories = [
     { _id: 'cat1', name: 'Pizza Boxes', slug: 'pizza-boxes' },
     { _id: 'cat2', name: 'Moving Boxes', slug: 'moving-boxes' },
-    { _id: 'cat3', name: 'Shipping Boxes', slug: 'shipping-boxes' }
+    { _id: 'cat3', name: 'Shipping Boxes', slug: 'shipping-boxes' },
+    { _id: 'cat4', name: 'Gift Bags', slug: 'gift-bags' },
+    { _id: 'cat5', name: 'Wrapping Paper', slug: 'wrapping-paper' }
   ];
 
   // Mock sales data for demonstration
@@ -138,7 +185,7 @@ const POSDashboard: React.FC = () => {
   // If not authenticated, redirect to home
   if (authenticated === false) {
     toast.error("Admin access required. Please log in.");
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   // Search and category functions
@@ -216,7 +263,7 @@ const POSDashboard: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 h-full">
+    <div className="container mx-auto p-4 h-full bg-gray-50 min-h-screen">
       <PosHeader title="PAPER PACKAGING COMPANY - Admin Dashboard" onClearCart={handleClearCart} />
       
       <Tabs 
@@ -225,10 +272,10 @@ const POSDashboard: React.FC = () => {
         onValueChange={setActiveTab}
         className="w-full mt-4"
       >
-        <TabsList className="mb-4">
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-          <TabsTrigger value="pos">Point of Sale</TabsTrigger>
-          <TabsTrigger value="sales">Recent Sales</TabsTrigger>
+        <TabsList className="mb-4 w-full justify-start bg-white border">
+          <TabsTrigger value="dashboard" className="text-base">Dashboard</TabsTrigger>
+          <TabsTrigger value="pos" className="text-base">Point of Sale</TabsTrigger>
+          <TabsTrigger value="sales" className="text-base">Recent Sales</TabsTrigger>
         </TabsList>
         
         <TabsContent value="dashboard" className="space-y-4">
@@ -252,15 +299,26 @@ const POSDashboard: React.FC = () => {
               />
             </div>
             <div>
-              <PosCart 
-                items={cart}
-                subtotal={subtotal}
-                tax={tax}
-                total={total}
-                onRemoveItem={handleRemoveFromCart}
-                onUpdateQuantity={handleUpdateQuantity}
-                onCheckout={() => console.log('Checkout')}
-              />
+              <div className="bg-white rounded-lg shadow-sm border h-full flex flex-col">
+                <PosCart 
+                  items={cart}
+                  subtotal={subtotal}
+                  tax={tax}
+                  total={total}
+                  onRemoveItem={handleRemoveFromCart}
+                  onUpdateQuantity={handleUpdateQuantity}
+                  onCheckout={() => console.log('Checkout')}
+                />
+                <div className="p-4 border-t">
+                  <PaymentProcessor
+                    cart={cart}
+                    subtotal={subtotal}
+                    tax={tax}
+                    total={total}
+                    onOrderComplete={handleClearCart}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </TabsContent>

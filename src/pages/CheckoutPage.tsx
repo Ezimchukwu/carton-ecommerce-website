@@ -22,13 +22,9 @@ const CheckoutPage = () => {
   }, [items, navigate]);
 
   const handlePayment = () => {
-    // Payment processing logic
-    // Simulate a successful payment
-    setTimeout(() => {
-      toast.success("Order placed successfully", { description: "Thank you for your purchase!" });
-      // Redirect to order confirmation page or clear cart
-      navigate('/order-confirmation');
-    }, 1500);
+    // Payment processing occurs in CheckoutForm component now
+    // This just handles the post-payment navigation
+    navigate('/order-confirmation');
   };
 
   return (
@@ -55,13 +51,13 @@ const CheckoutPage = () => {
         )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Checkout Form */}
+          {/* Checkout Form - Now contains payment method selection */}
           <div>
             <h2 className="text-xl font-semibold mb-4">Billing Details</h2>
             <CheckoutForm onSubmit={handlePayment} />
           </div>
 
-          {/* Order Summary */}
+          {/* Order Summary - Now has quantity controls */}
           <div>
             <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
             <OrderSummary />

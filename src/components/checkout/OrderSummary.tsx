@@ -2,10 +2,12 @@
 import React from 'react';
 import { useCart } from '@/hooks/useCart';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Plus, Minus } from 'lucide-react';
 
 const OrderSummary: React.FC = () => {
-  const { items, subtotal } = useCart();
+  const { items, subtotal, updateQuantity, removeItem } = useCart();
   
   const shipping = 5.99;
   const tax = subtotal * 0.07; // 7% tax
@@ -17,6 +19,22 @@ const OrderSummary: React.FC = () => {
   const shippingNaira = shipping * exchangeRate;
   const taxNaira = tax * exchangeRate;
   const totalNaira = total * exchangeRate;
+
+  const handleIncrement = (id: number) => {
+    const item = items.find(item => item.id === id);
+    if (item) {
+      updateQuantity(id, item.quantity + 1);
+    }
+  };
+
+  const handleDecrement = (id: number) => {
+    const item = items.find(item => item.id === id);
+    if (item && item.quantity > 1) {
+      updateQuantity(id, item.quantity - 1);
+    } else if (item && item.quantity === 1) {
+      removeItem(id);
+    }
+  };
 
   return (
     <Card>
@@ -37,7 +55,25 @@ const OrderSummary: React.FC = () => {
               </div>
               <div className="flex-1">
                 <p className="font-medium">{item.name}</p>
-                <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
+                <div className="flex items-center mt-2">
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="h-6 w-6 rounded-full" 
+                    onClick={() => handleDecrement(item.id)}
+                  >
+                    <Minus className="h-3 w-3" />
+                  </Button>
+                  <span className="mx-2 text-sm font-medium">{item.quantity}</span>
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="h-6 w-6 rounded-full" 
+                    onClick={() => handleIncrement(item.id)}
+                  >
+                    <Plus className="h-3 w-3" />
+                  </Button>
+                </div>
               </div>
               <div className="text-right">
                 <div>${(item.price * item.quantity).toFixed(2)}</div>

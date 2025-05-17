@@ -18,6 +18,8 @@ import NotFound from '@/pages/NotFound';
 import InventoryPage from '@/pages/InventoryPage';
 import Index from '@/pages/Index';
 import AdminLogin from '@/pages/AdminLogin';
+import MyOrdersPage from '@/pages/MyOrdersPage';
+import MyProfilePage from '@/pages/MyProfilePage';
 import { useEffect, useState } from 'react';
 
 // Import category pages
@@ -72,6 +74,10 @@ const Routes = () => {
       <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
       <Route path="/blog" element={<BlogPage />} />
       <Route path="/blog/:id" element={<BlogPostPage />} />
+      
+      {/* User Account Pages */}
+      <Route path="/orders" element={<MyOrdersPage />} />
+      <Route path="/profile" element={<MyProfilePage />} />
       
       {/* Product Category Pages */}
       <Route path="/categories/pizza-boxes" element={<PizzaBoxesPage />} />

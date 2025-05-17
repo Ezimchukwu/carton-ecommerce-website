@@ -7,6 +7,9 @@ import { Navigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Card } from '@/components/ui/card';
 import PosHeader from '@/components/pos/PosHeader';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 
 const isAdminAuthenticated = () => {
   return localStorage.getItem('isAdminAuthenticated') === 'true';
@@ -20,12 +23,22 @@ const InventoryPage: React.FC = () => {
     updateInventoryItem
   } = useInventoryStatus();
   
+  const [activeTab, setActiveTab] = useState('current');
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
 
   // Check authentication on mount
   useEffect(() => {
     setAuthenticated(isAdminAuthenticated());
   }, []);
+
+  // Filter items based on stock level
+  const lowStockItems = inventoryItems.filter(item => 
+    item.currentStock <= item.lowStockThreshold && item.currentStock > 0
+  );
+  
+  const outOfStockItems = inventoryItems.filter(item => 
+    item.currentStock === 0
+  );
 
   // If authentication state is still loading
   if (authenticated === null) {
@@ -41,7 +54,7 @@ const InventoryPage: React.FC = () => {
   // If not authenticated, redirect to home
   if (authenticated === false) {
     toast.error("Admin access required. Please log in.");
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   if (isLoading) {
@@ -69,19 +82,60 @@ const InventoryPage: React.FC = () => {
   }
 
   return (
-    <Layout>
+    <div className="bg-gray-50 min-h-screen">
       <PosHeader title="PAPER PACKAGING COMPANY - Inventory Management" />
       <div className="container mx-auto p-8">
-        <h1 className="text-2xl font-bold mb-6">Inventory Management</h1>
-        <Card className="bg-white rounded-lg shadow p-6">
-          <InventoryStatus 
-            items={inventoryItems} 
-            isLoading={isLoading}
-            onUpdateStock={updateInventoryItem}
-          />
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Inventory Management</h1>
+          <Button className="flex items-center gap-2">
+            <Plus size={16} />
+            Add New Product
+          </Button>
+        </div>
+        
+        <Card className="bg-white rounded-lg shadow">
+          <Tabs defaultValue="current" value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-3 bg-gray-100 border-b rounded-t-lg">
+              <TabsTrigger value="current" className="rounded-none">
+                All Items ({inventoryItems.length})
+              </TabsTrigger>
+              <TabsTrigger value="lowstock" className="rounded-none">
+                Low Stock ({lowStockItems.length})
+              </TabsTrigger>
+              <TabsTrigger value="outofstock" className="rounded-none">
+                Out of Stock ({outOfStockItems.length})
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="current" className="p-0">
+              <InventoryStatus 
+                items={inventoryItems} 
+                isLoading={isLoading}
+                onUpdateStock={updateInventoryItem}
+              />
+            </TabsContent>
+            
+            <TabsContent value="lowstock" className="p-0">
+              <InventoryStatus 
+                items={lowStockItems} 
+                isLoading={isLoading}
+                onUpdateStock={updateInventoryItem}
+                emptyMessage="No low stock items found."
+              />
+            </TabsContent>
+            
+            <TabsContent value="outofstock" className="p-0">
+              <InventoryStatus 
+                items={outOfStockItems} 
+                isLoading={isLoading}
+                onUpdateStock={updateInventoryItem}
+                emptyMessage="No out of stock items found."
+              />
+            </TabsContent>
+          </Tabs>
         </Card>
       </div>
-    </Layout>
+    </div>
   );
 };
 
