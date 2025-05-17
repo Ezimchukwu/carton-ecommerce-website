@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 // Check if the user is authenticated as admin
@@ -40,7 +39,7 @@ const AdminAuthentication: React.FC<AdminAuthenticationProps> = ({ children }) =
     );
   }
 
-  // If not authenticated, redirect to home
+  // If not authenticated, redirect to login
   if (authenticated === false) {
     return <Navigate to="/admin/login" replace />;
   }

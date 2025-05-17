@@ -25,6 +25,13 @@ const AdminLogin: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [adminKey, setAdminKey] = useState('');
 
+  // Check if already authenticated on mount
+  useEffect(() => {
+    if (localStorage.getItem('isAdminAuthenticated') === 'true') {
+      navigate('/admin/pos');
+    }
+  }, [navigate]);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
