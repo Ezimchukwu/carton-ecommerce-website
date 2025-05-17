@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Filter } from 'lucide-react';
 import ProductCard from '@/components/products/ProductCard';
+import ProductGrid from '@/components/products/ProductGrid';
 import { toast } from 'sonner';
 
 const PizzaBoxesPage = () => {
@@ -101,17 +102,11 @@ const PizzaBoxesPage = () => {
 
           {/* Products Grid */}
           <div className="mb-8">
-            <ProductCard key={products[0].id} product={products[0]} isLoading={loadingStates[products[0].id] || false} onAddToCart={handleAddToCart} />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
-              {products.slice(1).map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  isLoading={loadingStates[product.id] || false}
-                  onAddToCart={() => handleAddToCart(product)}
-                />
-              ))}
-            </div>
+            <ProductGrid 
+              products={products}
+              loadingStates={loadingStates}
+              onAddToCart={handleAddToCart}
+            />
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
+  googleSignIn: () => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -94,6 +95,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const googleSignIn = async () => {
+    setIsLoading(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // In a real app, this would use the Google OAuth API
+      const googleUser: User = {
+        id: mockUsers.length + 1,
+        email: 'google-user@example.com',
+        firstName: 'Google',
+        lastName: 'User'
+      };
+      
+      mockUsers.push(googleUser);
+      setUser(googleUser);
+      localStorage.setItem('auth_user', JSON.stringify(googleUser));
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem('auth_user');
@@ -104,6 +129,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       user,
       login,
       signup,
+      googleSignIn,
       logout,
       isAuthenticated: !!user,
       isLoading

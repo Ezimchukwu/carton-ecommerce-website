@@ -4,7 +4,7 @@ import { useCart } from '@/hooks/useCart';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus, Trash } from 'lucide-react';
 
 const OrderSummary: React.FC = () => {
   const { items, subtotal, updateQuantity, removeItem } = useCart();
@@ -31,9 +31,11 @@ const OrderSummary: React.FC = () => {
     const item = items.find(item => item.id === id);
     if (item && item.quantity > 1) {
       updateQuantity(id, item.quantity - 1);
-    } else if (item && item.quantity === 1) {
-      removeItem(id);
     }
+  };
+
+  const handleRemove = (id: number) => {
+    removeItem(id);
   };
 
   return (
@@ -54,7 +56,17 @@ const OrderSummary: React.FC = () => {
                 )}
               </div>
               <div className="flex-1">
-                <p className="font-medium">{item.name}</p>
+                <div className="flex justify-between">
+                  <p className="font-medium">{item.name}</p>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-6 w-6 text-red-500 hover:text-red-700 hover:bg-red-100"
+                    onClick={() => handleRemove(item.id)}
+                  >
+                    <Trash className="h-4 w-4" />
+                  </Button>
+                </div>
                 <div className="flex items-center mt-2">
                   <Button 
                     variant="outline" 

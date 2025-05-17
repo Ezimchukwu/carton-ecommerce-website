@@ -22,7 +22,7 @@ const formSchema = z.object({
   state: z.string().min(2, "State must be at least 2 characters"),
   zipCode: z.string().min(5, "ZIP code must be at least 5 characters"),
   country: z.string().min(2, "Country must be at least 2 characters"),
-  paymentMethod: z.enum(['card', 'paypal']),
+  paymentMethod: z.enum(['card']),
 });
 
 type CheckoutFormProps = {
@@ -89,8 +89,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
     'Lagos', 'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo', 'Plateau', 'Rivers',
     'Sokoto', 'Taraba', 'Yobe', 'Zamfara'
   ];
-
-  const selectedPaymentMethod = form.watch('paymentMethod');
 
   return (
     <Form {...form}>
@@ -278,19 +276,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
                       <span>Credit/Debit Card</span>
                     </label>
                   </div>
-                  <div className="flex items-center space-x-2 border p-4 rounded-md bg-white hover:bg-gray-50">
-                    <RadioGroupItem value="paypal" id="paypal" />
-                    <label htmlFor="paypal" className="flex items-center space-x-2 cursor-pointer flex-1">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-blue-500">
-                        <path d="M17.5 7H20M17.5 10.5H20" />
-                        <path d="M11.5 11h-4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1Z" />
-                        <path d="M15.5 11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-10a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2" />
-                        <path d="M12.5 19h-5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1Z" />
-                        <path d="M16.5 19a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-11a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2" />
-                      </svg>
-                      <span>PayPal</span>
-                    </label>
-                  </div>
                 </RadioGroup>
               </FormControl>
               <FormMessage />
@@ -298,43 +283,35 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit }) => {
           )}
         />
 
-        {selectedPaymentMethod === 'card' && (
-          <div className="space-y-4 p-4 border rounded-md bg-gray-50">
+        <div className="space-y-4 p-4 border rounded-md bg-gray-50">
+          <div>
+            <FormLabel>Card Number</FormLabel>
+            <Input 
+              placeholder="1234 5678 9012 3456"
+              value={cardDetails.cardNumber}
+              onChange={(e) => setCardDetails({...cardDetails, cardNumber: e.target.value})}
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <FormLabel>Card Number</FormLabel>
+              <FormLabel>Expiry Date</FormLabel>
               <Input 
-                placeholder="1234 5678 9012 3456"
-                value={cardDetails.cardNumber}
-                onChange={(e) => setCardDetails({...cardDetails, cardNumber: e.target.value})}
+                placeholder="MM/YY"
+                value={cardDetails.expiryDate}
+                onChange={(e) => setCardDetails({...cardDetails, expiryDate: e.target.value})}
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <FormLabel>Expiry Date</FormLabel>
-                <Input 
-                  placeholder="MM/YY"
-                  value={cardDetails.expiryDate}
-                  onChange={(e) => setCardDetails({...cardDetails, expiryDate: e.target.value})}
-                />
-              </div>
-              <div>
-                <FormLabel>CVV</FormLabel>
-                <Input 
-                  placeholder="123"
-                  type="password"
-                  value={cardDetails.cvv}
-                  onChange={(e) => setCardDetails({...cardDetails, cvv: e.target.value})}
-                />
-              </div>
+            <div>
+              <FormLabel>CVV</FormLabel>
+              <Input 
+                placeholder="123"
+                type="password"
+                value={cardDetails.cvv}
+                onChange={(e) => setCardDetails({...cardDetails, cvv: e.target.value})}
+              />
             </div>
           </div>
-        )}
-
-        {selectedPaymentMethod === 'paypal' && (
-          <div className="p-4 border rounded-md bg-gray-50 text-center">
-            <p>You will be redirected to PayPal to complete your payment.</p>
-          </div>
-        )}
+        </div>
 
         <div className="pt-4">
           <Button 
