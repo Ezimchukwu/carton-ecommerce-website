@@ -18,7 +18,8 @@ const AdminAuthentication: React.FC<AdminAuthenticationProps> = ({ children }) =
 
   // Check authentication on mount
   useEffect(() => {
-    setAuthenticated(isAdminAuthenticated());
+    const authStatus = isAdminAuthenticated();
+    setAuthenticated(authStatus);
   }, []);
 
   // If authentication state is still loading
@@ -41,7 +42,6 @@ const AdminAuthentication: React.FC<AdminAuthenticationProps> = ({ children }) =
 
   // If not authenticated, redirect to home
   if (authenticated === false) {
-    toast.error("Admin access required. Please log in.");
     return <Navigate to="/admin/login" replace />;
   }
 

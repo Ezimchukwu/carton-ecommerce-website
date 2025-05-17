@@ -108,43 +108,6 @@ const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Account & Support */}
-            <div>
-              <h4 className="text-lg font-bold mb-4">Account & Support</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link to="/account" className="text-gray-300 hover:text-kraft-light transition-colors flex items-center">
-                    <ArrowRight size={16} className="mr-2" /> My Account
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/track-order" className="text-gray-300 hover:text-kraft-light transition-colors flex items-center">
-                    <ArrowRight size={16} className="mr-2" /> Track Order
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/shipping" className="text-gray-300 hover:text-kraft-light transition-colors flex items-center">
-                    <ArrowRight size={16} className="mr-2" /> Shipping Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/returns" className="text-gray-300 hover:text-kraft-light transition-colors flex items-center">
-                    <ArrowRight size={16} className="mr-2" /> Returns & Refunds
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/faq" className="text-gray-300 hover:text-kraft-light transition-colors flex items-center">
-                    <ArrowRight size={16} className="mr-2" /> FAQs
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/privacy-policy" className="text-gray-300 hover:text-kraft-light transition-colors flex items-center">
-                    <ArrowRight size={16} className="mr-2" /> Privacy Policy
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
             {/* Contact Information */}
             <div>
               <h4 className="text-lg font-bold mb-4">Contact Us</h4>

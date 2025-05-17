@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -18,14 +19,6 @@ const CustomPrintingCTA: React.FC = () => {
               a lasting impression on your customers.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                asChild
-                className="bg-white text-corporate-dark hover:bg-gray-100 font-semibold px-8 py-3"
-              >
-                <Link to="/custom-printing">
-                  Start Designing Now
-                </Link>
-              </Button>
               <Button 
                 asChild
                 variant="outline" 
