@@ -83,7 +83,7 @@ const BlogManagement: React.FC<BlogManagementProps> = ({ onUpdate }) => {
         slug: formData.slug,
         featured_image: formData.featured_image,
         is_published: formData.is_published,
-        author_id: user.id,
+        author_id: String(user.id), // Ensure this is a string
         published_at: formData.is_published ? new Date().toISOString() : null
       };
 

@@ -38,7 +38,7 @@ const MyProfilePage: React.FC = () => {
       const { data, error } = await supabase
         .from('admin_users')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', String(user.id)) // Ensure this is a string
         .single();
 
       if (error && error.code !== 'PGRST116') {
