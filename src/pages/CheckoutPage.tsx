@@ -18,8 +18,18 @@ const CheckoutPage = () => {
     if (items.length === 0) {
       toast.info("Your cart is empty", { description: "Add some items to your cart first." });
       navigate('/products');
+      return;
     }
-  }, [items, navigate]);
+
+    // Redirect if not authenticated
+    if (!isAuthenticated) {
+      toast.error("Authentication required", { 
+        description: "Please log in to continue with your purchase." 
+      });
+      navigate('/');
+      return;
+    }
+  }, [items, isAuthenticated, navigate]);
 
   const handlePayment = () => {
     // Payment processing occurs in CheckoutForm component now
@@ -27,28 +37,15 @@ const CheckoutPage = () => {
     navigate('/order-confirmation');
   };
 
+  // Don't render anything if user is not authenticated or cart is empty
+  if (!isAuthenticated || items.length === 0) {
+    return null;
+  }
+
   return (
     <Layout>
       <div className="container py-12">
         <h1 className="text-3xl font-bold text-corporate-dark mb-6">Checkout</h1>
-        
-        {!isAuthenticated && (
-          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-amber-800">
-              <span className="font-medium">Already have an account?</span>{' '}
-              <button 
-                className="text-corporate underline font-medium"
-                onClick={() => {
-                  // This would typically toggle an auth modal
-                  toast.info("Please use the login button in the header");
-                }}
-              >
-                Login
-              </button>{' '}
-              to access your saved addresses and faster checkout.
-            </p>
-          </div>
-        )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Checkout Form - Now contains payment method selection */}

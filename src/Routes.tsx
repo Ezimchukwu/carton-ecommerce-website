@@ -12,16 +12,10 @@ import CheckoutPage from '@/pages/CheckoutPage';
 import OrderConfirmationPage from '@/pages/OrderConfirmationPage';
 import BlogPage from '@/pages/BlogPage';
 import BlogPostPage from '@/pages/BlogPostPage';
-import POSDashboard from '@/pages/POSDashboard';
-import PosSalesPage from '@/pages/PosSalesPage';
 import NotFound from '@/pages/NotFound';
-import InventoryPage from '@/pages/InventoryPage';
 import Index from '@/pages/Index';
-import AdminLogin from '@/pages/AdminLogin';
 import MyOrdersPage from '@/pages/MyOrdersPage';
 import MyProfilePage from '@/pages/MyProfilePage';
-import { useEffect, useState } from 'react';
-import AdminAuthentication from '@/components/pos/dashboard/AdminAuthentication';
 
 // Import category pages
 import PizzaBoxesPage from '@/pages/categories/PizzaBoxesPage';
@@ -57,16 +51,6 @@ const Routes = () => {
       <Route path="/categories/wrapping-papers" element={<WrappingPapersPage />} />
       <Route path="/categories/gift-bags" element={<GiftBagsPage />} />
       <Route path="/categories/adhesives" element={<AdhesivesPage />} />
-      
-      {/* Admin Login - Public Route */}
-      <Route path="/admin/login" element={<AdminLogin />} />
-      
-      {/* POS and Inventory Management Routes - Protected with AdminAuthentication */}
-      <Route path="/pos" element={<AdminAuthentication><POSDashboard /></AdminAuthentication>} />
-      <Route path="/pos/sales" element={<AdminAuthentication><PosSalesPage /></AdminAuthentication>} />
-      <Route path="/admin/pos" element={<AdminAuthentication><POSDashboard /></AdminAuthentication>} />
-      <Route path="/pos-dashboard" element={<AdminAuthentication><POSDashboard /></AdminAuthentication>} />
-      <Route path="/admin/inventory" element={<AdminAuthentication><InventoryPage /></AdminAuthentication>} />
       
       <Route path="*" element={<NotFound />} />
     </RouterRoutes>

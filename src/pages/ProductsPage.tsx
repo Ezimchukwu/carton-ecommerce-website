@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -8,6 +7,7 @@ import { Search } from 'lucide-react';
 import ProductCard from '@/components/products/ProductCard';
 import SearchFilterBar from '@/components/products/SearchFilterBar';
 import { useCart } from '@/hooks/useCart';
+import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
 const ProductsPage = () => {
@@ -17,6 +17,7 @@ const ProductsPage = () => {
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const { isAuthenticated } = useAuth();
 
   const categories = [
     { id: 'all', name: 'All Categories', icon: '📦', path: '/products' },
@@ -128,6 +129,13 @@ const ProductsPage = () => {
   }, [selectedCategory, searchQuery]);
 
   const handleAddToCart = (product: any) => {
+    if (!isAuthenticated) {
+      toast.error("Please log in to add items to cart", {
+        description: "You need to be logged in to purchase products."
+      });
+      return;
+    }
+
     addItem({
       id: product.id,
       name: product.name,
@@ -144,6 +152,13 @@ const ProductsPage = () => {
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-corporate-dark mb-2">Our Products</h1>
             <p className="text-gray-600">Find the perfect packaging solutions for your business needs.</p>
+            {!isAuthenticated && (
+              <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                <p className="text-amber-800">
+                  <span className="font-medium">Please log in to purchase products.</span> You need to be registered and logged in to add items to your cart and complete purchases.
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col md:flex-row gap-8">

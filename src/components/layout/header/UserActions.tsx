@@ -27,8 +27,6 @@ const UserActions: React.FC<UserActionsProps> = ({ cartItemCount, setAuthModalOp
     toast.success('Successfully logged out');
   };
 
-  const isAdmin = localStorage.getItem('isAdminAuthenticated') === 'true';
-
   return (
     <div className="hidden md:flex items-center space-x-6">
       {isAuthenticated ? (
@@ -61,16 +59,6 @@ const UserActions: React.FC<UserActionsProps> = ({ cartItemCount, setAuthModalOp
                 My Profile
               </Link>
             </DropdownMenuItem>
-            {isAdmin && (
-              <>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link to="/admin/pos" className="w-full cursor-pointer text-corporate">
-                    Admin Dashboard
-                  </Link>
-                </DropdownMenuItem>
-              </>
-            )}
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-500">
               <LogOut size={16} className="mr-2" />
