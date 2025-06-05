@@ -38,7 +38,7 @@ const MyProfilePage: React.FC = () => {
       const { data, error } = await supabase
         .from('admin_users')
         .select('*')
-        .eq('user_id', String(user.id)) // Ensure this is a string
+        .eq('user_id', String(user.id))
         .single();
 
       if (error && error.code !== 'PGRST116') {
@@ -126,8 +126,8 @@ const MyProfilePage: React.FC = () => {
                   </div>
                   
                   {adminStatus.isAdmin && (
-                    <Button onClick={() => navigate('/admin')} className="w-full">
-                      Go to Admin Dashboard
+                    <Button onClick={() => navigate('/cms')} className="w-full">
+                      Go to CMS Dashboard
                     </Button>
                   )}
                   
