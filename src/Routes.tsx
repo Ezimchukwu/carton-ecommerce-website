@@ -16,6 +16,7 @@ import NotFound from '@/pages/NotFound';
 import Index from '@/pages/Index';
 import MyOrdersPage from '@/pages/MyOrdersPage';
 import MyProfilePage from '@/pages/MyProfilePage';
+import AdminDashboard from '@/pages/AdminDashboard';
 
 // Import category pages
 import PizzaBoxesPage from '@/pages/categories/PizzaBoxesPage';
@@ -43,6 +44,9 @@ const Routes = () => {
       {/* User Account Pages */}
       <Route path="/orders" element={<MyOrdersPage />} />
       <Route path="/profile" element={<MyProfilePage />} />
+      
+      {/* Admin Dashboard */}
+      <Route path="/admin" element={<AdminDashboard />} />
       
       {/* Product Category Pages */}
       <Route path="/categories/pizza-boxes" element={<PizzaBoxesPage />} />

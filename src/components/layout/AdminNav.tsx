@@ -1,68 +1,73 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Lock, LogOut } from 'lucide-react';
+import { LayoutDashboard, Package, FileText, Users, Settings, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { useNavigate } from 'react-router-dom';
 
 const AdminNav: React.FC = () => {
   const location = useLocation();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   
   const adminLinks = [
-    { name: 'POS Dashboard', path: '/admin/pos' },
-    { name: 'Sales Reports', path: '/pos/sales' },
-    { name: 'Inventory', path: '/admin/inventory' },
-    { name: 'Home', path: '/' }, // Added Home link for easier navigation
+    { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+    { name: 'Products', path: '/admin/products', icon: Package },
+    { name: 'Blog Posts', path: '/admin/blog', icon: FileText },
+    { name: 'Users', path: '/admin/users', icon: Users },
+    { name: 'Settings', path: '/admin/settings', icon: Settings },
+    { name: 'Back to Site', path: '/', icon: null },
   ];
 
   // Function to handle logout
   const handleLogout = () => {
-    localStorage.removeItem('isAdminAuthenticated');
-    toast.success("Successfully logged out of admin panel");
-    // Navigate to home page after logout
-    window.location.href = '/';
+    supabase.auth.signOut();
+    toast.success("Successfully logged out");
+    navigate('/');
   };
 
-  // Only show if we're on an admin page
-  if (!location.pathname.includes('/admin') && 
-      !location.pathname.includes('/pos')) {
-    return null;
-  }
-
   return (
-    <div className="bg-gray-800 text-white py-2 px-4">
-      <div className="container mx-auto flex justify-between items-center">
+    <div className="bg-white border-b">
+      <div className="container mx-auto flex justify-between items-center py-4">
         <div className="flex items-center">
-          <div className="mr-4 font-semibold flex items-center">
-            <Lock size={16} className="mr-2" />
-            Admin Panel:
+          <div className="mr-4 font-bold text-xl text-corporate-dark">
+            Admin Panel
           </div>
-          <div className="flex space-x-4">
+          <div className="hidden md:flex space-x-6">
             {adminLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-3 py-1 rounded ${
+                className={`px-3 py-1 rounded flex items-center ${
                   location.pathname === link.path 
-                    ? 'bg-primary text-white' 
-                    : 'text-gray-300 hover:text-white'
+                    ? 'bg-corporate text-white' 
+                    : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
+                {link.icon && <link.icon size={16} className="mr-2" />}
                 {link.name}
               </Link>
             ))}
           </div>
         </div>
         
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="text-gray-300 hover:text-white hover:bg-gray-700"
-          onClick={handleLogout}
-        >
-          <LogOut size={16} className="mr-2" /> 
-          Logout
-        </Button>
+        <div className="flex items-center space-x-4">
+          <span className="text-sm text-gray-600">
+            {user?.email}
+          </span>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={handleLogout}
+            className="text-gray-700 hover:bg-gray-100"
+          >
+            <LogOut size={16} className="mr-2" /> 
+            Logout
+          </Button>
+        </div>
       </div>
     </div>
   );
