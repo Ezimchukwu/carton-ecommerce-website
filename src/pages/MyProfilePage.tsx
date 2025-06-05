@@ -125,12 +125,6 @@ const MyProfilePage: React.FC = () => {
                     </p>
                   </div>
                   
-                  {adminStatus.isAdmin && (
-                    <Button onClick={() => navigate('/cms')} className="w-full">
-                      Go to CMS Dashboard
-                    </Button>
-                  )}
-                  
                   <Button variant="outline" className="w-full" onClick={() => navigate('/orders')}>
                     View My Orders
                   </Button>
