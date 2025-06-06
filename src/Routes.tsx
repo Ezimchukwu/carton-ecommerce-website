@@ -16,6 +16,10 @@ import NotFound from '@/pages/NotFound';
 import Index from '@/pages/Index';
 import MyOrdersPage from '@/pages/MyOrdersPage';
 import MyProfilePage from '@/pages/MyProfilePage';
+import AdminDashboard from '@/pages/AdminDashboard';
+import POSDashboard from '@/pages/POSDashboard';
+import InventoryPage from '@/pages/InventoryPage';
+import PosSalesPage from '@/pages/PosSalesPage';
 
 // Import category pages
 import PizzaBoxesPage from '@/pages/categories/PizzaBoxesPage';
@@ -43,6 +47,12 @@ const Routes = () => {
       {/* User Account Pages */}
       <Route path="/orders" element={<MyOrdersPage />} />
       <Route path="/profile" element={<MyProfilePage />} />
+      
+      {/* Admin & POS Pages */}
+      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/pos" element={<POSDashboard />} />
+      <Route path="/inventory" element={<InventoryPage />} />
+      <Route path="/pos-sales" element={<PosSalesPage />} />
       
       {/* Product Category Pages */}
       <Route path="/categories/pizza-boxes" element={<PizzaBoxesPage />} />
