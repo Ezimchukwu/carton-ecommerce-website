@@ -9,11 +9,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Save, Upload, Eye } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/context/AuthContext';
+import { HeroSection, PromoBanner, ContactInfo, FeaturedCategories, FrontendSetting } from '@/types/frontend.types';
 
 const FrontendControl: React.FC = () => {
   const { user } = useAuth();
@@ -28,21 +28,7 @@ const FrontendControl: React.FC = () => {
         .order('setting_key');
 
       if (error) throw error;
-      return data;
-    }
-  });
-
-  const { data: products } = useQuery({
-    queryKey: ['products-for-frontend'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('is_active', true)
-        .order('name');
-
-      if (error) throw error;
-      return data;
+      return data as FrontendSetting[];
     }
   });
 
@@ -71,7 +57,7 @@ const FrontendControl: React.FC = () => {
     }
   });
 
-  const getSetting = (key: string) => {
+  const getSetting = (key: string): any => {
     return settings?.find(s => s.setting_key === key)?.setting_value;
   };
 
@@ -79,10 +65,43 @@ const FrontendControl: React.FC = () => {
     updateSettingMutation.mutate({ key, value });
   };
 
-  const heroSection = getSetting('hero_section') || {};
-  const featuredCategories = getSetting('featured_categories') || [];
-  const promoBanner = getSetting('promo_banner') || {};
-  const contactInfo = getSetting('contact_info') || {};
+  // Helper functions to safely access nested properties
+  const getHeroSection = (): HeroSection => {
+    const heroData = getSetting('hero_section');
+    return {
+      title: heroData?.title || '',
+      subtitle: heroData?.subtitle || '',
+      banner_image: heroData?.banner_image || ''
+    };
+  };
+
+  const getFeaturedCategories = (): FeaturedCategories => {
+    const categoriesData = getSetting('featured_categories');
+    return Array.isArray(categoriesData) ? categoriesData : [];
+  };
+
+  const getPromoBanner = (): PromoBanner => {
+    const promoData = getSetting('promo_banner');
+    return {
+      active: promoData?.active || false,
+      text: promoData?.text || '',
+      discount: Number(promoData?.discount) || 0
+    };
+  };
+
+  const getContactInfo = (): ContactInfo => {
+    const contactData = getSetting('contact_info');
+    return {
+      email: contactData?.email || '',
+      phone: contactData?.phone || '',
+      address: contactData?.address || ''
+    };
+  };
+
+  const heroSection = getHeroSection();
+  const featuredCategories = getFeaturedCategories();
+  const promoBanner = getPromoBanner();
+  const contactInfo = getContactInfo();
 
   if (isLoading) {
     return <div className="flex justify-center py-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-corporate"></div></div>;
@@ -122,7 +141,7 @@ const FrontendControl: React.FC = () => {
                 <Label htmlFor="hero-title">Main Title</Label>
                 <Input
                   id="hero-title"
-                  value={heroSection.title || ''}
+                  value={heroSection.title}
                   onChange={(e) => updateSetting('hero_section', { ...heroSection, title: e.target.value })}
                   placeholder="Your main headline..."
                 />
@@ -132,7 +151,7 @@ const FrontendControl: React.FC = () => {
                 <Label htmlFor="hero-subtitle">Subtitle</Label>
                 <Textarea
                   id="hero-subtitle"
-                  value={heroSection.subtitle || ''}
+                  value={heroSection.subtitle}
                   onChange={(e) => updateSetting('hero_section', { ...heroSection, subtitle: e.target.value })}
                   placeholder="Supporting text for your headline..."
                   rows={3}
@@ -144,7 +163,7 @@ const FrontendControl: React.FC = () => {
                 <Input
                   id="hero-image"
                   type="url"
-                  value={heroSection.banner_image || ''}
+                  value={heroSection.banner_image}
                   onChange={(e) => updateSetting('hero_section', { ...heroSection, banner_image: e.target.value })}
                   placeholder="https://example.com/banner.jpg"
                 />
@@ -220,7 +239,7 @@ const FrontendControl: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <Switch
                   id="promo-active"
-                  checked={promoBanner.active || false}
+                  checked={promoBanner.active}
                   onCheckedChange={(checked) => updateSetting('promo_banner', { ...promoBanner, active: checked })}
                 />
                 <Label htmlFor="promo-active">Enable Promotional Banner</Label>
@@ -230,7 +249,7 @@ const FrontendControl: React.FC = () => {
                 <Label htmlFor="promo-text">Promotion Text</Label>
                 <Input
                   id="promo-text"
-                  value={promoBanner.text || ''}
+                  value={promoBanner.text}
                   onChange={(e) => updateSetting('promo_banner', { ...promoBanner, text: e.target.value })}
                   placeholder="Special offer message..."
                   disabled={!promoBanner.active}
@@ -244,8 +263,8 @@ const FrontendControl: React.FC = () => {
                   type="number"
                   min="0"
                   max="100"
-                  value={promoBanner.discount || 0}
-                  onChange={(e) => updateSetting('promo_banner', { ...promoBanner, discount: parseInt(e.target.value) })}
+                  value={promoBanner.discount}
+                  onChange={(e) => updateSetting('promo_banner', { ...promoBanner, discount: parseInt(e.target.value) || 0 })}
                   placeholder="0"
                   disabled={!promoBanner.active}
                 />
@@ -279,7 +298,7 @@ const FrontendControl: React.FC = () => {
                 <Input
                   id="contact-email"
                   type="email"
-                  value={contactInfo.email || ''}
+                  value={contactInfo.email}
                   onChange={(e) => updateSetting('contact_info', { ...contactInfo, email: e.target.value })}
                   placeholder="info@company.com"
                 />
@@ -290,7 +309,7 @@ const FrontendControl: React.FC = () => {
                 <Input
                   id="contact-phone"
                   type="tel"
-                  value={contactInfo.phone || ''}
+                  value={contactInfo.phone}
                   onChange={(e) => updateSetting('contact_info', { ...contactInfo, phone: e.target.value })}
                   placeholder="+1-555-0123"
                 />
@@ -300,7 +319,7 @@ const FrontendControl: React.FC = () => {
                 <Label htmlFor="contact-address">Business Address</Label>
                 <Textarea
                   id="contact-address"
-                  value={contactInfo.address || ''}
+                  value={contactInfo.address}
                   onChange={(e) => updateSetting('contact_info', { ...contactInfo, address: e.target.value })}
                   placeholder="123 Business St, City, State 12345"
                   rows={3}
