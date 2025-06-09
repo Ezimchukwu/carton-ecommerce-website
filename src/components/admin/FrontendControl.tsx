@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Save, Upload, Eye } from 'lucide-react';
+import { Save, Upload, Eye, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '@/context/AuthContext';
 import { HeroSection, PromoBanner, ContactInfo, FeaturedCategories, FrontendSetting } from '@/types/frontend.types';
@@ -18,34 +19,74 @@ const FrontendControl: React.FC = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const { data: settings, isLoading } = useQuery({
+  const { data: settings, isLoading, error } = useQuery({
     queryKey: ['frontend-settings'],
     queryFn: async () => {
+      console.log('Fetching frontend settings...');
       const { data, error } = await supabase
         .from('frontend_settings')
         .select('*')
         .order('setting_key');
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching frontend settings:', error);
+        throw error;
+      }
+      
+      console.log('Frontend settings fetched:', data);
       return data as FrontendSetting[];
     }
   });
 
-  const updateSettingMutation = useMutation({
+  const createSettingMutation = useMutation({
     mutationFn: async ({ key, value }: { key: string; value: any }) => {
       const { data, error } = await supabase
         .from('frontend_settings')
-        .update({ 
-          setting_value: value, 
+        .insert({
+          setting_key: key,
+          setting_value: value,
           updated_by: user?.id ? String(user.id) : null,
           updated_at: new Date().toISOString()
         })
-        .eq('setting_key', key)
         .select()
         .single();
 
       if (error) throw error;
       return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['frontend-settings'] });
+      toast.success('Settings created successfully');
+    },
+    onError: (error) => {
+      toast.error('Failed to create settings: ' + error.message);
+    }
+  });
+
+  const updateSettingMutation = useMutation({
+    mutationFn: async ({ key, value }: { key: string; value: any }) => {
+      // Check if setting exists
+      const existingSetting = settings?.find(s => s.setting_key === key);
+      
+      if (existingSetting) {
+        // Update existing setting
+        const { data, error } = await supabase
+          .from('frontend_settings')
+          .update({ 
+            setting_value: value, 
+            updated_by: user?.id ? String(user.id) : null,
+            updated_at: new Date().toISOString()
+          })
+          .eq('setting_key', key)
+          .select()
+          .single();
+
+        if (error) throw error;
+        return data;
+      } else {
+        // Create new setting
+        return createSettingMutation.mutateAsync({ key, value });
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['frontend-settings'] });
@@ -57,54 +98,82 @@ const FrontendControl: React.FC = () => {
   });
 
   const getSetting = (key: string): any => {
-    return settings?.find(s => s.setting_key === key)?.setting_value;
+    const setting = settings?.find(s => s.setting_key === key)?.setting_value;
+    console.log(`Getting setting ${key}:`, setting);
+    return setting;
   };
 
   const updateSetting = (key: string, value: any) => {
+    console.log(`Updating setting ${key}:`, value);
     updateSettingMutation.mutate({ key, value });
   };
 
-  // Helper functions to safely access nested properties
+  // Helper functions to safely access nested properties with defaults
   const getHeroSection = (): HeroSection => {
     const heroData = getSetting('hero_section');
     return {
-      title: heroData?.title || '',
-      subtitle: heroData?.subtitle || '',
+      title: heroData?.title || 'Welcome to Our Store',
+      subtitle: heroData?.subtitle || 'Discover premium packaging solutions for your business',
       banner_image: heroData?.banner_image || ''
     };
   };
 
   const getFeaturedCategories = (): FeaturedCategories => {
     const categoriesData = getSetting('featured_categories');
-    return Array.isArray(categoriesData) ? categoriesData : [];
+    return Array.isArray(categoriesData) ? categoriesData : ['pizza-boxes', 'mailer-boxes', 'cargo-boxes'];
   };
 
   const getPromoBanner = (): PromoBanner => {
     const promoData = getSetting('promo_banner');
     return {
       active: promoData?.active || false,
-      text: promoData?.text || '',
-      discount: Number(promoData?.discount) || 0
+      text: promoData?.text || 'Special Offer - Get 20% off your first order!',
+      discount: Number(promoData?.discount) || 20
     };
   };
 
   const getContactInfo = (): ContactInfo => {
     const contactData = getSetting('contact_info');
     return {
-      email: contactData?.email || '',
-      phone: contactData?.phone || '',
-      address: contactData?.address || ''
+      email: contactData?.email || 'info@yourstore.com',
+      phone: contactData?.phone || '+1-555-0123',
+      address: contactData?.address || '123 Business Street, City, State 12345'
     };
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-corporate"></div>
+        <span className="ml-2">Loading frontend settings...</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-8 space-y-4">
+        <AlertCircle className="h-12 w-12 text-red-500" />
+        <div className="text-center">
+          <h3 className="text-lg font-semibold text-red-600">Error Loading Settings</h3>
+          <p className="text-gray-600 mt-2">
+            Failed to load frontend settings. This might be because the settings table hasn't been initialized yet.
+          </p>
+          <Button 
+            onClick={() => queryClient.invalidateQueries({ queryKey: ['frontend-settings'] })}
+            className="mt-4"
+          >
+            Retry
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const heroSection = getHeroSection();
   const featuredCategories = getFeaturedCategories();
   const promoBanner = getPromoBanner();
   const contactInfo = getContactInfo();
-
-  if (isLoading) {
-    return <div className="flex justify-center py-8"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-corporate"></div></div>;
-  }
 
   return (
     <div className="space-y-6">
@@ -112,6 +181,11 @@ const FrontendControl: React.FC = () => {
         <div>
           <h2 className="text-2xl font-bold">Frontend Control</h2>
           <p className="text-gray-600">Manage homepage content, banners, and featured items</p>
+          {settings && (
+            <p className="text-sm text-gray-500 mt-1">
+              {settings.length} settings configured
+            </p>
+          )}
         </div>
         <Button variant="outline" onClick={() => window.open('/', '_blank')}>
           <Eye className="mr-2 h-4 w-4" />
@@ -168,11 +242,15 @@ const FrontendControl: React.FC = () => {
                 />
               </div>
 
-              <div className="text-sm text-gray-500">
-                <p><strong>Current:</strong></p>
-                <p><strong>Title:</strong> {heroSection.title}</p>
-                <p><strong>Subtitle:</strong> {heroSection.subtitle}</p>
-                <p><strong>Image:</strong> {heroSection.banner_image}</p>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <p className="font-medium text-sm mb-2">Preview:</p>
+                <div className="space-y-1 text-sm text-gray-600">
+                  <p><strong>Title:</strong> {heroSection.title}</p>
+                  <p><strong>Subtitle:</strong> {heroSection.subtitle}</p>
+                  {heroSection.banner_image && (
+                    <p><strong>Image:</strong> {heroSection.banner_image}</p>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -325,11 +403,13 @@ const FrontendControl: React.FC = () => {
                 />
               </div>
 
-              <div className="text-sm text-gray-500">
-                <p><strong>Current Contact Info:</strong></p>
-                <p><strong>Email:</strong> {contactInfo.email}</p>
-                <p><strong>Phone:</strong> {contactInfo.phone}</p>
-                <p><strong>Address:</strong> {contactInfo.address}</p>
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <p className="font-medium text-sm mb-2">Current Contact Info:</p>
+                <div className="space-y-1 text-sm text-gray-600">
+                  <p><strong>Email:</strong> {contactInfo.email}</p>
+                  <p><strong>Phone:</strong> {contactInfo.phone}</p>
+                  <p><strong>Address:</strong> {contactInfo.address}</p>
+                </div>
               </div>
             </CardContent>
           </Card>
