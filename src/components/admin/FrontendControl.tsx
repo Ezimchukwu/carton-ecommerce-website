@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -38,7 +37,7 @@ const FrontendControl: React.FC = () => {
         .from('frontend_settings')
         .update({ 
           setting_value: value, 
-          updated_by: user?.id,
+          updated_by: user?.id ? String(user.id) : null,
           updated_at: new Date().toISOString()
         })
         .eq('setting_key', key)
