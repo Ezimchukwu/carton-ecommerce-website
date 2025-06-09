@@ -20,12 +20,69 @@ interface UserActionsProps {
 }
 
 const UserActions: React.FC<UserActionsProps> = ({ cartItemCount, setAuthModalOpen }) => {
-  const { user, logout, isAuthenticated } = useAuth();
+  // Add error boundary for useAuth hook
+  let authData;
+  try {
+    authData = useAuth();
+  } catch (error) {
+    console.error('useAuth error in UserActions:', error);
+    // Return a minimal UI if auth context is not available
+    return (
+      <div className="hidden md:flex items-center space-x-6">
+        <Button 
+          variant="ghost" 
+          className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors"
+          onClick={() => setAuthModalOpen(true)}
+        >
+          <User size={20} />
+          <span>Login</span>
+        </Button>
+        <Link to="/checkout" className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors">
+          <div className="relative">
+            <ShoppingCart size={20} />
+            {cartItemCount > 0 && (
+              <Badge className="absolute -top-2 -right-2 bg-corporate text-white text-xs h-5 w-5 flex items-center justify-center rounded-full">
+                {cartItemCount}
+              </Badge>
+            )}
+          </div>
+          <span>Cart</span>
+        </Link>
+      </div>
+    );
+  }
+
+  const { user, logout, isAuthenticated, isLoading } = authData;
   
   const handleLogout = () => {
     logout();
     toast.success('Successfully logged out');
   };
+
+  // Show loading state while auth is initializing
+  if (isLoading) {
+    return (
+      <div className="hidden md:flex items-center space-x-6">
+        <div className="animate-pulse">
+          <div className="flex flex-col items-center text-sm">
+            <div className="w-5 h-5 bg-gray-300 rounded mb-1"></div>
+            <div className="w-8 h-3 bg-gray-300 rounded"></div>
+          </div>
+        </div>
+        <Link to="/checkout" className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors">
+          <div className="relative">
+            <ShoppingCart size={20} />
+            {cartItemCount > 0 && (
+              <Badge className="absolute -top-2 -right-2 bg-corporate text-white text-xs h-5 w-5 flex items-center justify-center rounded-full">
+                {cartItemCount}
+              </Badge>
+            )}
+          </div>
+          <span>Cart</span>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="hidden md:flex items-center space-x-6">

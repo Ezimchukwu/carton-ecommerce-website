@@ -32,7 +32,7 @@ import AdhesivesPage from '@/pages/categories/AdhesivesPage';
 const Routes = () => {
   return (
     <RouterRoutes>
-      <Route path="/" element={<Layout><Index /></Layout>} />
+      <Route path="/" element={<Index />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/wholesale" element={<WholesalePage />} />
