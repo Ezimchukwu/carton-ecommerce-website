@@ -32,21 +32,21 @@ import AdhesivesPage from '@/pages/categories/AdhesivesPage';
 const Routes = () => {
   return (
     <RouterRoutes>
-      <Route path="/" element={<Index />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/wholesale" element={<WholesalePage />} />
-      <Route path="/custom-printing" element={<CustomPrintingPage />} />
-      <Route path="/products" element={<ProductsPage />} />
-      <Route path="/product/:slug" element={<ProductDetailPage />} />
-      <Route path="/checkout" element={<CheckoutPage />} />
-      <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
-      <Route path="/blog" element={<BlogPage />} />
-      <Route path="/blog/:id" element={<BlogPostPage />} />
+      <Route path="/" element={<Layout><Index /></Layout>} />
+      <Route path="/about" element={<Layout><AboutPage /></Layout>} />
+      <Route path="/contact" element={<Layout><ContactPage /></Layout>} />
+      <Route path="/wholesale" element={<Layout><WholesalePage /></Layout>} />
+      <Route path="/custom-printing" element={<Layout><CustomPrintingPage /></Layout>} />
+      <Route path="/products" element={<Layout><ProductsPage /></Layout>} />
+      <Route path="/product/:slug" element={<Layout><ProductDetailPage /></Layout>} />
+      <Route path="/checkout" element={<Layout><CheckoutPage /></Layout>} />
+      <Route path="/order-confirmation" element={<Layout><OrderConfirmationPage /></Layout>} />
+      <Route path="/blog" element={<Layout><BlogPage /></Layout>} />
+      <Route path="/blog/:id" element={<Layout><BlogPostPage /></Layout>} />
       
       {/* User Account Pages */}
-      <Route path="/orders" element={<MyOrdersPage />} />
-      <Route path="/profile" element={<MyProfilePage />} />
+      <Route path="/orders" element={<Layout><MyOrdersPage /></Layout>} />
+      <Route path="/profile" element={<Layout><MyProfilePage /></Layout>} />
       
       {/* Admin & POS Pages */}
       <Route path="/admin" element={<AdminDashboard />} />
@@ -55,14 +55,14 @@ const Routes = () => {
       <Route path="/pos-sales" element={<PosSalesPage />} />
       
       {/* Product Category Pages */}
-      <Route path="/categories/pizza-boxes" element={<PizzaBoxesPage />} />
-      <Route path="/categories/mailer-boxes" element={<MailerBoxesPage />} />
-      <Route path="/categories/cargo-boxes" element={<CargoBoxesPage />} />
-      <Route path="/categories/wrapping-papers" element={<WrappingPapersPage />} />
-      <Route path="/categories/gift-bags" element={<GiftBagsPage />} />
-      <Route path="/categories/adhesives" element={<AdhesivesPage />} />
+      <Route path="/categories/pizza-boxes" element={<Layout><PizzaBoxesPage /></Layout>} />
+      <Route path="/categories/mailer-boxes" element={<Layout><MailerBoxesPage /></Layout>} />
+      <Route path="/categories/cargo-boxes" element={<Layout><CargoBoxesPage /></Layout>} />
+      <Route path="/categories/wrapping-papers" element={<Layout><WrappingPapersPage /></Layout>} />
+      <Route path="/categories/gift-bags" element={<Layout><GiftBagsPage /></Layout>} />
+      <Route path="/categories/adhesives" element={<Layout><AdhesivesPage /></Layout>} />
       
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<Layout><NotFound /></Layout>} />
     </RouterRoutes>
   );
 };
