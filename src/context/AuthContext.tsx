@@ -33,17 +33,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     let mounted = true;
 
-    // Set up auth state listener FIRST
+    const initializeAuth = async () => {
+      try {
+        // Get the current session first
+        const { data: { session: currentSession }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('Error getting session:', error);
+        } else {
+          console.log('Initial session retrieved:', currentSession?.user?.email || 'No session');
+          
+          if (mounted) {
+            setSession(currentSession);
+            setSupabaseUser(currentSession?.user ?? null);
+            
+            if (currentSession?.user) {
+              const userData: User = {
+                id: currentSession.user.id,
+                email: currentSession.user.email || '',
+                firstName: currentSession.user.user_metadata?.first_name || 'User',
+                lastName: currentSession.user.user_metadata?.last_name || ''
+              };
+              setUser(userData);
+            } else {
+              setUser(null);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+      } finally {
+        if (mounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (!mounted) return;
         
-        console.log('Auth state changed:', event, session?.user?.email);
+        console.log('Auth state changed:', event, session?.user?.email || 'No user');
+        
         setSession(session);
         setSupabaseUser(session?.user ?? null);
         
         if (session?.user) {
-          // Convert Supabase user to our User interface
           const userData: User = {
             id: session.user.id,
             email: session.user.email || '',
@@ -54,29 +90,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } else {
           setUser(null);
         }
+        
+        // Only set loading to false after auth state change is processed
         setIsLoading(false);
       }
     );
 
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!mounted) return;
-      
-      console.log('Initial session check:', session?.user?.email);
-      setSession(session);
-      setSupabaseUser(session?.user ?? null);
-      
-      if (session?.user) {
-        const userData: User = {
-          id: session.user.id,
-          email: session.user.email || '',
-          firstName: session.user.user_metadata?.first_name || 'User',
-          lastName: session.user.user_metadata?.last_name || ''
-        };
-        setUser(userData);
-      }
-      setIsLoading(false);
-    });
+    // Initialize auth
+    initializeAuth();
 
     return () => {
       mounted = false;
@@ -94,7 +115,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (error) throw error;
       
-      // The auth state change listener will handle setting the user
       console.log('Login successful:', data.user?.email);
     } catch (error: any) {
       console.error('Login error:', error);

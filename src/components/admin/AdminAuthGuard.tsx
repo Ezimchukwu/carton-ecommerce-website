@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertCircle, Shield } from 'lucide-react';
+import { AlertCircle, Shield, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface AdminAuthGuardProps {
@@ -24,7 +24,7 @@ const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
         return { isAdmin: false };
       }
       
-      console.log('Checking admin status for user:', user.id);
+      console.log('Checking admin status for user:', user.id, user.email);
       const { data, error } = await supabase
         .from('admin_users')
         .select('*')
@@ -37,7 +37,7 @@ const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
       }
 
       const isAdmin = !!data;
-      console.log('Admin status result:', isAdmin);
+      console.log('Admin status result for', user.email, ':', isAdmin);
       return { isAdmin };
     },
     enabled: !!user?.id && isAuthenticated,
@@ -59,16 +59,38 @@ const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
             <p className="text-gray-600">
               {authLoading ? 'Checking authentication...' : 'Verifying admin privileges...'}
             </p>
+            {user?.email && (
+              <p className="text-sm text-gray-500 mt-2">
+                Logged in as: {user.email}
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>
     );
   }
 
-  // Redirect to home if not authenticated
+  // Show login prompt if not authenticated
   if (!isAuthenticated || !user) {
-    console.log('User not authenticated, redirecting to home');
-    return <Navigate to="/" replace />;
+    console.log('User not authenticated, showing login prompt');
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <LogIn className="mx-auto h-12 w-12 text-corporate mb-4" />
+            <CardTitle>Admin Login Required</CardTitle>
+          </CardHeader>
+          <CardContent className="text-center space-y-4">
+            <p className="text-gray-600">
+              Please log in with an admin account to access the admin dashboard.
+            </p>
+            <Button onClick={() => window.location.href = '/'} className="w-full">
+              Go to Login
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   // Show error state if admin check failed
@@ -84,12 +106,17 @@ const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
             <p className="text-gray-600">
               Unable to verify admin privileges. Please try again.
             </p>
-            <Button onClick={() => window.location.reload()}>
-              Retry
-            </Button>
-            <Button variant="outline" onClick={() => window.location.href = '/'}>
-              Go Home
-            </Button>
+            <p className="text-sm text-gray-500">
+              Error: {adminError.message}
+            </p>
+            <div className="flex space-x-2">
+              <Button onClick={() => window.location.reload()} className="flex-1">
+                Retry
+              </Button>
+              <Button variant="outline" onClick={() => window.location.href = '/'} className="flex-1">
+                Go Home
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -112,7 +139,10 @@ const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
             <p className="text-sm text-gray-500">
               Logged in as: {user.email}
             </p>
-            <Button variant="outline" onClick={() => window.location.href = '/'}>
+            <p className="text-xs text-gray-400">
+              Contact an administrator if you need access.
+            </p>
+            <Button variant="outline" onClick={() => window.location.href = '/'} className="w-full">
               Go Home
             </Button>
           </CardContent>
@@ -122,6 +152,7 @@ const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
   }
 
   // Render admin dashboard if all checks pass
+  console.log('Admin access granted for:', user.email);
   return <>{children}</>;
 };
 
