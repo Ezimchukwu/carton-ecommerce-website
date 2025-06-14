@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -19,12 +18,48 @@ const PosSalesPage = () => {
   const { data: salesData, isLoading, error } = useQuery({
     queryKey: ['pos-sales', todayStr],
     queryFn: async () => {
-      const response = await fetch(`/api/pos/orders?startDate=${todayStr}&endDate=${todayStr}`);
+      console.log('Fetching sales data for date:', todayStr);
+      
+      const response = await fetch(
+        `https://gkrtzigdurysufsyklms.supabase.co/functions/v1/pos-orders?startDate=${todayStr}&endDate=${todayStr}`,
+        {
+          headers: {
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdrcnR6aWdkdXJ5c3Vmc3lrbG1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU4NTI4MjAsImV4cCI6MjA2MTQyODgyMH0.4BLYZPedvwcgMbAEpwibzMFsvdQCZ-HysHkn6daeRos`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers.get('content-type'));
+
       if (!response.ok) {
-        throw new Error('Failed to fetch sales data');
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch (e) {
+          // If we can't parse JSON, use the raw text
+          const errorText = await response.text();
+          console.error('Raw error response:', errorText);
+          errorMessage = errorText.length > 100 ? `HTTP ${response.status}` : errorText;
+        }
+        throw new Error(errorMessage);
       }
-      return response.json();
-    }
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const responseText = await response.text();
+        console.error('Invalid content type. Response:', responseText.substring(0, 200));
+        throw new Error('Server returned invalid JSON response');
+      }
+
+      const data = await response.json();
+      console.log('Parsed sales data:', data);
+      return data;
+    },
+    retry: 2,
+    retryDelay: 1000
   });
 
   // Prepare chart data
@@ -80,7 +115,7 @@ const PosSalesPage = () => {
     const rows = salesData.orders.map((order: POSOrder) => [
       order.orderNumber,
       new Date(order.createdAt).toLocaleTimeString(),
-      order.items.length,
+      order.items?.length || 0,
       `$${order.totalAmount.toFixed(2)}`,
       order.paymentMethod
     ]);
@@ -128,11 +163,19 @@ const PosSalesPage = () => {
     return (
       <Layout>
         <div className="p-8 text-center">
-          <h1 className="text-2xl font-bold text-red-500">Error loading sales data</h1>
-          <p className="mb-4">{error instanceof Error ? error.message : 'An unknown error occurred'}</p>
-          <Link to="/pos">
-            <Button>Return to POS</Button>
-          </Link>
+          <h1 className="text-2xl font-bold text-red-500 mb-4">Error loading sales data</h1>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+            <p className="text-red-600 font-medium">Error Details:</p>
+            <p className="text-red-700">{error instanceof Error ? error.message : 'An unknown error occurred'}</p>
+          </div>
+          <div className="space-x-2">
+            <Button onClick={() => window.location.reload()}>
+              Retry
+            </Button>
+            <Link to="/pos">
+              <Button variant="outline">Return to POS</Button>
+            </Link>
+          </div>
         </div>
       </Layout>
     );
@@ -241,7 +284,7 @@ const PosSalesPage = () => {
                       <tr key={order._id} className="border-b hover:bg-gray-50">
                         <td className="py-2 px-4">{order.orderNumber}</td>
                         <td className="py-2 px-4">{format(new Date(order.createdAt), 'h:mm a')}</td>
-                        <td className="py-2 px-4">{order.items.length}</td>
+                        <td className="py-2 px-4">{order.items?.length || 0}</td>
                         <td className="py-2 px-4 text-right">${order.totalAmount.toFixed(2)}</td>
                         <td className="py-2 px-4 capitalize">{order.paymentMethod}</td>
                         <td className="py-2 px-4">
