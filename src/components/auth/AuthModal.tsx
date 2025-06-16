@@ -45,8 +45,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       await login(loginEmail, loginPassword);
       toast.success('Successfully logged in');
       onClose();
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Login failed');
+    } catch (error: any) {
+      console.error('Login error details:', error);
+      toast.error(error?.message || 'Login failed');
     } finally {
       setIsLoading(false);
     }
@@ -64,10 +65,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     
     try {
       await signup(signupEmail, signupPassword, firstName, lastName);
-      toast.success('Account created successfully');
+      toast.success('Account created successfully! Please check your email for verification.');
       onClose();
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Signup failed');
+    } catch (error: any) {
+      console.error('Signup error details:', error);
+      toast.error(error?.message || 'Signup failed');
     } finally {
       setIsLoading(false);
     }
@@ -76,11 +78,12 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
+      console.log('Google sign in button clicked');
       await googleSignIn();
-      onClose();
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Google sign in failed');
-    } finally {
+      // Don't close modal immediately for OAuth as it redirects
+    } catch (error: any) {
+      console.error('Google sign in error details:', error);
+      toast.error(error?.message || 'Google sign in failed');
       setIsLoading(false);
     }
   };
@@ -168,7 +171,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                   />
                   <path d="M1 1h22v22H1z" fill="none" />
                 </svg>
-                Sign in with Google
+                {isLoading ? 'Signing in...' : 'Sign in with Google'}
               </Button>
               
               <div className="text-center text-sm">
@@ -279,7 +282,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                   />
                   <path d="M1 1h22v22H1z" fill="none" />
                 </svg>
-                Sign up with Google
+                {isLoading ? 'Signing up...' : 'Sign up with Google'}
               </Button>
 
               <div className="text-center text-sm">

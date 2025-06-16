@@ -33,9 +33,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     let mounted = true;
 
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (!mounted) return;
+        
+        console.log('Auth state changed:', event, session?.user?.email || 'No user');
+        
+        if (mounted) {
+          setSession(session);
+          setSupabaseUser(session?.user ?? null);
+          
+          if (session?.user) {
+            const userData: User = {
+              id: session.user.id,
+              email: session.user.email || '',
+              firstName: session.user.user_metadata?.first_name || 'User',
+              lastName: session.user.user_metadata?.last_name || ''
+            };
+            setUser(userData);
+          } else {
+            setUser(null);
+          }
+          
+          setIsLoading(false);
+        }
+      }
+    );
+
+    // THEN check for existing session
     const initializeAuth = async () => {
       try {
-        // Get the current session first
         const { data: { session: currentSession }, error } = await supabase.auth.getSession();
         
         if (error) {
@@ -43,7 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } else {
           console.log('Initial session retrieved:', currentSession?.user?.email || 'No session');
           
-          if (mounted) {
+          if (mounted && currentSession) {
             setSession(currentSession);
             setSupabaseUser(currentSession?.user ?? null);
             
@@ -55,48 +83,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 lastName: currentSession.user.user_metadata?.last_name || ''
               };
               setUser(userData);
-            } else {
-              setUser(null);
             }
           }
         }
       } catch (error) {
         console.error('Error initializing auth:', error);
       } finally {
-        if (mounted) {
+        if (mounted && !session) {
           setIsLoading(false);
         }
       }
     };
 
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (!mounted) return;
-        
-        console.log('Auth state changed:', event, session?.user?.email || 'No user');
-        
-        setSession(session);
-        setSupabaseUser(session?.user ?? null);
-        
-        if (session?.user) {
-          const userData: User = {
-            id: session.user.id,
-            email: session.user.email || '',
-            firstName: session.user.user_metadata?.first_name || 'User',
-            lastName: session.user.user_metadata?.last_name || ''
-          };
-          setUser(userData);
-        } else {
-          setUser(null);
-        }
-        
-        // Only set loading to false after auth state change is processed
-        setIsLoading(false);
-      }
-    );
-
-    // Initialize auth
     initializeAuth();
 
     return () => {
@@ -153,21 +151,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const googleSignIn = async () => {
     setIsLoading(true);
     try {
+      console.log('Initiating Google sign in...');
+      
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/`
+          redirectTo: `${window.location.origin}/`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
         }
       });
       
-      if (error) throw error;
+      if (error) {
+        console.error('Google sign in error:', error);
+        throw error;
+      }
       
-      console.log('Google sign in initiated');
+      console.log('Google sign in initiated successfully');
     } catch (error: any) {
       console.error('Google sign in error:', error);
-      throw error;
-    } finally {
       setIsLoading(false);
+      throw error;
     }
   };
 
