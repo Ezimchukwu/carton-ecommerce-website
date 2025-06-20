@@ -1,11 +1,8 @@
 
 import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertCircle, Shield, LogIn } from 'lucide-react';
+import { Shield, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface AdminAuthGuardProps {
@@ -13,40 +10,10 @@ interface AdminAuthGuardProps {
 }
 
 const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
 
-  // Check if user is admin
-  const { data: adminStatus, isLoading: adminLoading, error: adminError } = useQuery({
-    queryKey: ['admin-status', user?.id],
-    queryFn: async () => {
-      if (!user?.id) {
-        console.log('No user ID available for admin check');
-        return { isAdmin: false };
-      }
-      
-      console.log('Checking admin status for user:', user.id, user.email);
-      const { data, error } = await supabase
-        .from('admin_users')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error checking admin status:', error);
-        throw error;
-      }
-
-      const isAdmin = !!data;
-      console.log('Admin status result for', user.email, ':', isAdmin);
-      return { isAdmin };
-    },
-    enabled: !!user?.id && isAuthenticated,
-    retry: 3,
-    retryDelay: 1000
-  });
-
-  // Show loading state while checking authentication or admin status
-  if (authLoading || (isAuthenticated && adminLoading)) {
+  // Show loading state while checking authentication
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="w-full max-w-md">
@@ -56,9 +23,7 @@ const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
           </CardHeader>
           <CardContent className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-corporate mx-auto mb-4"></div>
-            <p className="text-gray-600">
-              {authLoading ? 'Checking authentication...' : 'Verifying admin privileges...'}
-            </p>
+            <p className="text-gray-600">Checking authentication...</p>
             {user?.email && (
               <p className="text-sm text-gray-500 mt-2">
                 Logged in as: {user.email}
@@ -72,7 +37,6 @@ const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
 
   // Show login prompt if not authenticated
   if (!isAuthenticated || !user) {
-    console.log('User not authenticated, showing login prompt');
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="w-full max-w-md">
@@ -82,7 +46,7 @@ const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
           </CardHeader>
           <CardContent className="text-center space-y-4">
             <p className="text-gray-600">
-              Please log in with an admin account to access the admin dashboard.
+              Please log in to access the admin dashboard (Demo Mode).
             </p>
             <Button onClick={() => window.location.href = '/'} className="w-full">
               Go to Login
@@ -93,66 +57,8 @@ const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ children }) => {
     );
   }
 
-  // Show error state if admin check failed
-  if (adminError) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <AlertCircle className="mx-auto h-12 w-12 text-red-500 mb-4" />
-            <CardTitle className="text-red-600">Access Verification Failed</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <p className="text-gray-600">
-              Unable to verify admin privileges. Please try again.
-            </p>
-            <p className="text-sm text-gray-500">
-              Error: {adminError.message}
-            </p>
-            <div className="flex space-x-2">
-              <Button onClick={() => window.location.reload()} className="flex-1">
-                Retry
-              </Button>
-              <Button variant="outline" onClick={() => window.location.href = '/'} className="flex-1">
-                Go Home
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  // Show access denied if not admin
-  if (adminStatus && !adminStatus.isAdmin) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <AlertCircle className="mx-auto h-12 w-12 text-red-500 mb-4" />
-            <CardTitle className="text-red-600">Access Denied</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <p className="text-gray-600">
-              You don't have administrator privileges to access this area.
-            </p>
-            <p className="text-sm text-gray-500">
-              Logged in as: {user.email}
-            </p>
-            <p className="text-xs text-gray-400">
-              Contact an administrator if you need access.
-            </p>
-            <Button variant="outline" onClick={() => window.location.href = '/'} className="w-full">
-              Go Home
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  // Render admin dashboard if all checks pass
-  console.log('Admin access granted for:', user.email);
+  // Allow access for any authenticated user in demo mode
+  console.log('Admin access granted (Demo Mode) for:', user.email);
   return <>{children}</>;
 };
 

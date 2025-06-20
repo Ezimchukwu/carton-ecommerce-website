@@ -19,7 +19,7 @@ export interface SalesData {
 }
 
 export const useSalesData = () => {
-  // Mock sales data for demonstration
+  // Mock sales data - no backend integration
   const [salesData] = useState<SalesData[]>([
     {
       id: 'sale-1',
@@ -34,7 +34,7 @@ export const useSalesData = () => {
     },
     {
       id: 'sale-2',
-      timestamp: new Date(Date.now() - 3600000).toISOString(), // 1 hour ago
+      timestamp: new Date(Date.now() - 3600000).toISOString(),
       items: [
         { id: 'item-3', name: 'Large Moving Box', price: 3.99, quantity: 2 },
         { id: 'item-4', name: 'Bubble Wrap Roll', price: 4.99, quantity: 1 }
@@ -45,7 +45,7 @@ export const useSalesData = () => {
     },
     {
       id: 'sale-3',
-      timestamp: new Date(Date.now() - 7200000).toISOString(), // 2 hours ago
+      timestamp: new Date(Date.now() - 7200000).toISOString(),
       items: [
         { id: 'item-5', name: 'Gift Box Set', price: 9.99, quantity: 1 }
       ],
@@ -55,7 +55,7 @@ export const useSalesData = () => {
     }
   ]);
 
-  // Calculate sales summaries
+  // Calculate sales summaries from mock data
   const salesSummary = {
     today: {
       count: salesData.filter(sale => {

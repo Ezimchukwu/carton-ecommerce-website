@@ -1,46 +1,17 @@
 
-import React, { useEffect, useState } from 'react';
-import Layout from '@/components/layout/Layout';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
-import { useQuery } from '@tanstack/react-query';
+import Layout from '@/components/layout/Layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/context/AuthContext';
 
 const MyProfilePage: React.FC = () => {
   const { user, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
-  
-  // Check admin status
-  const { data: adminStatus } = useQuery({
-    queryKey: ['admin-status', user?.id],
-    queryFn: async () => {
-      if (!user?.id) return { isAdmin: false };
-      
-      try {
-        const { data, error } = await supabase
-          .from('admin_users')
-          .select('*')
-          .eq('user_id', user.id)
-          .single();
-
-        if (error && error.code !== 'PGRST116') {
-          console.error('Error checking admin status:', error);
-          return { isAdmin: false };
-        }
-
-        return { isAdmin: !!data };
-      } catch (error) {
-        console.error('Error:', error);
-        return { isAdmin: false };
-      }
-    },
-    enabled: !!user?.id && isAuthenticated
-  });
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -75,7 +46,7 @@ const MyProfilePage: React.FC = () => {
               <CardHeader>
                 <CardTitle>Personal Information</CardTitle>
                 <CardDescription>
-                  Your account details
+                  Your account details (Frontend Demo)
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -111,7 +82,7 @@ const MyProfilePage: React.FC = () => {
                   
                   <div className="pt-4">
                     <Button type="button" disabled>
-                      Update Profile (Coming Soon)
+                      Update Profile (Demo Mode)
                     </Button>
                   </div>
                 </div>
@@ -128,9 +99,7 @@ const MyProfilePage: React.FC = () => {
                 <div className="space-y-4">
                   <div>
                     <p className="text-sm font-medium">Account Type</p>
-                    <p className="text-sm text-gray-500">
-                      {adminStatus?.isAdmin ? 'Administrator' : 'Customer'}
-                    </p>
+                    <p className="text-sm text-gray-500">Demo User</p>
                   </div>
                   
                   <div>
@@ -139,12 +108,6 @@ const MyProfilePage: React.FC = () => {
                       {user.id}
                     </p>
                   </div>
-                  
-                  {adminStatus?.isAdmin && (
-                    <Button onClick={() => navigate('/admin')} className="w-full">
-                      Admin Dashboard
-                    </Button>
-                  )}
                   
                   <Button variant="outline" className="w-full" onClick={() => navigate('/orders')}>
                     View My Orders
