@@ -16,26 +16,27 @@ const Footer: React.FC = () => {
   return (
     <footer>
       {/* Newsletter Subscription */}
-      <div className="bg-kraft py-10">
+      <div className="bg-kraft py-6 sm:py-8 md:py-10">
         <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
             <div className="text-center md:text-left">
-              <h3 className="text-xl md:text-2xl font-bold text-corporate-dark mb-1">Subscribe to Our Newsletter</h3>
-              <p className="text-gray-700">Get the latest updates, offers, and insights on packaging solutions</p>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-corporate-dark mb-1 sm:mb-2">Subscribe to Our Newsletter</h3>
+              <p className="text-sm sm:text-base text-gray-700">Get the latest updates, offers, and insights on packaging solutions</p>
             </div>
             <div className="w-full md:w-1/2 max-w-md">
-              <form className="flex">
+              <form className="flex flex-col xs:flex-row gap-2 xs:gap-0">
                 <input
                   type="email"
                   placeholder="Your email address"
-                  className="flex-grow px-4 py-3 rounded-l-md focus:outline-none border-y border-l border-gray-300"
+                  className="flex-grow px-3 py-3 sm:px-4 sm:py-3 rounded-md xs:rounded-l-md xs:rounded-r-none focus:outline-none border border-gray-300 text-sm sm:text-base min-h-[44px]"
                   required
                 />
                 <button
                   type="submit"
-                  className="bg-corporate hover:bg-corporate-dark text-white px-6 py-3 rounded-r-md flex items-center transition-colors"
+                  className="bg-corporate hover:bg-corporate-dark text-white px-4 py-3 sm:px-6 sm:py-3 rounded-md xs:rounded-l-none xs:rounded-r-md flex items-center justify-center transition-colors text-sm sm:text-base min-h-[44px]"
                 >
-                  Subscribe <ArrowRight className="ml-2" size={18} />
+                  <span>Subscribe</span>
+                  <ArrowRight className="ml-2" size={16} />
                 </button>
               </form>
             </div>
@@ -44,28 +45,28 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Main Footer */}
-      <div className="bg-corporate-dark text-white py-12">
+      <div className="bg-corporate-dark text-white py-8 sm:py-10 md:py-12">
         <div className="container">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {/* Company Information */}
-            <div>
-              <h4 className="text-xl font-bold mb-4">
+            <div className="sm:col-span-2 lg:col-span-1">
+              <h4 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
                 <span className="text-kraft">PAPER</span> PACKAGING COMPANY
               </h4>
-              <p className="text-gray-300 mb-4">
+              <p className="text-gray-300 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                 We offer premium quality carton and packaging solutions for businesses of all sizes. From standard boxes to custom branded packaging, we've got you covered.
               </p>
               <div className="flex space-x-4">
-                <a href="https://facebook.com" className="hover:text-kraft-light transition-colors" aria-label="Follow us on Facebook">
+                <a href="https://facebook.com" className="hover:text-kraft-light transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Follow us on Facebook">
                   <Facebook size={20} />
                 </a>
-                <a href="https://instagram.com" className="hover:text-kraft-light transition-colors" aria-label="Follow us on Instagram">
+                <a href="https://instagram.com" className="hover:text-kraft-light transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Follow us on Instagram">
                   <Instagram size={20} />
                 </a>
-                <a href="https://twitter.com" className="hover:text-kraft-light transition-colors" aria-label="Follow us on Twitter">
+                <a href="https://twitter.com" className="hover:text-kraft-light transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Follow us on Twitter">
                   <Twitter size={20} />
                 </a>
-                <a href="https://youtube.com" className="hover:text-kraft-light transition-colors" aria-label="Subscribe to our YouTube channel">
+                <a href="https://youtube.com" className="hover:text-kraft-light transition-colors p-2 min-h-[44px] min-w-[44px] flex items-center justify-center" aria-label="Subscribe to our YouTube channel">
                   <Youtube size={20} />
                 </a>
               </div>

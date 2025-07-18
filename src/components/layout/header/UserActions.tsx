@@ -85,39 +85,39 @@ const UserActions: React.FC<UserActionsProps> = ({ cartItemCount, setAuthModalOp
   }
 
   return (
-    <div className="hidden md:flex items-center space-x-6">
+    <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
       {isAuthenticated ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors">
-              <User size={20} />
-              <span>Account</span>
+            <Button variant="ghost" className="flex flex-col lg:flex-row items-center text-xs sm:text-sm text-gray-700 hover:text-corporate transition-colors p-2 min-h-[44px]">
+              <User size={16} className="lg:mr-1" />
+              <span className="hidden xl:inline">Account</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <div className="px-2 py-1.5">
-              <p className="font-medium">
+          <DropdownMenuContent className="bg-white border shadow-lg z-50">
+            <div className="px-3 py-2">
+              <p className="font-medium text-sm">
                 {user?.firstName} {user?.lastName}
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 {user?.email}
               </p>
             </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/orders" className="w-full cursor-pointer flex items-center">
+              <Link to="/orders" className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-100">
                 <Package size={16} className="mr-2" />
                 My Orders
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/profile" className="w-full cursor-pointer flex items-center">
+              <Link to="/profile" className="w-full cursor-pointer flex items-center p-3 hover:bg-gray-100">
                 <UserCog size={16} className="mr-2" />
                 My Profile
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-500">
+            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-500 p-3 hover:bg-gray-100">
               <LogOut size={16} className="mr-2" />
               Logout
             </DropdownMenuItem>
@@ -126,23 +126,23 @@ const UserActions: React.FC<UserActionsProps> = ({ cartItemCount, setAuthModalOp
       ) : (
         <Button 
           variant="ghost" 
-          className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors"
+          className="flex flex-col lg:flex-row items-center text-xs sm:text-sm text-gray-700 hover:text-corporate transition-colors p-2 min-h-[44px]"
           onClick={() => setAuthModalOpen(true)}
         >
-          <User size={20} />
-          <span>Login</span>
+          <User size={16} className="lg:mr-1" />
+          <span className="hidden xl:inline">Login</span>
         </Button>
       )}
-      <Link to="/checkout" className="flex flex-col items-center text-sm text-gray-700 hover:text-corporate transition-colors">
-        <div className="relative">
-          <ShoppingCart size={20} />
+      <Link to="/checkout" className="flex flex-col lg:flex-row items-center text-xs sm:text-sm text-gray-700 hover:text-corporate transition-colors p-2 min-h-[44px]">
+        <div className="relative lg:mr-1">
+          <ShoppingCart size={16} />
           {cartItemCount > 0 && (
-            <Badge className="absolute -top-2 -right-2 bg-corporate text-white text-xs h-5 w-5 flex items-center justify-center rounded-full">
-              {cartItemCount}
+            <Badge className="absolute -top-1 -right-1 bg-corporate text-white text-xs h-4 w-4 flex items-center justify-center rounded-full text-[10px]">
+              {cartItemCount > 99 ? '99+' : cartItemCount}
             </Badge>
           )}
         </div>
-        <span>Cart</span>
+        <span className="hidden xl:inline">Cart</span>
       </Link>
     </div>
   );

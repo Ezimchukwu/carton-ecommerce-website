@@ -41,7 +41,7 @@ const ProductsPage = () => {
     {
       id: 1,
       name: "Small Pizza Box",
-      image: "/IMAGES/product1.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product1.jpeg",
       description: "High-quality small pizza box perfect for personal pizzas",
       category: "pizza-boxes",
       price: 850.00
@@ -49,7 +49,7 @@ const ProductsPage = () => {
     {
       id: 2,
       name: "Medium Pizza Box",
-      image: "/IMAGES/product2.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product2.jpeg",
       description: "Durable medium pizza box for standard pizzas",
       category: "pizza-boxes",
       price: 1200.00
@@ -57,7 +57,7 @@ const ProductsPage = () => {
     {
       id: 3,
       name: "Large Pizza Box",
-      image: "/IMAGES/product3.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product3.jpeg",
       description: "Extra large pizza box for family-sized pizzas",
       category: "pizza-boxes",
       price: 1500.00
@@ -65,7 +65,7 @@ const ProductsPage = () => {
     {
       id: 4,
       name: "Premium Mailer Box",
-      image: "/IMAGES/product4.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product4.jpeg",
       description: "Premium quality mailer box for e-commerce shipping",
       category: "mailer-boxes",
       price: 950.00
@@ -73,7 +73,7 @@ const ProductsPage = () => {
     {
       id: 5,
       name: "Standard Mailer Box",
-      image: "/IMAGES/product5.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product5.jpeg",
       description: "Cost-effective mailer box for regular shipping needs",
       category: "mailer-boxes",
       price: 750.00
@@ -81,7 +81,7 @@ const ProductsPage = () => {
     {
       id: 6,
       name: "Heavy Duty Cargo Box",
-      image: "/IMAGES/product6.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product6.jpeg",
       description: "Industrial strength cargo box for heavy items",
       category: "cargo-boxes",
       price: 2200.00
@@ -89,7 +89,7 @@ const ProductsPage = () => {
     {
       id: 7,
       name: "Medium Cargo Box",
-      image: "/IMAGES/product7.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product7.jpeg",
       description: "Versatile cargo box for general shipping",
       category: "cargo-boxes",
       price: 1800.00
@@ -97,7 +97,7 @@ const ProductsPage = () => {
     {
       id: 8,
       name: "Premium Wrapping Paper",
-      image: "/IMAGES/product8.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product8.jpeg",
       description: "High-quality wrapping paper for gift packaging",
       category: "wrapping-papers",
       price: 450.00
@@ -105,7 +105,7 @@ const ProductsPage = () => {
     {
       id: 9,
       name: "Kraft Wrapping Paper",
-      image: "/IMAGES/product9.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product9.jpeg",
       description: "Eco-friendly kraft paper for sustainable packaging",
       category: "wrapping-papers",
       price: 380.00
@@ -113,7 +113,7 @@ const ProductsPage = () => {
     {
       id: 10,
       name: "Luxury Gift Bag",
-      image: "/IMAGES/product10.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product10.jpeg",
       description: "Elegant gift bag for special occasions",
       category: "gift-bags",
       price: 650.00
@@ -121,7 +121,7 @@ const ProductsPage = () => {
     {
       id: 11,
       name: "Paper Gift Bag Set",
-      image: "/IMAGES/product11.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product11.jpeg",
       description: "Set of decorative paper gift bags",
       category: "gift-bags",
       price: 580.00
@@ -129,7 +129,7 @@ const ProductsPage = () => {
     {
       id: 12,
       name: "Packaging Tape Roll",
-      image: "/IMAGES/product12.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product12.jpeg",
       description: "Strong adhesive tape for secure packaging",
       category: "adhesives",
       price: 320.00
@@ -137,7 +137,7 @@ const ProductsPage = () => {
     {
       id: 13,
       name: "Double-Sided Tape",
-      image: "/IMAGES/product13.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product13.jpeg",
       description: "High-quality double-sided mounting tape",
       category: "adhesives",
       price: 420.00
@@ -145,7 +145,7 @@ const ProductsPage = () => {
     {
       id: 14,
       name: "Wholesale Pizza Box Bundle",
-      image: "/IMAGES/Wholsale 1.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 1.jpeg",
       description: "Bulk pizza boxes for restaurants and catering",
       category: "pizza-boxes",
       price: 3500.00
@@ -153,7 +153,7 @@ const ProductsPage = () => {
     {
       id: 15,
       name: "Wholesale Mailer Bundle",
-      image: "/IMAGES/Wholsale 2.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 2.jpeg",
       description: "Bulk mailer boxes for e-commerce businesses",
       category: "mailer-boxes",
       price: 2800.00
@@ -161,7 +161,7 @@ const ProductsPage = () => {
     {
       id: 16,
       name: "Industrial Cargo Bundle",
-      image: "/IMAGES/Wholsale 3.jpeg",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 3.jpeg",
       description: "Heavy-duty cargo boxes in bulk quantities",
       category: "cargo-boxes",
       price: 4200.00

@@ -19,12 +19,12 @@ export default {
 			}
 		},
 		screens: {
-			'xs': '475px',
-			'sm': '640px',
+			'xs': '320px',
+			'sm': '480px',
 			'md': '768px',
 			'lg': '1024px',
 			'xl': '1280px',
-			'2xl': '1536px',
+			'2xl': '1440px',
 		},
 		extend: {
 			colors: {

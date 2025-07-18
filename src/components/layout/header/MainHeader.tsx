@@ -19,37 +19,42 @@ const MainHeader: React.FC<MainHeaderProps> = ({
   setAuthModalOpen,
 }) => {
   return (
-    <div className="bg-white shadow-md py-4">
-      <div className="container flex justify-between items-center">
+    <div className="bg-white shadow-md py-2 sm:py-3 md:py-4">
+      <div className="container flex justify-between items-center gap-2 sm:gap-4">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
-          <h1 className="text-xl md:text-2xl font-bold text-corporate">
-            <span className="text-kraft-dark">PAPER</span> PACKAGING COMPANY
+        <Link to="/" className="flex items-center flex-shrink-0">
+          <h1 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-corporate leading-tight">
+            <span className="text-kraft-dark">PAPER</span>{' '}
+            <span className="hidden xs:inline">PACKAGING</span>{' '}
+            <span className="hidden sm:inline">COMPANY</span>
+            <span className="xs:hidden">PKG</span>
           </h1>
         </Link>
 
         {/* Search Bar - hidden on mobile */}
-        <div className="hidden md:flex relative flex-grow max-w-md mx-4">
+        <div className="hidden lg:flex relative flex-grow max-w-md mx-4">
           <input 
             type="text" 
             placeholder="Search products..." 
-            className="pl-10 pr-4 py-2 w-full border rounded-md"
+            className="pl-10 pr-4 py-2 w-full border rounded-md text-sm"
           />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
         </div>
 
-        {/* User Actions */}
-        <UserActions cartItemCount={cartItemCount} setAuthModalOpen={setAuthModalOpen} />
+        <div className="flex items-center gap-1 sm:gap-2">
+          {/* User Actions */}
+          <UserActions cartItemCount={cartItemCount} setAuthModalOpen={setAuthModalOpen} />
 
-        {/* Mobile menu button */}
-        <Button 
-          onClick={toggleMobileMenu} 
-          variant="ghost" 
-          className="md:hidden"
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </Button>
+          {/* Mobile menu button */}
+          <Button 
+            onClick={toggleMobileMenu} 
+            variant="ghost" 
+            className="lg:hidden p-2 min-h-[44px] min-w-[44px]"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -10,75 +10,74 @@ export const getProducts = () => {
     // Product series 1-34
     ...[...Array(34)].map((_, index) => {
       const productNumber = index + 1;
-      const imagePath = productNumber === 9 
-        ? '/IMAGES/product9.jpeg'
-        : `/IMAGES/product${productNumber}.jpeg`;
+      // Use absolute path starting with https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com
+      const imagePath = `https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product${productNumber}.jpeg`;
       
       return {
         id: productNumber,
-        name: `Product ${productNumber}`,
+        name: `Carton Box ${productNumber}`,
         image: imagePath,
-        description: "Quality carton packaging solution",
-        category: "General",
+        description: "Quality carton packaging solution designed for durability and professional presentation",
+        category: "carton-boxes",
         price: 1000 + (productNumber * 100) // Example price calculation
       };
     }),
     // Wholesale series (only existing numbers)
     ...existingWholesaleNumbers.map((num, index) => ({
       id: 35 + index,
-      name: `Wholesale ${num}`,
-      image: `/IMAGES/Wholsale ${num}.jpeg`,
-      description: "Bulk packaging solution",
-      category: "Wholesale",
+      name: `Wholesale Carton ${num}`,
+      image: `https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale ${num}.jpeg`,
+      description: "Bulk packaging solution for commercial and industrial use",
+      category: "wholesale-boxes",
       price: 2500 + (num * 200) // Higher price for wholesale items
     })),
     // Additional products with their prices
     {
       id: 51,
       name: "Premium Storage Box",
-      image: "/IMAGES/Wholsale 5.jpeg",
-      description: "Premium quality storage solution",
-      category: "Storage",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 5.jpeg",
+      description: "Premium quality storage solution for archival and organizational needs",
+      category: "storage-boxes",
       price: 3500
     },
     {
       id: 52,
       name: "Industrial Shipping Box",
-      image: "/IMAGES/Wholsale 6.jpeg",
-      description: "Heavy-duty shipping container",
-      category: "Industrial",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 6.jpeg",
+      description: "Heavy-duty shipping container for industrial applications",
+      category: "shipping-boxes",
       price: 4000
     },
     {
       id: 53,
       name: "Retail Display Box",
-      image: "/IMAGES/Wholsale 8.jpeg",
-      description: "Attractive retail display solution",
-      category: "Retail",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 8.jpeg",
+      description: "Attractive retail display solution for product presentation",
+      category: "display-boxes",
       price: 2000
     },
     {
       id: 54,
       name: "Custom Gift Box",
-      image: "/IMAGES/Wholsale 9.jpeg",
-      description: "Elegant custom gift packaging",
-      category: "Specialty",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 9.jpeg",
+      description: "Elegant custom gift packaging for special occasions",
+      category: "gift-boxes",
       price: 3000
     },
     {
       id: 55,
       name: "Eco-Friendly Box",
-      image: "/IMAGES/Wholsale 10.jpeg",
-      description: "Sustainable packaging solution",
-      category: "Eco-Friendly",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 10.jpeg",
+      description: "Sustainable packaging solution made from recycled materials",
+      category: "eco-friendly",
       price: 2500
     },
     {
       id: 56,
       name: "Deluxe Packaging",
-      image: "/IMAGES/Wholsale 11.jpeg",
-      description: "Premium deluxe packaging option",
-      category: "Premium",
+      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 11.jpeg",
+      description: "Premium deluxe packaging option for luxury products",
+      category: "premium-boxes",
       price: 5000
     }
   ].filter(product => {
