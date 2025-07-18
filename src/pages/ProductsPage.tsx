@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -35,71 +36,135 @@ const ProductsPage = () => {
     navigate(path);
   };
 
-  // Mock products data - replace with actual data from your backend
+  // Updated products data with actual carton images
   const products = [
     {
       id: 1,
-      name: "12\" Pizza Box",
-      image: "/IMAGES/Pizza Box 1.jpeg",
-      description: "High-quality pizza box for medium-sized pizzas",
+      name: "Small Pizza Box",
+      image: "/IMAGES/product1.jpeg",
+      description: "High-quality small pizza box perfect for personal pizzas",
       category: "pizza-boxes",
-      price: 1999.99
+      price: 850.00
     },
     {
       id: 2,
-      name: "Large Pizza Box",
-      image: "/IMAGES/Pizza Box 2.jpeg",
-      description: "Sturdy pizza box for large pizzas",
+      name: "Medium Pizza Box",
+      image: "/IMAGES/product2.jpeg",
+      description: "Durable medium pizza box for standard pizzas",
       category: "pizza-boxes",
-      price: 2499.99
+      price: 1200.00
     },
     {
       id: 3,
-      name: "Premium Mailer Box",
-      image: "/IMAGES/Mailer Box 1.jpeg",
-      description: "Premium quality mailer box for e-commerce",
-      category: "food-packs",
-      price: 1499.99
+      name: "Large Pizza Box",
+      image: "/IMAGES/product3.jpeg",
+      description: "Extra large pizza box for family-sized pizzas",
+      category: "pizza-boxes",
+      price: 1500.00
     },
     {
       id: 4,
-      name: "Standard Mailer Box",
-      image: "/IMAGES/Mailer Box 2.jpeg",
-      description: "Standard mailer box for shipping",
-      category: "food-packs",
-      price: 999.99
+      name: "Premium Mailer Box",
+      image: "/IMAGES/product4.jpeg",
+      description: "Premium quality mailer box for e-commerce shipping",
+      category: "mailer-boxes",
+      price: 950.00
     },
     {
       id: 5,
-      name: "Heavy Duty Cargo Box",
-      image: "/IMAGES/Cargo Box 1.jpeg",
-      description: "Heavy-duty cargo box for shipping",
-      category: "cargo-boxes",
-      price: 3499.99
+      name: "Standard Mailer Box",
+      image: "/IMAGES/product5.jpeg",
+      description: "Cost-effective mailer box for regular shipping needs",
+      category: "mailer-boxes",
+      price: 750.00
     },
     {
       id: 6,
-      name: "Premium Wrapping Paper",
-      image: "/IMAGES/Wrapping Paper 1.jpeg",
-      description: "High-quality wrapping paper for gifts",
-      category: "wrapping-papers",
-      price: 799.99
+      name: "Heavy Duty Cargo Box",
+      image: "/IMAGES/product6.jpeg",
+      description: "Industrial strength cargo box for heavy items",
+      category: "cargo-boxes",
+      price: 2200.00
     },
     {
       id: 7,
-      name: "Luxury Gift Bag",
-      image: "/IMAGES/Gift Bag 1.jpeg",
-      description: "Luxury gift bag for special occasions",
-      category: "gift-bags",
-      price: 599.99
+      name: "Medium Cargo Box",
+      image: "/IMAGES/product7.jpeg",
+      description: "Versatile cargo box for general shipping",
+      category: "cargo-boxes",
+      price: 1800.00
     },
     {
       id: 8,
-      name: "Premium Packaging Tape",
-      image: "/IMAGES/Adhesive 1.jpeg",
+      name: "Premium Wrapping Paper",
+      image: "/IMAGES/product8.jpeg",
+      description: "High-quality wrapping paper for gift packaging",
+      category: "wrapping-papers",
+      price: 450.00
+    },
+    {
+      id: 9,
+      name: "Kraft Wrapping Paper",
+      image: "/IMAGES/product9.jpeg",
+      description: "Eco-friendly kraft paper for sustainable packaging",
+      category: "wrapping-papers",
+      price: 380.00
+    },
+    {
+      id: 10,
+      name: "Luxury Gift Bag",
+      image: "/IMAGES/product10.jpeg",
+      description: "Elegant gift bag for special occasions",
+      category: "gift-bags",
+      price: 650.00
+    },
+    {
+      id: 11,
+      name: "Paper Gift Bag Set",
+      image: "/IMAGES/product11.jpeg",
+      description: "Set of decorative paper gift bags",
+      category: "gift-bags",
+      price: 580.00
+    },
+    {
+      id: 12,
+      name: "Packaging Tape Roll",
+      image: "/IMAGES/product12.jpeg",
       description: "Strong adhesive tape for secure packaging",
       category: "adhesives",
-      price: 499.99
+      price: 320.00
+    },
+    {
+      id: 13,
+      name: "Double-Sided Tape",
+      image: "/IMAGES/product13.jpeg",
+      description: "High-quality double-sided mounting tape",
+      category: "adhesives",
+      price: 420.00
+    },
+    {
+      id: 14,
+      name: "Wholesale Pizza Box Bundle",
+      image: "/IMAGES/Wholsale 1.jpeg",
+      description: "Bulk pizza boxes for restaurants and catering",
+      category: "pizza-boxes",
+      price: 3500.00
+    },
+    {
+      id: 15,
+      name: "Wholesale Mailer Bundle",
+      image: "/IMAGES/Wholsale 2.jpeg",
+      description: "Bulk mailer boxes for e-commerce businesses",
+      category: "mailer-boxes",
+      price: 2800.00
+    },
+    {
+      id: 16,
+      name: "Industrial Cargo Bundle",
+      image: "/IMAGES/Wholsale 3.jpeg",
+      description: "Heavy-duty cargo boxes in bulk quantities",
+      category: "cargo-boxes",
+      price: 4200.00
     }
   ];
 
@@ -147,38 +212,39 @@ const ProductsPage = () => {
 
   return (
     <Layout>
-      <div className="py-8">
-        <div className="container">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-corporate-dark mb-2">Our Products</h1>
-            <p className="text-gray-600">Find the perfect packaging solutions for your business needs.</p>
+      <div className="py-4 sm:py-8">
+        <div className="container px-4 sm:px-6">
+          <div className="mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl font-bold text-corporate-dark mb-2">Our Products</h1>
+            <p className="text-sm sm:text-base text-gray-600">Find the perfect packaging solutions for your business needs.</p>
             {!isAuthenticated && (
-              <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                <p className="text-amber-800">
+              <div className="mt-4 p-3 sm:p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                <p className="text-sm sm:text-base text-amber-800">
                   <span className="font-medium">Please log in to purchase products.</span> You need to be registered and logged in to add items to your cart and complete purchases.
                 </p>
               </div>
             )}
           </div>
 
-          <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8">
             {/* Categories Sidebar */}
-            <aside className="w-full md:w-64 space-y-4">
-              <div className="bg-white rounded-lg shadow p-4">
-                <h2 className="font-semibold mb-4">Categories</h2>
-                <div className="space-y-2">
+            <aside className="w-full lg:w-64 space-y-4">
+              <div className="bg-white rounded-lg shadow p-3 sm:p-4">
+                <h2 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Categories</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-2">
                   {categories.map((category) => (
                     <button
                       key={category.id}
                       onClick={() => handleCategorySelect(category.id, category.path)}
-                      className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+                      className={`w-full text-left px-3 sm:px-4 py-2 rounded-md transition-colors text-sm sm:text-base ${
                         selectedCategory === category.id
                           ? 'bg-corporate text-white'
                           : 'hover:bg-gray-100'
                       }`}
                     >
                       <span className="mr-2">{category.icon}</span>
-                      {category.name}
+                      <span className="hidden sm:inline lg:inline">{category.name}</span>
+                      <span className="sm:hidden lg:hidden text-xs">{category.name.split(' ')[0]}</span>
                     </button>
                   ))}
                 </div>
@@ -188,21 +254,23 @@ const ProductsPage = () => {
             {/* Products Grid */}
             <main className="flex-1">
               {/* Search Bar */}
-              <SearchFilterBar 
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-              />
+              <div className="mb-6">
+                <SearchFilterBar 
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                />
+              </div>
 
               {/* Products Grid */}
               {isLoading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[1, 2, 3, 4, 5, 6].map((skeleton) => (
+                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((skeleton) => (
                     <div 
                       key={skeleton}
                       className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse"
                     >
-                      <div className="h-48 bg-gray-200"></div>
-                      <div className="p-4 space-y-3">
+                      <div className="h-40 sm:h-48 bg-gray-200"></div>
+                      <div className="p-3 sm:p-4 space-y-3">
                         <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                         <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                         <div className="flex justify-between items-center pt-2">
@@ -214,14 +282,14 @@ const ProductsPage = () => {
                   ))}
                 </div>
               ) : filteredProducts.length === 0 ? (
-                <div className="text-center py-12">
+                <div className="text-center py-8 sm:py-12">
                   <h3 className="text-lg font-medium mb-2">No products found</h3>
-                  <p className="text-gray-500">
+                  <p className="text-gray-500 text-sm sm:text-base">
                     Try adjusting your search or filter criteria to find what you're looking for.
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
                   {filteredProducts.map((product) => (
                     <ProductCard
                       key={product.id}

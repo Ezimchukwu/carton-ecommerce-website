@@ -32,62 +32,62 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isLoading, onAddToCa
   const [imageOpen, setImageOpen] = useState(false);
 
   return (
-    <Card key={product.id} className="overflow-hidden group">
+    <Card key={product.id} className="overflow-hidden group h-full flex flex-col">
       <div className="aspect-square overflow-hidden">
         <img
           src={product.image}
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           onError={(e) => {
-            e.currentTarget.style.display = 'none';
+            e.currentTarget.src = '/IMAGES/product1.jpeg'; // Fallback image
           }}
         />
       </div>
-      <CardContent className="p-3">
-        <h3 className="text-sm font-semibold mb-1 truncate">{product.name}</h3>
-        <p className="text-gray-600 text-xs mb-2 line-clamp-2">{product.description}</p>
-        <div className="flex flex-col gap-2">
+      <CardContent className="p-2 sm:p-3 flex-1 flex flex-col">
+        <h3 className="text-xs sm:text-sm font-semibold mb-1 truncate">{product.name}</h3>
+        <p className="text-gray-600 text-xs mb-2 line-clamp-2 flex-1">{product.description}</p>
+        <div className="flex flex-col gap-2 mt-auto">
           <div className="flex justify-between items-center">
-            <span className="text-xs text-corporate">{product.category}</span>
+            <span className="text-xs text-corporate">{product.category.replace('-', ' ')}</span>
             <span className="font-semibold text-sm">₦{product.price.toLocaleString()}</span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-1 sm:gap-2">
             <Dialog>
               <DialogTrigger asChild>
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="text-xs flex-1"
+                  className="text-xs flex-1 h-8"
                 >
-                  <Eye size={14} className="mr-1" />
-                  View
+                  <Eye size={12} className="mr-1" />
+                  <span className="hidden xs:inline">View</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="md:max-w-2xl">
+              <DialogContent className="w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
-                  <DialogTitle>{product.name}</DialogTitle>
-                  <DialogDescription>{product.category}</DialogDescription>
+                  <DialogTitle className="text-lg sm:text-xl">{product.name}</DialogTitle>
+                  <DialogDescription className="capitalize">{product.category.replace('-', ' ')}</DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-2">
                   <div className="aspect-square overflow-hidden rounded-md">
                     <img 
                       src={product.image} 
                       alt={product.name} 
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.src = '/IMAGES/product1.jpeg';
                       }}
                     />
                   </div>
                   <div className="flex flex-col justify-between">
                     <div>
                       <h3 className="font-bold text-lg mb-2">{product.name}</h3>
-                      <p className="text-gray-700 mb-4">{product.description}</p>
+                      <p className="text-gray-700 mb-4 text-sm sm:text-base">{product.description}</p>
                       <p className="text-lg font-semibold text-corporate mb-2">
                         ₦{product.price.toLocaleString()}
                       </p>
-                      <p className="text-sm text-gray-500 mb-4">
-                        Category: {product.category}
+                      <p className="text-sm text-gray-500 mb-4 capitalize">
+                        Category: {product.category.replace('-', ' ')}
                       </p>
                     </div>
                     <div className="space-y-2">
@@ -107,16 +107,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isLoading, onAddToCa
             </Dialog>
             <Button
               size="sm"
-              className="text-xs flex-1"
+              className="text-xs flex-1 h-8"
               onClick={() => onAddToCart(product)}
               disabled={isLoading}
             >
               {isLoading ? (
-                'Adding...'
+                <span className="text-xs">Adding...</span>
               ) : (
                 <>
-                  <ShoppingCart size={14} className="mr-1" />
-                  Add to Cart
+                  <ShoppingCart size={12} className="mr-1" />
+                  <span className="hidden xs:inline">Add</span>
                 </>
               )}
             </Button>
