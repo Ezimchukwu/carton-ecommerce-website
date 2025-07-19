@@ -32,7 +32,7 @@ const WholesalePage: React.FC = () => {
             </div>
             <div className="flex-1">
               <img 
-                src="/IMAGES/product15.jpeg" 
+                src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product15.jpeg" 
                 alt="Wholesale carton boxes" 
                 className="rounded-lg shadow-lg w-full"
               />
@@ -70,7 +70,7 @@ const WholesalePage: React.FC = () => {
             <Card className="overflow-hidden">
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
-                  src="/IMAGES/Wholsale 2.jpeg" 
+                  src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 2.jpeg" 
                   alt="Shipping Boxes" 
                   className="w-full h-full object-cover"
                 />
@@ -83,7 +83,7 @@ const WholesalePage: React.FC = () => {
             <Card className="overflow-hidden">
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
-                  src="/IMAGES/Wholsale 1.jpeg" 
+                  src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 1.jpeg" 
                   alt="Food Packaging" 
                   className="w-full h-full object-cover"
                 />
@@ -96,7 +96,7 @@ const WholesalePage: React.FC = () => {
             <Card className="overflow-hidden">
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
-                  src="/IMAGES/Wholsale 10.jpeg" 
+                  src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 10.jpeg" 
                   alt="Custom Boxes" 
                   className="w-full h-full object-cover"
                 />
