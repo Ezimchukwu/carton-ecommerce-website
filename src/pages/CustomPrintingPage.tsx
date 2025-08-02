@@ -33,7 +33,7 @@ const CustomPrintingPage: React.FC = () => {
             </div>
             <div className="flex-1">
               <img 
-                src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product1.jpeg" 
+                src="/IMAGES/product1.jpeg" 
                 alt="Custom carton box with logo" 
                 className="rounded-lg shadow-lg w-full"
               />
@@ -68,10 +68,10 @@ const CustomPrintingPage: React.FC = () => {
           {/* Gallery Grid */}
           <h2 className="text-2xl font-semibold text-corporate-dark mb-8">Our Custom Printing Gallery</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <img src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product8.jpeg" alt="Custom printed box" className="rounded-lg shadow-md aspect-square object-cover" />
-            <img src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product12.jpeg" alt="Custom printed box" className="rounded-lg shadow-md aspect-square object-cover" />
-            <img src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product15.jpeg" alt="Custom printed box" className="rounded-lg shadow-md aspect-square object-cover" />
-            <img src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product16.jpeg" alt="Custom printed box" className="rounded-lg shadow-md aspect-square object-cover" />
+            <img src="/IMAGES/product8.jpeg" alt="Custom printed box" className="rounded-lg shadow-md aspect-square object-cover" />
+            <img src="/IMAGES/product12.jpeg" alt="Custom printed box" className="rounded-lg shadow-md aspect-square object-cover" />
+            <img src="/IMAGES/product15.jpeg" alt="Custom printed box" className="rounded-lg shadow-md aspect-square object-cover" />
+            <img src="/IMAGES/product16.jpeg" alt="Custom printed box" className="rounded-lg shadow-md aspect-square object-cover" />
           </div>
         </div>
       </div>

@@ -18,7 +18,7 @@ const PizzaBoxesPage = () => {
     {
       id: 1,
       name: "6\" Pizza Box",
-      image: "/IMAGES/Pizza Box 1.jpeg",
+      image: "/IMAGES/product1.jpeg",
       description: "Small pizza box for personal size pizzas",
       category: "pizza-boxes",
       price: 999.99

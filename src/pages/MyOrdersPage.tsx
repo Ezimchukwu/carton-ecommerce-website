@@ -18,8 +18,8 @@ const MOCK_ORDERS = [
     status: 'delivered',
     total: 12550,
     items: [
-      { id: 1, name: 'Medium Pizza Box', quantity: 5, price: 1150, image: '/placeholder.svg' },
-      { id: 2, name: 'Gift Bag (Large)', quantity: 2, price: 3500, image: '/placeholder.svg' }
+      { id: 1, name: 'Medium Pizza Box', quantity: 5, price: 1150, image: '/IMAGES/product2.jpeg' },
+      { id: 2, name: 'Gift Bag (Large)', quantity: 2, price: 3500, image: '/IMAGES/product9.jpeg' }
     ]
   },
   {
@@ -28,8 +28,8 @@ const MOCK_ORDERS = [
     status: 'processing',
     total: 9800,
     items: [
-      { id: 3, name: 'Mailer Box (Small)', quantity: 10, price: 850, image: '/placeholder.svg' },
-      { id: 4, name: 'Wrapping Paper Roll', quantity: 1, price: 1300, image: '/placeholder.svg' }
+      { id: 3, name: 'Mailer Box (Small)', quantity: 10, price: 850, image: '/IMAGES/product3.jpeg' },
+      { id: 4, name: 'Wrapping Paper Roll', quantity: 1, price: 1300, image: '/IMAGES/product6.jpeg' }
     ]
   }
 ];
