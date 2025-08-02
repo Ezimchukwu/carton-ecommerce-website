@@ -10,8 +10,8 @@ export const getProducts = () => {
     // Product series 1-34
     ...[...Array(34)].map((_, index) => {
       const productNumber = index + 1;
-      // Use absolute path starting with https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com
-      const imagePath = `https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product${productNumber}.jpeg`;
+      // Use relative path for production compatibility
+      const imagePath = `/IMAGES/product${productNumber}.jpeg`;
       
       return {
         id: productNumber,
@@ -26,7 +26,7 @@ export const getProducts = () => {
     ...existingWholesaleNumbers.map((num, index) => ({
       id: 35 + index,
       name: `Wholesale Carton ${num}`,
-      image: `https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale ${num}.jpeg`,
+      image: `/IMAGES/Wholsale ${num}.jpeg`,
       description: "Bulk packaging solution for commercial and industrial use",
       category: "wholesale-boxes",
       price: 2500 + (num * 200) // Higher price for wholesale items
@@ -35,7 +35,7 @@ export const getProducts = () => {
     {
       id: 51,
       name: "Premium Storage Box",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 5.jpeg",
+      image: "/IMAGES/Wholsale 5.jpeg",
       description: "Premium quality storage solution for archival and organizational needs",
       category: "storage-boxes",
       price: 3500
@@ -43,7 +43,7 @@ export const getProducts = () => {
     {
       id: 52,
       name: "Industrial Shipping Box",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 6.jpeg",
+      image: "/IMAGES/Wholsale 6.jpeg",
       description: "Heavy-duty shipping container for industrial applications",
       category: "shipping-boxes",
       price: 4000
@@ -51,7 +51,7 @@ export const getProducts = () => {
     {
       id: 53,
       name: "Retail Display Box",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 8.jpeg",
+      image: "/IMAGES/Wholsale 8.jpeg",
       description: "Attractive retail display solution for product presentation",
       category: "display-boxes",
       price: 2000
@@ -59,7 +59,7 @@ export const getProducts = () => {
     {
       id: 54,
       name: "Custom Gift Box",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 9.jpeg",
+      image: "/IMAGES/Wholsale 9.jpeg",
       description: "Elegant custom gift packaging for special occasions",
       category: "gift-boxes",
       price: 3000
@@ -67,7 +67,7 @@ export const getProducts = () => {
     {
       id: 55,
       name: "Eco-Friendly Box",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 10.jpeg",
+      image: "/IMAGES/Wholsale 10.jpeg",
       description: "Sustainable packaging solution made from recycled materials",
       category: "eco-friendly",
       price: 2500
@@ -75,7 +75,7 @@ export const getProducts = () => {
     {
       id: 56,
       name: "Deluxe Packaging",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 11.jpeg",
+      image: "/IMAGES/Wholsale 11.jpeg",
       description: "Premium deluxe packaging option for luxury products",
       category: "premium-boxes",
       price: 5000
