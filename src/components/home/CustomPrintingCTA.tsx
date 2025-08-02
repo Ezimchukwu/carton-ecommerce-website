@@ -38,14 +38,14 @@ const CustomPrintingCTA: React.FC = () => {
               <div className="grid gap-4 md:gap-6">
                 <div className="aspect-square overflow-hidden rounded-xl shadow-lg bg-white/5">
                   <img
-                    src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 10.jpeg"
+                    src="/IMAGES/Wholsale 10.jpeg"
                     alt="Custom carton box with logo"
                     className="w-full h-full object-contain p-2"
                   />
                 </div>
                 <div className="aspect-square overflow-hidden rounded-xl shadow-lg bg-white/5">
                   <img
-                    src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 11.jpeg"
+                    src="/IMAGES/Wholsale 11.jpeg"
                     alt="Custom gift packaging"
                     className="w-full h-full object-contain p-2"
                   />
@@ -56,14 +56,14 @@ const CustomPrintingCTA: React.FC = () => {
               <div className="grid gap-4 md:gap-6">
                 <div className="aspect-square overflow-hidden rounded-xl shadow-lg bg-white/5">
                   <img
-                    src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 15.jpeg"
+                    src="/IMAGES/Wholsale 15.jpeg"
                     alt="Custom printed boxes"
                     className="w-full h-full object-contain p-2"
                   />
                 </div>
                 <div className="aspect-square overflow-hidden rounded-xl shadow-lg bg-white/5">
                   <img
-                    src="https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/Wholsale 8.jpeg"
+                    src="/IMAGES/Wholsale 8.jpeg"
                     alt="Custom packaging example"
                     className="w-full h-full object-contain p-2"
                   />

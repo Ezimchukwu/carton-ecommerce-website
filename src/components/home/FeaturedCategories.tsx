@@ -44,56 +44,56 @@ const FeaturedCategories: React.FC = () => {
     {
       title: "Pizza Boxes",
       description: "High-quality pizza boxes available in various sizes from 6\" to 16\".",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product8.jpeg",
+      image: "/IMAGES/product8.jpeg",
       slug: "pizza-boxes",
       path: "/categories/pizza-boxes"
     },
     {
       title: "Moving & Storage",
       description: "Durable boxes perfect for moving, relocation, and storage purposes.",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product15.jpeg",
+      image: "/IMAGES/product15.jpeg",
       slug: "moving-storage-boxes",
       path: "/categories/cargo-boxes"
     },
     {
       title: "Food Packaging",
       description: "Specialized packaging for burgers, shawarma, chicken, pies, and more.",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product12.jpeg",
+      image: "/IMAGES/product12.jpeg",
       slug: "food-packaging",
       path: "/products?category=food-packaging"
     },
     {
       title: "Gift Packaging",
       description: "High-end quality gift bags and fancy packaging solutions.",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product16.jpeg",
+      image: "/IMAGES/product16.jpeg",
       slug: "gift-packaging",
       path: "/categories/gift-bags"
     },
     {
       title: "Mailer Boxes",
       description: "Custom mailer boxes, gable boxes, and e-commerce packaging solutions.",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product26.jpeg",
+      image: "/IMAGES/product26.jpeg",
       slug: "mailer-boxes",
       path: "/categories/mailer-boxes"
     },
     {
       title: "Custom Printing",
       description: "Customize any box with your brand logo and design for a professional look.",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product14.jpeg",
+      image: "/IMAGES/product14.jpeg",
       slug: "custom-printing",
       path: "/custom-printing"
     },
     {
       title: "Paper Bags & Envelopes",
       description: "Kraft papers, 2ply-fluiting, paper bags, and envelopes for all needs.",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product10.jpeg",
+      image: "/IMAGES/product10.jpeg",
       slug: "paper-bags-envelopes",
       path: "/categories/wrapping-papers"
     },
     {
       title: "Adhesives & Accessories",
       description: "Complete range of glues, tapes, and packaging accessories.",
-      image: "https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product11.jpeg",
+      image: "/IMAGES/product11.jpeg",
       slug: "adhesives",
       path: "/categories/adhesives"
     }

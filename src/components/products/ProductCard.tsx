@@ -44,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isLoading, onAddToCa
             const target = e.currentTarget;
             if (!target.dataset.retry) {
               target.dataset.retry = "1";
-              target.src = `https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product1.jpeg`;
+              target.src = `/IMAGES/product1.jpeg`;
             } else if (target.dataset.retry === "1") {
               target.dataset.retry = "2";
               target.src = `https://via.placeholder.com/300x300/f3f4f6/6b7280?text=Carton+Box`;
@@ -89,7 +89,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isLoading, onAddToCa
                         const target = e.currentTarget;
                         if (!target.dataset.retry) {
                           target.dataset.retry = "1";
-                          target.src = `https://a59f966b-3068-4b84-8ccb-5de17fedad8d.lovableproject.com/IMAGES/product1.jpeg`;
+                          target.src = `/IMAGES/product1.jpeg`;
                         } else if (target.dataset.retry === "1") {
                           target.dataset.retry = "2";
                           target.src = `https://via.placeholder.com/400x400/f3f4f6/6b7280?text=Carton+Box`;

@@ -132,7 +132,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product: propProduct }) =
         id: Number(product.id),
         name: product.name,
         price: product.price,
-        image: product.images[mainImage] || '/placeholder.svg',
+        image: product.images[mainImage] || '/IMAGES/product1.jpeg',
         quantity: quantity
       });
 
